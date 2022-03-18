@@ -22,6 +22,34 @@ import type { NextPage } from "next";
 const Home: NextPage = () => {
   const nameInputRef = useRef(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [images, setImages] = useState<
+    { link: string; alt: string; height: number; width: number }[]
+  >([
+    {
+      link: "/personal images/personal1.jpg",
+      alt: "Testing",
+      width: 256,
+      height: 256,
+    },
+    {
+      link: "/personal images/personal2.jpg",
+      alt: "Testing",
+      width: 256,
+      height: 256,
+    },
+    {
+      link: "/personal images/personal3.jpg",
+      alt: "Testing",
+      width: 256,
+      height: 256,
+    },
+    {
+      link: "/personal images/personal4.jpg",
+      alt: "Testing",
+      width: 256,
+      height: 256,
+    },
+  ]);
   const [projects, setProjects] = useState<
     {
       name: string;
@@ -416,7 +444,7 @@ const Home: NextPage = () => {
             <h4 className="p-2 text-2xl font-bold md:text-4xl text-zinc-800">
               Skills
             </h4>
-            <div className="grid w-full p-2 grid-cols-2 gap-4 overflow-y-scroll max-h-[36rem] lg:max-h-full md:grid-cols-3 2xl:grid-cols-4 md:overflow-y-auto">
+            <div className="grid w-full p-2 grid-cols-2 gap-4 overflow-y-scroll max-h-[24rem] md:max-h-[30rem] lg:max-h-full md:grid-cols-3 2xl:grid-cols-4 md:overflow-y-auto">
               {skills.map((skill) => (
                 <div
                   className="relative flex flex-col items-center justify-center p-2 space-y-2 transition-transform duration-150 bg-white rounded-lg md:p-4 hover:scale-105 group aspect-square"
@@ -473,12 +501,12 @@ const Home: NextPage = () => {
               Who Am I?
             </h4>
             <p>
-              Hi! I&apos;m Devin Sharpe, a passionate full-stack web developer
-              from Atlanta, GA. I&apos;m not afraid of new codebases, making
-              architecture changes, or approaching interesting UX challenges. I
-              have been a developer for three years and currently spend my
-              working hours developing software and restuarant POS integrations
-              at&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;Hi! I&apos;m Devin Sharpe, a passionate
+              full-stack web developer from Atlanta, GA. I&apos;m not afraid of
+              new codebases, making architecture changes, or approaching
+              interesting UX challenges. I have been a developer for three years
+              and currently spend my working hours developing software and
+              restuarant POS integrations at&nbsp;
               <a
                 href="https://priority1pos.com/"
                 target="_blank"
@@ -488,23 +516,29 @@ const Home: NextPage = () => {
                 Priority1 POS.
               </a>
             </p>
-            <div className="flex items-center justify-start py-2 space-x-4 overflow-x-scroll hide-scrollbar">
-              <div className="h-32 rounded-lg aspect-square bg-zinc-200"></div>
-              <div className="h-32 rounded-lg aspect-square bg-zinc-200"></div>
-              <div className="h-32 rounded-lg aspect-square bg-zinc-200"></div>
-              <div className="h-32 rounded-lg aspect-square bg-zinc-200"></div>
-              <div className="h-32 rounded-lg aspect-square bg-zinc-200"></div>
-              <div className="h-32 rounded-lg aspect-square bg-zinc-200"></div>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {images.map((image) => (
+                <div key={image.link}>
+                  <Image
+                    src={image.link}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    className="rounded-lg aspect-square"
+                  />
+                </div>
+              ))}
             </div>
             <p>
-              I love seeing new features go from being standup ideas to valuable
-              experiences for users. I currently work with Typescript, React,
-              and Fastify for most of my work and personal projects. My web
-              development career began with Python, Django, and Vue. I regularly
-              fallback on these technologies for simple, personal projects. I
-              have thoroughly explored Electron, and React Native is currently
-              on my radar. Of course, new technologies fascinate me, and
-              I&apos;m always ready to learn something new.
+              &nbsp;&nbsp;&nbsp;&nbsp;I love seeing new features go from being
+              standup ideas to valuable experiences for users. I currently work
+              with Typescript, React, and Fastify for most of my work and
+              personal projects. My web development career began with Python,
+              Django, and Vue. I regularly fallback on these technologies for
+              simple, personal projects. I have thoroughly explored Electron,
+              and React Native is currently on my radar. Of course, new
+              technologies fascinate me, and I&apos;m always ready to learn
+              something new.
             </p>
             <h4 className="pt-4 text-xl font-bold border-t-2 border-dashed border-zinc-400 md:text-2xl text-zinc-800">
               Work Experience
