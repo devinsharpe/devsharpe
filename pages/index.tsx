@@ -68,15 +68,6 @@ const Home: NextPage = () => {
       },
       tech: ["Typescript", "React", "Next", "PostgreSQL"],
     },
-    // {
-    //   name: "PriorityRewards",
-    //   description:
-    //     "PriorityRewards is a suite of applications to create one cohesive product - a customer engagement platform for FuturePOS clients. Customers can sign up for exclusive rewards and promotions, while clients are able to drive foot traffic to their restaurants via deals and marketing messages.",
-    //   links: {
-    //     github: "https://github.com/devinsharpe/priority-rewards",
-    //   },
-    //   tech: ["Typescript", "React", "Next", "Fastify", "Electron", "MongoDB"],
-    // },
     {
       name: "DevSharpe.io",
       description:
