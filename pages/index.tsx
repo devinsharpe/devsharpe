@@ -68,15 +68,15 @@ const Home: NextPage = () => {
       },
       tech: ["Typescript", "React", "Next", "PostgreSQL"],
     },
-    {
-      name: "PriorityRewards",
-      description:
-        "PriorityRewards is a suite of applications to create one cohesive product - a customer engagement platform for FuturePOS clients. Customers can sign up for exclusive rewards and promotions, while clients are able to drive foot traffic to their restaurants via deals and marketing messages.",
-      links: {
-        github: "https://github.com/devinsharpe/priority-rewards",
-      },
-      tech: ["Typescript", "React", "Next", "Fastify", "Electron", "MongoDB"],
-    },
+    // {
+    //   name: "PriorityRewards",
+    //   description:
+    //     "PriorityRewards is a suite of applications to create one cohesive product - a customer engagement platform for FuturePOS clients. Customers can sign up for exclusive rewards and promotions, while clients are able to drive foot traffic to their restaurants via deals and marketing messages.",
+    //   links: {
+    //     github: "https://github.com/devinsharpe/priority-rewards",
+    //   },
+    //   tech: ["Typescript", "React", "Next", "Fastify", "Electron", "MongoDB"],
+    // },
     {
       name: "DevSharpe.io",
       description:
@@ -208,6 +208,34 @@ const Home: NextPage = () => {
       link: "https://www.w3.org/TR/CSS/",
       exp: 5,
       isFavorite: false,
+    },
+  ]);
+  const [workHistory, setWorkHistory] = useState([
+    {
+      title: "Front End Software Engineer",
+      company: "TBA",
+      link: "https://bongo.cat/",
+      start: "April 2022",
+      end: "Current",
+      responsibilities: [
+        "To explore strange new worlds",
+        "To seek out new life and new civilizations",
+        "To boldy go where no man has gone before",
+      ],
+    },
+    {
+      title: "Web Developer",
+      company: "Priority1 POS",
+      link: "https://priority1pos.com/",
+      start: "July 2018",
+      end: "April 2022",
+      responsibilities: [
+        "Maintained and collaborated on several web applications for internal and client use",
+        "Designed and developed 10+ applications using React and Typescript",
+        "Collaborated on and developed 4 desktop applications using Electron",
+        "Deployed various projects to AWS servers with full CI/CD pipeline",
+        "Assisted with multiple internal optimizations by automating various tasks using Python or TS Node",
+      ],
     },
   ]);
 
@@ -543,43 +571,35 @@ const Home: NextPage = () => {
             <h4 className="pt-4 text-xl font-bold border-t-2 border-dashed border-zinc-400 md:text-2xl text-zinc-800">
               Work Experience
             </h4>
-            <div className="p-4 rounded-lg bg-emerald-200/50">
-              <h5 className="text-lg">
-                <span>Web Developer</span>&nbsp;
-                <span className="text-emerald-600">@</span>&nbsp;
-                <a
-                  href="https://priority1pos.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-light underline"
-                >
-                  Priority1 POS
-                </a>
-              </h5>
-              <p className="m-0 text-sm">July 2018 - present</p>
-              <ul className="mt-2 space-y-0 list-custom">
-                <li className="m-0">
-                  Maintains and collaborates on several web applications for
-                  internal and client use
-                </li>
-                <li>
-                  Designed and developed 10+ applications using React and
-                  Typescript
-                </li>
-                <li>
-                  Collaborated on and developed 4 desktop applications using
-                  Electron
-                </li>
-                <li>
-                  Deployed various projects to AWS servers with full CI/CD
-                  pipeline
-                </li>
-                <li>
-                  Assisted with multiple internal optimizations by automating
-                  various tasks using Python or TS Node
-                </li>
-              </ul>
-            </div>
+            {workHistory.map((emp) => (
+              <div
+                className="p-4 rounded-lg bg-emerald-200/50"
+                key={emp.company}
+              >
+                <h5 className="text-lg">
+                  <span>{emp.title}</span>&nbsp;
+                  <span className="text-emerald-600">@</span>&nbsp;
+                  <a
+                    href={emp.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-light underline"
+                  >
+                    {emp.company}
+                  </a>
+                </h5>
+                <p className="m-0 text-sm">
+                  {emp.start} - {emp.end}
+                </p>
+                <ul className="mt-2 space-y-0 list-custom">
+                  {emp.responsibilities.map((responsibility) => (
+                    <li className="m-0" key={responsibility}>
+                      {responsibility}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
             <a
               href="/resume - devin sharpe.pdf"
               target="_blank"
