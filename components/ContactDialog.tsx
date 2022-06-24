@@ -30,8 +30,10 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
         body: JSON.stringify(msgData)
       });
       const data = await res.json();
-      if (data) onClose();
-      else setIsError(true);
+      if (data) {
+        setMsgData({ name: "", email: "", message: "" });
+        onClose();
+      } else setIsError(true);
     } catch (e) {
       setIsError(true);
     }
