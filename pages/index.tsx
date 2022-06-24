@@ -239,7 +239,6 @@ const Home: NextPage = () => {
           name="description"
           content="Devin Sharpe's portfolio site - A place of fun, excitement, and weird design decisions."
         />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <nav className="fixed inset-x-0 top-0 z-40 flex items-center justify-between px-6 py-4 mx-4 mt-4 bg-white rounded-lg shadow-lg text-zinc-800">
         <h1 className="text-xl font-bold">DevSharpe</h1>
