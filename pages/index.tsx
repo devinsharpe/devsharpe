@@ -11,13 +11,14 @@ import {
   UilLinkedin,
   UilMessage,
   UilTimes,
-  UilTwitter,
+  UilTwitter
 } from "@iconscout/react-unicons";
 
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import Head from "next/head";
 import Image from "next/image";
 import type { NextPage } from "next";
+import ContactDialog from "../components/ContactDialog";
 
 const Home: NextPage = () => {
   const nameInputRef = useRef(null);
@@ -29,26 +30,26 @@ const Home: NextPage = () => {
       link: "/personal images/personal1.jpg",
       alt: "Testing",
       width: 256,
-      height: 256,
+      height: 256
     },
     {
       link: "/personal images/personal2.jpg",
       alt: "Testing",
       width: 256,
-      height: 256,
+      height: 256
     },
     {
       link: "/personal images/personal3.jpg",
       alt: "Testing",
       width: 256,
-      height: 256,
+      height: 256
     },
     {
       link: "/personal images/personal4.jpg",
       alt: "Testing",
       width: 256,
-      height: 256,
-    },
+      height: 256
+    }
   ]);
   const [projects, setProjects] = useState<
     {
@@ -64,9 +65,9 @@ const Home: NextPage = () => {
         "Task'd is a Next/React PWA built to help more organize my life. Here I manage my tasks, projects, and time trackers. Time tracking functionality comes from the lovely Toggl API, while the task management is done through Supabase/PostgreSQL and Next API endpoints.",
       links: {
         github: "https://github.com/devinsharpe/taskd",
-        site: "https://taskd-web.vercel.app/",
+        site: "https://taskd-web.vercel.app/"
       },
-      tech: ["Typescript", "React", "Next", "PostgreSQL"],
+      tech: ["Typescript", "React", "Next", "PostgreSQL"]
     },
     {
       name: "DevSharpe.io",
@@ -74,10 +75,10 @@ const Home: NextPage = () => {
         "DevSharpe.io is, well, the site you're currently viewing. This is my portfolio site meant to display my talents, help other developers, and allow me to experiment with new designs and packages.",
       links: {
         github: "https://github.com/devinsharpe/devsharpe",
-        site: "#top",
+        site: "#top"
       },
-      tech: ["Typescript", "React", "Next"],
-    },
+      tech: ["Typescript", "React", "Next"]
+    }
   ]);
   const [skills, setSkills] = useState<
     {
@@ -93,126 +94,126 @@ const Home: NextPage = () => {
       name: "Typescript",
       link: "https://www.typescriptlang.org/",
       exp: 2,
-      isFavorite: true,
+      isFavorite: true
     },
     {
       image: "/logos/javascript.svg",
       name: "Javascript",
       link: "https://www.javascript.com/",
       exp: 5,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/react.svg",
       name: "React",
       link: "https://reactjs.org/",
       exp: 3,
-      isFavorite: true,
+      isFavorite: true
     },
     {
       image: "/logos/next.svg",
       name: "Next.js",
       link: "https://nextjs.org/",
       exp: 2,
-      isFavorite: true,
+      isFavorite: true
     },
     {
       image: "/logos/vue.svg",
       name: "Vue",
       link: "https://vuejs.org/",
       exp: 3,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/fastify.svg",
       name: "Fastify",
       link: "https://www.fastify.io/",
       exp: 2,
-      isFavorite: true,
+      isFavorite: true
     },
     {
       image: "/logos/node.svg",
       name: "NodeJS",
       link: "https://nodejs.org/",
       exp: 3,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/electron.svg",
       name: "Electron",
       link: "https://www.electronjs.org/",
       exp: 2,
-      isFavorite: true,
+      isFavorite: true
     },
     {
       image: "/logos/python.svg",
       name: "Python",
       link: "https://www.python.org/",
       exp: 4,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/django.svg",
       name: "Django",
       link: "https://www.djangoproject.com/",
       exp: 4,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/git.svg",
       name: "Git",
       link: "https://git-scm.com/",
       exp: 3,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/mongo.svg",
       name: "MongoDB",
       link: "https://www.mongodb.com/",
       exp: 1,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/postgresql.svg",
       name: "PostgreSQL",
       link: "https://www.postgresql.org/",
       exp: 3,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/tailwind.svg",
       name: "TailwindCSS",
       link: "https://tailwindcss.com/",
       exp: 3,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/html.svg",
       name: "HTML",
       link: "https://html.spec.whatwg.org/",
       exp: 5,
-      isFavorite: false,
+      isFavorite: false
     },
     {
       image: "/logos/css.svg",
       name: "CSS",
       link: "https://www.w3.org/TR/CSS/",
       exp: 5,
-      isFavorite: false,
-    },
+      isFavorite: false
+    }
   ]);
   const [workHistory, setWorkHistory] = useState([
     {
       title: "Front End Software Engineer",
-      company: "TBA",
-      link: "https://bongo.cat/",
+      company: "The Washington Post",
+      link: "https://www.washingtonpost.com/",
       start: "April 2022",
       end: "Current",
       responsibilities: [
-        "To explore strange new worlds",
-        "To seek out new life and new civilizations",
-        "To boldy go where no man has gone before",
-      ],
+        "Developing and maintaining internal tools relating to WP's advertising operations",
+        "Improve the UI/UX of WP applications",
+        "Work with WP Advertising team and Creative Group to create new features, templates, and components"
+      ]
     },
     {
       title: "Web Developer",
@@ -225,9 +226,9 @@ const Home: NextPage = () => {
         "Designed and developed 10+ applications using React and Typescript",
         "Collaborated on and developed 4 desktop applications using Electron",
         "Deployed various projects to AWS servers with full CI/CD pipeline",
-        "Assisted with multiple internal optimizations by automating various tasks using Python or TS Node",
-      ],
-    },
+        "Assisted with multiple internal optimizations by automating various tasks using Python or TS Node"
+      ]
+    }
   ]);
 
   return (
@@ -297,84 +298,10 @@ const Home: NextPage = () => {
         </div>
       </nav>
 
-      <Dialog
-        as="div"
-        className="fixed inset-0 z-50 overflow-y-auto text-center"
-        initialFocus={nameInputRef}
-        open={isContactOpen}
+      <ContactDialog
+        isOpen={isContactOpen}
         onClose={() => setIsContactOpen(false)}
-      >
-        <Dialog.Overlay className="fixed inset-0 bg-zinc-200/50" />
-
-        <span className="inline-block h-screen align-middle" aria-hidden="true">
-          &#8203;
-        </span>
-
-        <div className="inline-block w-full max-w-sm p-6 my-8 space-y-4 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl md:max-w-md rounded-xl">
-          <Dialog.Title className="flex items-center space-x-2 text-2xl font-bold md:text-4xl text-zinc-800">
-            <UilChannel className="w-8 h-8" />
-            <span>Reach Out</span>
-          </Dialog.Title>
-
-          <button
-            type="button"
-            className="absolute top-0 p-2 rounded-full right-4 bg-zinc-100 focus:outline-emerald-600 hover:text-emerald-600 hover:bg-zinc-50"
-            onClick={() => setIsContactOpen(false)}
-          >
-            <UilTimes />
-          </button>
-
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-            <fieldset className="space-y-2">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                className="w-full rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600"
-                name="name"
-                id="name"
-                placeholder="Jane Doe"
-                ref={nameInputRef}
-              />
-            </fieldset>
-            <fieldset className="space-y-2">
-              <label htmlFor="email">Email Address</label>
-              <input
-                type="text"
-                className="w-full rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600"
-                name="email"
-                id="email"
-                placeholder="jane_doe@email.com"
-              />
-            </fieldset>
-            <fieldset className="space-y-2">
-              <label htmlFor="message">Message</label>
-              <textarea
-                className="w-full h-24 rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600"
-                name="message"
-                id="message"
-                placeholder="Lorem ipsum dolor sit amet..."
-              ></textarea>
-            </fieldset>
-          </form>
-
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setIsContactOpen(false)}
-              className="flex items-center justify-center px-4 py-2 space-x-2 rounded hover:bg-zinc-200"
-            >
-              <UilTimes />
-              <span>Close</span>
-            </button>
-            <button
-              onClick={() => setIsContactOpen(false)}
-              className="flex items-center justify-center w-full p-2 space-x-2 text-white rounded bg-zinc-800 hover:bg-black"
-            >
-              <span>Send Message</span>
-              <UilMessage />
-            </button>
-          </div>
-        </div>
-      </Dialog>
+      />
       <div id="top"></div>
       <main className="container px-8 mx-auto mt-32 space-y-16 min-h-[calc(100vh-12rem)] pb-16">
         <section className="relative flex flex-col items-start justify-center w-full h-[calc(100vh-12rem)] p-4 overflow-hidden bg-emerald-200 border-4 border-white shadow-lg md:p-8 rounded-xl">
@@ -520,19 +447,19 @@ const Home: NextPage = () => {
               Who Am I?
             </h4>
             <p>
-              &nbsp;&nbsp;&nbsp;&nbsp;Hi! I&apos;m Devin Sharpe, a passionate
-              full-stack web developer from Atlanta, GA. I&apos;m not afraid of
-              new codebases, making architecture changes, or approaching
-              interesting UX challenges. I have been a developer for three years
-              and currently spend my working hours developing software and
-              restuarant POS integrations at&nbsp;
+              Hi! I&apos;m Devin Sharpe, a passionate full-stack web developer
+              from Atlanta, GA. I&apos;m not afraid of new codebases, making
+              architecture changes, or approaching interesting UX challenges. I
+              have dedicated over 4 years of my life to software development,
+              and I currently spend my time learning new technologies and
+              building new things at&nbsp;
               <a
-                href="https://priority1pos.com/"
+                href="https://www.washingtonpost.com/"
                 target="_blank"
                 rel="noreferrer"
                 className="underline"
               >
-                Priority1 POS.
+                The Washington Post.
               </a>
             </p>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -549,15 +476,14 @@ const Home: NextPage = () => {
               ))}
             </div>
             <p>
-              &nbsp;&nbsp;&nbsp;&nbsp;I love seeing new features go from being
-              standup ideas to valuable experiences for users. I currently work
-              with Typescript, React, and Fastify for most of my work and
-              personal projects. My web development career began with Python,
-              Django, and Vue. I regularly fallback on these technologies for
-              simple, personal projects. I have thoroughly explored Electron,
-              and React Native is currently on my radar. Of course, new
-              technologies fascinate me, and I&apos;m always ready to learn
-              something new.
+              I love seeing new features go from being standup ideas to valuable
+              experiences for users. I currently work with Typescript, React,
+              and Fastify for most of my work and personal projects. My web
+              development career began with Python, Django, and Vue. I regularly
+              fallback on these technologies for simple, personal projects. I
+              have thoroughly explored Electron, and React Native is currently
+              on my radar. Of course, new technologies fascinate me, and
+              I&apos;m always ready to learn something new.
             </p>
             <h4 className="pt-4 text-xl font-bold border-t-2 border-dashed border-zinc-400 md:text-2xl text-zinc-800">
               Work Experience
