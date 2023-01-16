@@ -1,599 +1,307 @@
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useRef, useState } from "react";
 import {
-  UilChannel,
-  UilEnvelope,
   UilFileDownload,
   UilFileInfoAlt,
   UilGithub,
   UilHeart,
   UilLink,
   UilLinkedin,
-  UilMessage,
-  UilTimes,
   UilTwitter
 } from "@iconscout/react-unicons";
 
-import { ChevronDownIcon } from "@heroicons/react/outline";
-import Head from "next/head";
 import Image from "next/image";
 import type { NextPage } from "next";
-import ContactDialog from "../components/ContactDialog";
+
+import constants from "../constants";
 
 const Home: NextPage = () => {
-  const nameInputRef = useRef(null);
-  const [isContactOpen, setIsContactOpen] = useState(false);
-  const [images, setImages] = useState<
-    { link: string; alt: string; height: number; width: number }[]
-  >([
-    {
-      link: "/personal images/personal1.jpg",
-      alt: "Testing",
-      width: 256,
-      height: 256
-    },
-    {
-      link: "/personal images/personal2.jpg",
-      alt: "Testing",
-      width: 256,
-      height: 256
-    },
-    {
-      link: "/personal images/personal3.jpg",
-      alt: "Testing",
-      width: 256,
-      height: 256
-    },
-    {
-      link: "/personal images/personal4.jpg",
-      alt: "Testing",
-      width: 256,
-      height: 256
-    }
-  ]);
-  const [projects, setProjects] = useState<
-    {
-      name: string;
-      description: string;
-      links: { github?: string; site?: string };
-      tech: string[];
-    }[]
-  >([
-    {
-      name: "Task'd",
-      description:
-        "Task'd is a Next/React PWA built to help more organize my life. Here I manage my tasks, projects, and time trackers. Time tracking functionality comes from the lovely Toggl API, while the task management is done through Supabase/PostgreSQL and Next API endpoints.",
-      links: {
-        github: "https://github.com/devinsharpe/taskd",
-        site: "https://taskd-web.vercel.app/"
-      },
-      tech: ["Typescript", "React", "Next", "PostgreSQL"]
-    },
-    {
-      name: "DevSharpe.io",
-      description:
-        "DevSharpe.io is, well, the site you're currently viewing. This is my portfolio site meant to display my talents, help other developers, and allow me to experiment with new designs and packages.",
-      links: {
-        github: "https://github.com/devinsharpe/devsharpe",
-        site: "#top"
-      },
-      tech: ["Typescript", "React", "Next"]
-    }
-  ]);
-  const [skills, setSkills] = useState<
-    {
-      image: string;
-      name: string;
-      link: string;
-      exp: number;
-      isFavorite: boolean;
-    }[]
-  >([
-    {
-      image: "/logos/typescript.svg",
-      name: "Typescript",
-      link: "https://www.typescriptlang.org/",
-      exp: 2,
-      isFavorite: true
-    },
-    {
-      image: "/logos/javascript.svg",
-      name: "Javascript",
-      link: "https://www.javascript.com/",
-      exp: 5,
-      isFavorite: false
-    },
-    {
-      image: "/logos/react.svg",
-      name: "React",
-      link: "https://reactjs.org/",
-      exp: 3,
-      isFavorite: true
-    },
-    {
-      image: "/logos/next.svg",
-      name: "Next.js",
-      link: "https://nextjs.org/",
-      exp: 2,
-      isFavorite: true
-    },
-    {
-      image: "/logos/vue.svg",
-      name: "Vue",
-      link: "https://vuejs.org/",
-      exp: 3,
-      isFavorite: false
-    },
-    {
-      image: "/logos/fastify.svg",
-      name: "Fastify",
-      link: "https://www.fastify.io/",
-      exp: 2,
-      isFavorite: true
-    },
-    {
-      image: "/logos/node.svg",
-      name: "NodeJS",
-      link: "https://nodejs.org/",
-      exp: 3,
-      isFavorite: false
-    },
-    {
-      image: "/logos/electron.svg",
-      name: "Electron",
-      link: "https://www.electronjs.org/",
-      exp: 2,
-      isFavorite: true
-    },
-    {
-      image: "/logos/python.svg",
-      name: "Python",
-      link: "https://www.python.org/",
-      exp: 4,
-      isFavorite: false
-    },
-    {
-      image: "/logos/django.svg",
-      name: "Django",
-      link: "https://www.djangoproject.com/",
-      exp: 4,
-      isFavorite: false
-    },
-    {
-      image: "/logos/git.svg",
-      name: "Git",
-      link: "https://git-scm.com/",
-      exp: 3,
-      isFavorite: false
-    },
-    {
-      image: "/logos/mongo.svg",
-      name: "MongoDB",
-      link: "https://www.mongodb.com/",
-      exp: 1,
-      isFavorite: false
-    },
-    {
-      image: "/logos/postgresql.svg",
-      name: "PostgreSQL",
-      link: "https://www.postgresql.org/",
-      exp: 3,
-      isFavorite: false
-    },
-    {
-      image: "/logos/tailwind.svg",
-      name: "TailwindCSS",
-      link: "https://tailwindcss.com/",
-      exp: 3,
-      isFavorite: false
-    },
-    {
-      image: "/logos/html.svg",
-      name: "HTML",
-      link: "https://html.spec.whatwg.org/",
-      exp: 5,
-      isFavorite: false
-    },
-    {
-      image: "/logos/css.svg",
-      name: "CSS",
-      link: "https://www.w3.org/TR/CSS/",
-      exp: 5,
-      isFavorite: false
-    }
-  ]);
-  const [workHistory, setWorkHistory] = useState([
-    {
-      title: "Front End Software Engineer",
-      company: "The Washington Post",
-      link: "https://www.washingtonpost.com/",
-      start: "April 2022",
-      end: "Current",
-      responsibilities: [
-        "Developing and maintaining internal tools relating to WP's advertising operations",
-        "Improve the UI/UX of WP applications",
-        "Work with WP Advertising team and Creative Group to create new features, templates, and components"
-      ]
-    },
-    {
-      title: "Web Developer",
-      company: "Priority1 POS",
-      link: "https://priority1pos.com/",
-      start: "July 2018",
-      end: "April 2022",
-      responsibilities: [
-        "Maintained and collaborated on several web applications for internal and client use",
-        "Designed and developed 10+ applications using React and Typescript",
-        "Collaborated on and developed 4 desktop applications using Electron",
-        "Deployed various projects to AWS servers with full CI/CD pipeline",
-        "Assisted with multiple internal optimizations by automating various tasks using Python or TS Node"
-      ]
-    }
-  ]);
-
   return (
-    <>
-      <Head>
-        <title>DevSharpe 👋</title>
-        <meta
-          name="description"
-          content="Devin Sharpe's portfolio site - A place of fun, excitement, and weird design decisions."
-        />
-      </Head>
-      <nav className="fixed inset-x-0 top-0 z-40 flex items-center justify-between px-6 py-4 mx-4 mt-4 bg-white rounded-lg shadow-lg text-zinc-800">
-        <h1 className="text-xl font-bold">DevSharpe</h1>
-        <div className="flex items-stretch">
-          <button
-            type="button"
-            className="flex items-center justify-center h-10 px-4 text-white rounded-l-lg bg-zinc-800 hover:bg-black whitespace-nowrap"
-            onClick={() => setIsContactOpen(true)}
+    <main className="page-container">
+      <section className="relative flex flex-col items-start justify-center w-full h-[calc(100vh-12rem)] p-4 overflow-hidden bg-emerald-200 border-4 border-white shadow-lg md:p-8 rounded-xl">
+        <div className="absolute bottom-0 z-30 flex items-center justify-center px-4 py-2 space-x-4 text-white -translate-x-1/2 bg-white shadow left-1/2 rounded-t-xl">
+          <a
+            href="https://www.linkedin.com/in/devin-sharpe-8912b0191/"
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors duration-200 text-zinc-600 hover:text-emerald-600"
           >
-            Contact Me
-          </button>
-
-          <Menu as="div" className="relative inline-block text-left">
-            <div>
-              <Menu.Button className="flex items-center justify-center h-10 leading-none text-white border-l border-white rounded-r-lg bg-zinc-800 aspect-square hover:bg-black">
-                <ChevronDownIcon className="w-6 h-6 text-white" />
-              </Menu.Button>
-            </div>
-
-            <Menu.Items
-              as="div"
-              className="absolute right-0 text-white rounded-lg top-12 bg-zinc-800"
-            >
-              <Menu.Item
-                as="a"
-                href="https://twitter.com/messages/compose?recipient_id=2312246869"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center px-4 py-2 space-x-2 border-b whitespace-nowrap hover:text-cyan-400"
-              >
-                <UilTwitter />
-                <p>Twitter</p>
-              </Menu.Item>
-              <Menu.Item
-                as="a"
-                href="https://www.linkedin.com/in/devin-sharpe-8912b0191/"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center px-4 py-2 space-x-2 border-b whitespace-nowrap hover:text-blue-400"
-              >
-                <UilLinkedin />
-                <p>LinkedIn</p>
-              </Menu.Item>
-              <Menu.Item
-                as="a"
-                href="mailto:devin@devsharpe.io"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center px-4 py-2 space-x-2 whitespace-nowrap hover:text-emerald-400"
-              >
-                <UilEnvelope />
-                <p>Email</p>
-              </Menu.Item>
-            </Menu.Items>
-          </Menu>
+            <UilLinkedin className="w-6 h-6 md:w-8 md:h-8" />
+            <span className="sr-only">LinkedIn</span>
+          </a>
+          <a
+            href="https://github.com/devinsharpe"
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors duration-200 text-zinc-600 hover:text-emerald-600"
+          >
+            <UilGithub className="w-6 h-6 md:w-8 md:h-8" />
+            <span className="sr-only">Github</span>
+          </a>
+          <a
+            href="https://twitter.com/Devin_Sharpe"
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors duration-200 text-zinc-600 hover:text-emerald-600"
+          >
+            <UilTwitter className="w-6 h-6 md:w-8 md:h-8" />
+            <span className="sr-only">Twitter</span>
+          </a>
+          <a
+            href="/resume - devin sharpe.pdf"
+            target="_blank"
+            rel="noreferrer"
+            download
+            className="transition-colors duration-200 text-zinc-600 hover:text-emerald-600"
+          >
+            <UilFileInfoAlt className="w-6 h-6 md:w-8 md:h-8" />
+            <span className="sr-only">Resume Download</span>
+          </a>
         </div>
-      </nav>
-
-      <ContactDialog
-        isOpen={isContactOpen}
-        onClose={() => setIsContactOpen(false)}
-      />
-      <div id="top"></div>
-      <main className="container px-8 mx-auto mt-32 space-y-16 min-h-[calc(100vh-12rem)] pb-16">
-        <section className="relative flex flex-col items-start justify-center w-full h-[calc(100vh-12rem)] p-4 overflow-hidden bg-emerald-200 border-4 border-white shadow-lg md:p-8 rounded-xl">
-          <div className="absolute bottom-0 z-30 flex items-center justify-center px-4 py-2 space-x-4 text-white -translate-x-1/2 bg-white shadow left-1/2 rounded-t-xl">
+        <div className="absolute inset-0 z-20 flex flex-col items-start justify-center p-6 space-y-4 md:p-12 pb-28 md:pb-28">
+          <h2 className="text-3xl font-bold md:text-6xl font-display lg:w-1/2 text-emerald-800">
+            I&apos;m Devin Sharpe, a full stack developer &amp; proud cat dad 🐱
+          </h2>
+          <p className="p-4 text-xl rounded-lg md:text-2xl bg-emerald-400/25 lg:w-1/2">
+            I&apos;m always looking for a new codebase to explore
+            containing&nbsp;
             <a
-              href="https://www.linkedin.com/in/devin-sharpe-8912b0191/"
+              href="https://www.typescriptlang.org/"
               target="_blank"
               rel="noreferrer"
-              className="transition-colors duration-200 text-zinc-600 hover:text-emerald-600"
+              className="hover:underline text-emerald-800"
             >
-              <UilLinkedin className="w-6 h-6 md:w-8 md:h-8" />
-              <span className="sr-only">LinkedIn</span>
+              Typescript
             </a>
+            ,&nbsp;
             <a
-              href="https://github.com/devinsharpe"
+              href="https://reactjs.org/"
               target="_blank"
               rel="noreferrer"
-              className="transition-colors duration-200 text-zinc-600 hover:text-emerald-600"
+              className="hover:underline text-emerald-800"
             >
-              <UilGithub className="w-6 h-6 md:w-8 md:h-8" />
-              <span className="sr-only">Github</span>
+              React
             </a>
+            , or&nbsp;
             <a
-              href="https://twitter.com/Devin_Sharpe"
+              href="https://nodejs.org/"
               target="_blank"
               rel="noreferrer"
-              className="transition-colors duration-200 text-zinc-600 hover:text-emerald-600"
+              className="hover:underline text-emerald-800"
             >
-              <UilTwitter className="w-6 h-6 md:w-8 md:h-8" />
-              <span className="sr-only">Twitter</span>
+              NodeJS
             </a>
-            <a
-              href="/resume - devin sharpe.pdf"
-              target="_blank"
-              rel="noreferrer"
-              download
-              className="transition-colors duration-200 text-zinc-600 hover:text-emerald-600"
-            >
-              <UilFileInfoAlt className="w-6 h-6 md:w-8 md:h-8" />
-              <span className="sr-only">Resume Download</span>
-            </a>
-          </div>
-          <div className="absolute inset-0 z-20 flex flex-col items-start justify-center p-6 space-y-4 md:p-12 pb-28 md:pb-28">
-            <h2 className="text-3xl font-bold md:text-6xl font-display lg:w-1/2 text-emerald-800">
-              I&apos;m Devin Sharpe, a full stack developer &amp; proud cat dad
-              🐱
-            </h2>
-            <p className="p-4 text-xl rounded-lg md:text-2xl bg-emerald-400/25 lg:w-1/2">
-              I&apos;m always looking for a new codebase to explore
-              containing&nbsp;
-              <a
-                href="https://www.typescriptlang.org/"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:underline text-emerald-800"
-              >
-                Typescript
-              </a>
-              ,&nbsp;
-              <a
-                href="https://reactjs.org/"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:underline text-emerald-800"
-              >
-                React
-              </a>
-              , or&nbsp;
-              <a
-                href="https://nodejs.org/"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:underline text-emerald-800"
-              >
-                NodeJS
-              </a>
-            </p>
-          </div>
-          <div className="shape-blob bg-emerald-400" />
-          <div className="shape-blob one bg-emerald-300" />
-          <div className="shape-blob two bg-emerald-300/50" />
-        </section>
+          </p>
+        </div>
+        <div className="shape-blob bg-emerald-400" />
+        <div className="shape-blob one bg-emerald-300" />
+        <div className="shape-blob two bg-emerald-300/50" />
+      </section>
 
-        <section className="items-start justify-between space-y-8 lg:space-y-0 lg:space-x-8 lg:flex">
-          <section className="p-2 space-y-4 border-2 border-dashed rounded-lg lg:w-1/2 border-zinc-400 md:p-6">
-            <h4 className="p-2 text-2xl font-bold md:text-4xl text-zinc-800">
-              Skills
-            </h4>
-            <div className="grid w-full p-2 grid-cols-2 gap-4 overflow-y-scroll max-h-[24rem] md:max-h-[30rem] lg:max-h-full md:grid-cols-3 2xl:grid-cols-4 md:overflow-y-auto">
-              {skills.map((skill) => (
-                <div
-                  className="relative flex flex-col items-center justify-center p-2 space-y-2 transition-transform duration-150 bg-white rounded-lg md:p-4 hover:scale-105 group aspect-square"
-                  key={skill.name}
-                >
-                  <Image
-                    src={skill.image}
-                    height="48"
-                    width="48"
-                    alt={`${skill.name} Logo`}
-                  />
-                  <a
-                    href={skill.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:underline focus:underline"
-                    tabIndex={-1}
-                  >
-                    {skill.name}
-                  </a>
-                  <div>
-                    <div className="flex items-center justify-center space-x-1">
-                      {[...new Array(skill.exp)].map((_, index) => (
-                        <div
-                          className="w-2 h-2 transition-colors duration-150 rounded-full bg-zinc-300 group-hover:bg-emerald-600"
-                          key={index}
-                        >
-                          <p className="sr-only">
-                            {skill.exp} years of experience
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                    <p className="mt-2 text-xs text-center text-zinc-600">
-                      Yrs Exp
-                    </p>
-                  </div>
-
-                  {skill.isFavorite && (
-                    <>
-                      <UilHeart className="absolute top-0 right-4 text-zinc-400 group-hover:text-rose-400" />
-                      <p className="sr-only">
-                        ${skill.name} is a preferred technology
-                      </p>
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <article className="p-2 space-y-4 prose-lg text-black rounded-lg lg:w-1/2 md:p-6">
-            <h4 className="text-2xl font-bold md:text-4xl font-display text-zinc-800">
-              Who Am I?
-            </h4>
-            <p>
-              Hi! I&apos;m Devin Sharpe, a passionate full-stack web developer
-              from Atlanta, GA. I&apos;m not afraid of new codebases, making
-              architecture changes, or approaching interesting UX challenges. I
-              have dedicated over 4 years of my life to software development,
-              and I currently spend my time learning new technologies and
-              building new things at&nbsp;
-              <a
-                href="https://www.washingtonpost.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="underline"
-              >
-                The Washington Post.
-              </a>
-            </p>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {images.map((image) => (
-                <div key={image.link}>
-                  <Image
-                    src={image.link}
-                    alt={image.alt}
-                    width={image.width}
-                    height={image.height}
-                    className="rounded-lg aspect-square"
-                  />
-                </div>
-              ))}
-            </div>
-            <p>
-              I love seeing new features go from being standup ideas to valuable
-              experiences for users. I currently work with Typescript, React,
-              and Fastify for most of my work and personal projects. My web
-              development career began with Python, Django, and Vue. I regularly
-              fallback on these technologies for simple, personal projects. I
-              have thoroughly explored Electron, and React Native is currently
-              on my radar. Of course, new technologies fascinate me, and
-              I&apos;m always ready to learn something new.
-            </p>
-            <h4 className="pt-4 text-xl font-bold border-t-2 border-dashed border-zinc-400 md:text-2xl text-zinc-800">
-              Work Experience
-            </h4>
-            {workHistory.map((emp) => (
+      <section className="items-start justify-between space-y-8 lg:space-y-0 lg:space-x-8 lg:flex">
+        <section className="p-2 space-y-4 border-2 border-dashed rounded-lg lg:w-1/2 border-zinc-400 md:p-6">
+          <h4 className="p-2 text-2xl font-bold md:text-4xl text-zinc-800">
+            Skills
+          </h4>
+          <div className="grid w-full p-2 grid-cols-2 gap-4 overflow-y-scroll max-h-[24rem] md:max-h-[30rem] lg:max-h-full md:grid-cols-3 2xl:grid-cols-4 md:overflow-y-auto">
+            {constants.skills.map((skill) => (
               <div
-                className="p-4 rounded-lg bg-emerald-200/50"
-                key={emp.company}
+                className="relative flex flex-col items-center justify-center p-2 space-y-2 transition-transform duration-150 bg-white rounded-lg md:p-4 hover:scale-105 group aspect-square"
+                key={skill.name}
               >
-                <h5 className="text-lg">
-                  <span>{emp.title}</span>&nbsp;
-                  <span className="text-emerald-600">@</span>&nbsp;
-                  <a
-                    href={emp.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-light underline"
-                  >
-                    {emp.company}
-                  </a>
-                </h5>
-                <p className="m-0 text-sm">
-                  {emp.start} - {emp.end}
-                </p>
-                <ul className="mt-2 space-y-0 list-custom">
-                  {emp.responsibilities.map((responsibility) => (
-                    <li className="m-0" key={responsibility}>
-                      {responsibility}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-            <a
-              href="/resume - devin sharpe.pdf"
-              target="_blank"
-              rel="noreferrer"
-              download
-              className="flex items-center justify-center w-full p-2 space-x-2 text-center text-white rounded-lg bg-zinc-800 hover:bg-black"
-            >
-              <UilFileDownload />
-              <span>Download Resume</span>
-            </a>
-          </article>
-        </section>
-
-        <div className="items-start justify-between space-y-8 md:space-y-0 md:space-x-8 lg:flex">
-          <section>
-            <h4 className="relative bottom-0 p-2 text-2xl font-bold md:text-4xl font-display text-zinc-800">
-              Projects
-            </h4>
-            <div className="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-2">
-              {projects.map((project) => (
-                <article
-                  className="relative flex flex-col justify-between p-4 pr-16 bg-white border-4 border-white rounded-lg shadow-lg text-zinc-800 md:p-6 md:pr-16"
-                  key={project.name}
+                <Image
+                  src={skill.image}
+                  height="48"
+                  width="48"
+                  alt={`${skill.name} Logo`}
+                />
+                <a
+                  href={skill.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:underline focus:underline"
+                  tabIndex={-1}
                 >
-                  <div>
-                    <h5 className="text-xl font-semibold md:text-2xl">
-                      {project.name}
-                    </h5>
-                    <p className="mt-4">{project.description}</p>
-                  </div>
-
-                  <div className="flex flex-wrap items-center justify-start mt-2">
-                    {project.tech.map((tech) => (
-                      <p
-                        className="px-4 py-1 mt-2 mr-2 rounded-full bg-zinc-200/50"
-                        key={tech}
+                  {skill.name}
+                </a>
+                <div>
+                  <div className="flex items-center justify-center space-x-1">
+                    {[...new Array(skill.exp)].map((_, index) => (
+                      <div
+                        className="w-2 h-2 transition-colors duration-150 rounded-full bg-zinc-300 group-hover:bg-emerald-600"
+                        key={index}
                       >
-                        {tech}
-                      </p>
+                        <p className="sr-only">
+                          {skill.exp} years of experience
+                        </p>
+                      </div>
                     ))}
                   </div>
-                  {project.links && (
-                    <div className="absolute inset-y-0 flex flex-col justify-center right-4">
-                      <div className="flex flex-col justify-center space-y-2">
-                        {project.links.site && (
-                          <a
-                            href={project.links.site}
-                            target={
-                              project.links.site.charAt(0) === "#"
-                                ? "_self"
-                                : "_blank"
-                            }
-                            rel="noreferrer"
-                          >
-                            <UilLink />
-                            <span className="sr-only">{`${project.name} site link`}</span>
-                          </a>
-                        )}
-                        {project.links.github && (
-                          <a
-                            href={project.links.github}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <UilGithub />
-                            <span className="sr-only">{`${project.name} repository link`}</span>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </article>
-              ))}
+                  <p className="mt-2 text-xs text-center transition duration-100 opacity-0 text-zinc-600 group-hover:opacity-100">
+                    Yrs Exp
+                  </p>
+                </div>
+
+                {skill.isFavorite && (
+                  <>
+                    <UilHeart className="absolute top-0 right-4 text-zinc-400 group-hover:text-rose-400" />
+                    <p className="sr-only">
+                      ${skill.name} is a preferred technology
+                    </p>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <article className="p-2 space-y-4 prose-lg text-black rounded-lg lg:w-1/2 md:p-6">
+          <h4 className="text-2xl font-bold md:text-4xl font-display text-zinc-800">
+            Who Am I?
+          </h4>
+          <p>
+            Hi! I&apos;m Devin Sharpe, a passionate full-stack web developer
+            from Atlanta, GA. I&apos;m not afraid of new codebases, making
+            architecture changes, or approaching interesting UX challenges. I
+            have dedicated over 4 years of my life to software development, and
+            I currently spend my time learning new technologies and building new
+            things at&nbsp;
+            <a
+              href="https://www.washingtonpost.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              The Washington Post.
+            </a>
+          </p>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {constants.bioImages.map((image) => (
+              <div key={image.link}>
+                <Image
+                  src={image.link}
+                  alt={image.alt}
+                  width={image.width}
+                  height={image.height}
+                  className="rounded-lg aspect-square"
+                />
+              </div>
+            ))}
+          </div>
+          <p>
+            I love seeing new features go from being standup ideas to valuable
+            experiences for users. I currently work with Typescript, React, and
+            Fastify for most of my work and personal projects. My web
+            development career began with Python, Django, and Vue. I regularly
+            fallback on these technologies for simple, personal projects. I have
+            thoroughly explored Electron, and React Native is currently on my
+            radar. Of course, new technologies fascinate me, and I&apos;m always
+            ready to learn something new.
+          </p>
+          <h4 className="pt-4 text-xl font-bold border-t-2 border-dashed border-zinc-400 md:text-2xl text-zinc-800">
+            Work Experience
+          </h4>
+          {constants.workHistory.map((emp) => (
+            <div className="p-4 rounded-lg bg-emerald-200/50" key={emp.company}>
+              <h5 className="text-lg">
+                <span>{emp.title}</span>&nbsp;
+                <span className="text-emerald-600">@</span>&nbsp;
+                <a
+                  href={emp.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-light underline"
+                >
+                  {emp.company}
+                </a>
+              </h5>
+              <p className="m-0 text-sm">
+                {emp.start} - {emp.end}
+              </p>
+              <ul className="mt-2 space-y-0 list-custom">
+                {emp.responsibilities.map((responsibility) => (
+                  <li className="m-0" key={responsibility}>
+                    {responsibility}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </section>
-        </div>
-      </main>
-    </>
+          ))}
+          <a
+            href="/resume - devin sharpe.pdf"
+            target="_blank"
+            rel="noreferrer"
+            download
+            className="flex items-center justify-center w-full p-2 space-x-2 text-center text-white rounded-lg bg-zinc-800 hover:bg-black"
+          >
+            <UilFileDownload />
+            <span>Download Resume</span>
+          </a>
+        </article>
+      </section>
+
+      <div className="items-start justify-between space-y-8 md:space-y-0 md:space-x-8 lg:flex">
+        <section>
+          <h4 className="relative bottom-0 p-2 text-2xl font-bold md:text-4xl font-display text-zinc-800">
+            Projects
+          </h4>
+          <div className="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-2">
+            {constants.projects.map((project) => (
+              <article
+                className="relative flex flex-col justify-between p-4 pr-16 bg-white border-4 border-white rounded-lg shadow-lg text-zinc-800 md:p-6 md:pr-16"
+                key={project.name}
+              >
+                <div>
+                  <h5 className="text-xl font-semibold md:text-2xl">
+                    {project.name}
+                  </h5>
+                  <p className="mt-4">{project.description}</p>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-start mt-2">
+                  {project.tech.map((tech) => (
+                    <p
+                      className="px-4 py-1 mt-2 mr-2 rounded-full bg-zinc-200/50"
+                      key={tech}
+                    >
+                      {tech}
+                    </p>
+                  ))}
+                </div>
+                {project.links && (
+                  <div className="absolute inset-y-0 flex flex-col justify-center right-4">
+                    <div className="flex flex-col justify-center space-y-2">
+                      {project.links.site && (
+                        <a
+                          href={project.links.site}
+                          target={
+                            project.links.site.charAt(0) === "#"
+                              ? "_self"
+                              : "_blank"
+                          }
+                          rel="noreferrer"
+                        >
+                          <UilLink />
+                          <span className="sr-only">{`${project.name} site link`}</span>
+                        </a>
+                      )}
+                      {project.links.github && (
+                        <a
+                          href={project.links.github}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <UilGithub />
+                          <span className="sr-only">{`${project.name} repository link`}</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
   );
 };
 

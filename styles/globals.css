@@ -114,3 +114,7 @@ body {
     transform: translate(50%, 20%) rotate(-200deg) scale(1.2);
   }
 }
+
+main.page-container {
+  @apply container px-8 mx-auto mt-32 space-y-16 min-h-[calc(100vh-12rem)] pb-16;
+}
