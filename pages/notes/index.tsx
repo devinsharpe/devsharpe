@@ -25,7 +25,10 @@ const NotesIndexPage: NextPage<{
       <section>
         <div className="section-body">
           {posts.map((post) => (
-            <article className="px-6 py-4 space-y-2 border-2 rounded-lg hover:border-emerald-600/50 dark:hover:border-emerald-400/50 bg-zinc-100 dark:bg-zinc-700 dark:border-zinc-600/50 border-zinc-300/50 group">
+            <article
+              key={post.slug}
+              className="px-6 py-4 space-y-2 border-2 rounded-lg hover:border-emerald-600/50 dark:hover:border-emerald-400/50 bg-zinc-100 dark:bg-zinc-700 dark:border-zinc-600/50 border-zinc-300/50 group"
+            >
               <Link href={`/notes/${post.slug}`} passHref>
                 <a className="text-2xl font-bold tracking-wide group-hover:underline group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
                   <h3>{post.data.title}</h3>

@@ -10,6 +10,7 @@ import {
 import type { AppProps } from "next/app";
 import ContactDialog from "../components/ContactDialog";
 import Head from "next/head";
+import Link from "next/link";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 
@@ -61,16 +62,17 @@ function MyApp({ Component, pageProps }: AppProps) {
             >
               <UilTwitter />
             </a>
-            <a
-              href="/resume - devin sharpe.pdf"
-              target="_blank"
-              rel="noreferrer"
-              download
-              aria-label="Download Resume Link"
-              className="hover:text-emerald-600 dark:hover:text-emerald-400"
-            >
-              <UilFileDownload />
-            </a>
+            <Link href="/resume - devin sharpe.pdf" passHref>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                download
+                aria-label="Download Resume Link"
+                className="hover:text-emerald-600 dark:hover:text-emerald-400"
+              >
+                <UilFileDownload />
+              </a>
+            </Link>
           </div>
           <div className="flex items-center justify-center h-full text-center">
             <p className="text-center">LH scores</p>
@@ -78,9 +80,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <p className="text-center md:col-span-2">
             <span>&copy;2019-2023</span>
             &nbsp;
-            <a href="/#top" className="underline">
-              Devin Sharpe
-            </a>
+            <Link href="/#top" passHref>
+              <a className="underline">Devin Sharpe</a>
+            </Link>
           </p>
         </div>
       </footer>
