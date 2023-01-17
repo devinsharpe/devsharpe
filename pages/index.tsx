@@ -149,7 +149,7 @@ const Home: NextPage<{
   const filteredSkills = useMemo(() => {
     if (showSkills) return skills;
     else return skills.slice(0, 5);
-  }, [showSkills]);
+  }, [showSkills, skills]);
 
   return (
     <main className="page-container">
