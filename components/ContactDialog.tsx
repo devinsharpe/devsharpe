@@ -1,11 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
 import {
   UilChannel,
-  UilTimes,
+  UilExclamationTriangle,
   UilMessage,
   UilSpin,
-  UilExclamationTriangle
+  UilTimes
 } from "@iconscout/react-unicons";
+
 import React from "react";
 
 const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
@@ -43,26 +44,26 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
   return (
     <Dialog
       as="div"
-      className="fixed inset-0 z-50 overflow-y-auto text-center"
+      className="fixed inset-0 z-50 px-4 overflow-y-auto text-center"
       initialFocus={nameInputRef}
       open={isOpen}
       onClose={onClose}
     >
-      <Dialog.Overlay className="fixed inset-0 bg-zinc-200/50" />
+      <Dialog.Overlay className="fixed inset-0 bg-zinc-200/50 dark:bg-zinc-800/50" />
 
       <span className="inline-block h-screen align-middle" aria-hidden="true">
         &#8203;
       </span>
 
-      <div className="inline-block w-full max-w-sm p-6 my-8 space-y-4 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl md:max-w-md rounded-xl">
-        <Dialog.Title className="flex items-center space-x-2 text-2xl font-bold md:text-4xl text-zinc-800">
+      <div className="inline-block w-full max-w-sm p-6 my-8 space-y-4 overflow-hidden text-left align-middle transition-all transform bg-white border-2 shadow-xl border-zinc-300/50 dark:border-zinc-600/50 dark:bg-zinc-800 md:max-w-md rounded-xl">
+        <Dialog.Title className="flex items-center space-x-2 text-2xl font-bold md:text-4xl">
           <UilChannel className="w-8 h-8" />
           <span>Reach Out</span>
         </Dialog.Title>
 
         <button
           type="button"
-          className="absolute top-0 p-2 rounded-full right-4 bg-zinc-100 focus:outline-emerald-600 hover:text-emerald-600 hover:bg-zinc-50"
+          className="absolute top-0 p-2 rounded-full right-4 bg-zinc-100 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:hover:text-emerald-500 focus:outline-emerald-600 hover:text-emerald-600 hover:bg-zinc-50"
           onClick={onClose}
         >
           <UilTimes />
@@ -87,7 +88,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
             <label htmlFor="name">Name</label>
             <input
               type="text"
-              className="w-full rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600"
+              className="w-full rounded bg-zinc-100 dark:bg-zinc-700 focus:border-emerald-600 focus:ring-emerald-600"
               name="name"
               id="name"
               placeholder="Jane Doe"
@@ -100,7 +101,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
             <label htmlFor="email">Email Address</label>
             <input
               type="text"
-              className="w-full rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600"
+              className="w-full rounded bg-zinc-100 dark:bg-zinc-700 focus:border-emerald-600 focus:ring-emerald-600"
               name="email"
               id="email"
               value={msgData.email}
@@ -113,7 +114,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
           <fieldset className="space-y-2">
             <label htmlFor="message">Message</label>
             <textarea
-              className="w-full h-24 rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600"
+              className="w-full h-24 rounded bg-zinc-100 dark:bg-zinc-700 focus:border-emerald-600 focus:ring-emerald-600"
               name="message"
               id="message"
               value={msgData.message}
@@ -128,14 +129,14 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
         <div className="flex items-center space-x-2">
           <button
             onClick={onClose}
-            className="flex items-center justify-center px-4 py-2 space-x-2 rounded hover:bg-zinc-200"
+            className="flex items-center justify-center px-4 py-2 space-x-2 rounded hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600"
           >
             <UilTimes />
             <span>Close</span>
           </button>
           <button
             onClick={handleSubmit}
-            className="flex items-center justify-center w-full p-2 space-x-2 text-white rounded bg-zinc-800 hover:bg-black"
+            className="flex items-center justify-center w-full p-2 space-x-2 text-white rounded dark:bg-white dark:hover:bg-zinc-200 dark:text-zinc-800 bg-zinc-800 hover:bg-black"
           >
             <span>Send Message</span>
             {isLoading ? (
