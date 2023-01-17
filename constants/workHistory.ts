@@ -1,4 +1,13 @@
-const workHistory = [
+export interface WorkHistory {
+  title: string;
+  company: string;
+  link: string;
+  start: string;
+  end: string;
+  responsibilities: string[];
+}
+
+const workHistory: WorkHistory[] = [
   {
     title: "Front End Software Engineer",
     company: "The Washington Post",

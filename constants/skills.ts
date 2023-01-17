@@ -1,17 +1,18 @@
-const skills = [
+export interface Skill {
+  image: string;
+  name: string;
+  link: string;
+  exp: number;
+  isFavorite: boolean;
+}
+
+const skills: Skill[] = [
   {
     image: "/logos/typescript.svg",
     name: "Typescript",
     link: "https://www.typescriptlang.org/",
     exp: 3,
     isFavorite: true
-  },
-  {
-    image: "/logos/javascript.svg",
-    name: "Javascript",
-    link: "https://www.javascript.com/",
-    exp: 6,
-    isFavorite: false
   },
   {
     image: "/logos/react.svg",
@@ -28,6 +29,21 @@ const skills = [
     isFavorite: true
   },
   {
+    image: "/logos/node.svg",
+    name: "NodeJS",
+    link: "https://nodejs.org/",
+    exp: 4,
+    isFavorite: false
+  },
+  {
+    image: "/logos/javascript.svg",
+    name: "Javascript",
+    link: "https://www.javascript.com/",
+    exp: 6,
+    isFavorite: false
+  },
+
+  {
     image: "/logos/vue.svg",
     name: "Vue",
     link: "https://vuejs.org/",
@@ -41,13 +57,7 @@ const skills = [
     exp: 3,
     isFavorite: true
   },
-  {
-    image: "/logos/node.svg",
-    name: "NodeJS",
-    link: "https://nodejs.org/",
-    exp: 4,
-    isFavorite: false
-  },
+
   {
     image: "/logos/electron.svg",
     name: "Electron",

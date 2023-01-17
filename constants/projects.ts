@@ -1,4 +1,14 @@
-const projects = [
+export interface Project {
+  name: string;
+  description: string;
+  links: {
+    github: string;
+    site: string;
+  };
+  tech: string[];
+}
+
+const projects: Project[] = [
   {
     name: "Task'd",
     description:
@@ -15,7 +25,7 @@ const projects = [
       "DevSharpe.io is, well, the site you're currently viewing. This is my portfolio site meant to display my talents, help other developers, and allow me to experiment with new designs and packages.",
     links: {
       github: "https://github.com/devinsharpe/devsharpe",
-      site: "#top"
+      site: "/#top"
     },
     tech: ["Typescript", "React", "Next"]
   }
