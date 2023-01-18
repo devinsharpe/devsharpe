@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/speedlify.css";
 
 import {
   UilFileDownload,
@@ -12,10 +13,36 @@ import ContactDialog from "../components/ContactDialog";
 import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/router";
+import Script from "next/script";
+
+const speedlifyMap: Record<string, string> = {
+  "/": "742c24c0",
+  "/notes": "3b4614a3",
+  "/notes/caddyfile-local-development": "a4024ef",
+  "/notes/signin-with-apple-with-next-auth": "fa204c92"
+};
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const router = useRouter();
+  const [speedlify, setSpeedlify] = useState<JSX.Element | undefined>(
+    undefined
+  );
+  useEffect(() => {
+    requestAnimationFrame(() =>
+      setSpeedlify(
+        <speedlify-score
+          speedlify-url="https://speedlify-sandy.vercel.app/"
+          hash={speedlifyMap[router.asPath]}
+        />
+      )
+    );
+    return () => {
+      setSpeedlify(undefined);
+    };
+  }, [router.asPath]);
 
   return (
     <>
@@ -34,7 +61,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <footer className="w-full px-2">
         <div className="grid max-w-3xl grid-cols-1 gap-2 p-4 mx-auto mb-4 border-2 rounded-lg md:grid-cols-2 text-zinc-600 dark:text-zinc-200 border-zinc-300/50 dark:border-zinc-600/50 bg-zinc-100 dark:bg-zinc-700">
-          <div className="flex items-center justify-center space-x-2">
+          <div
+            className={`flex items-center justify-center space-x-2 ${
+              !speedlify ? "col-span-2" : ""
+            }`}
+          >
             <a
               href="https://github.com/devinsharpe"
               target="_blank"
@@ -74,9 +105,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </a>
             </Link>
           </div>
-          <div className="flex items-center justify-center h-full text-center">
-            <p className="text-center">LH scores</p>
-          </div>
+          {speedlify}
           <p className="text-center md:col-span-2">
             <span>&copy;2019-2023</span>
             &nbsp;
@@ -86,6 +115,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </p>
         </div>
       </footer>
+      <Script src="/scripts/speedlify.js" />
     </>
   );
 }
