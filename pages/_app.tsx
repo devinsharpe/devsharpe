@@ -8,6 +8,7 @@ import {
   UilTwitter
 } from "@iconscout/react-unicons";
 
+import { Analytics } from "@vercel/analytics/react";
 import type { AppProps } from "next/app";
 import ContactDialog from "../components/ContactDialog";
 import Head from "next/head";
@@ -115,6 +116,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </p>
         </div>
       </footer>
+      <Analytics />
       <Script src="/scripts/speedlify.js" />
     </>
   );
