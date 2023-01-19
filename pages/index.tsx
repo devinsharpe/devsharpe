@@ -158,7 +158,8 @@ const Home: NextPage<{
           Hello!
         </h2>
         <h3 className="text-3xl font-bold text-center text-black md:text-6xl font-display dark:text-white">
-          I&apos;m Devin Sharpe, a full stack developer &amp; proud cat dad 🐱
+          I&apos;m Devin Sharpe &mdash; a full stack developer &amp; proud cat
+          dad 🐱
         </h3>
       </div>
 
