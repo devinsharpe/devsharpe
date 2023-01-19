@@ -63,8 +63,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <footer className="w-full px-2">
         <div className="grid max-w-3xl grid-cols-1 gap-2 p-4 mx-auto mb-4 border-2 rounded-lg md:grid-cols-2 text-zinc-600 dark:text-zinc-200 border-zinc-300/50 dark:border-zinc-600/50 bg-zinc-100 dark:bg-zinc-700">
           <div
-            className={`flex items-center justify-center space-x-2 ${
-              !speedlify ? "col-span-2" : ""
+            className={`flex items-center justify-center md:justify-start space-x-2 px-6 ${
+              !speedlify ? "col-span-2 md:justify-center" : ""
             }`}
           >
             <a
@@ -106,7 +106,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               </a>
             </Link>
           </div>
-          {speedlify}
+          <div className="flex items-center justify-center px-6 md:justify-end">
+            {speedlify}
+          </div>
           <p className="text-center md:col-span-2">
             <span>&copy;2019-2023</span>
             &nbsp;
