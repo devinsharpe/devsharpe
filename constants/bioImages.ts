@@ -20,13 +20,13 @@ const bioImages: BioImage[] = [
   },
   {
     link: "/personal images/personal3.jpg",
-    alt: "Devin hiking up a hill",
+    alt: "Devin's orange cat, Mittens, sitting comfortably in a basket",
     width: 256,
     height: 256
   },
   {
     link: "/personal images/personal4.jpg",
-    alt: "Devin's orange cat, Mittens, leaning against a computer monitor display a code editor",
+    alt: "Devin hiking up a hill on a clear, autumn day",
     width: 256,
     height: 256
   }
