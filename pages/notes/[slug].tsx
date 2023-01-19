@@ -40,7 +40,7 @@ const NotePage: NextPage<NotePageProps> = ({ content, data }) => {
           </div>
           <div
             dangerouslySetInnerHTML={{ __html: content }}
-            className="p-4 prose prose-zinc dark:prose-invert lg:max-w-4xl lg:prose-lg xl:prose-xl"
+            className="p-4 prose prose-zinc prose-pre:bg-zinc-100 prose-code:text-zinc-700 dark:prose-pre:bg-zinc-700 prose-pre:border-2 prose-pre:border-zinc-300/50 dark:prose-pre:border-zinc-600/50 dark:prose-code:text-zinc-300 dark:prose-invert lg:max-w-4xl lg:prose-lg xl:prose-xl"
           />
           <div className="px-4 space-y-2 text-sm">
             <p>
