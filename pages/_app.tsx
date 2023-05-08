@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
       <Component {...pageProps} />
       <footer className="w-full px-2">
-        <div className="grid max-w-3xl grid-cols-1 gap-2 p-4 mx-auto mb-4 border-2 rounded-lg md:grid-cols-2 text-zinc-600 dark:text-zinc-200 border-zinc-300/50 dark:border-zinc-600/50 bg-zinc-100 dark:bg-zinc-700">
+        <div className="grid max-w-3xl grid-cols-1 gap-2 p-4 mx-auto mb-4 rounded-lg md:grid-cols-2 text-zinc-600 dark:text-zinc-200">
           <div
             className={`flex items-center justify-center md:justify-start space-x-2 px-6 ${
               !speedlify ? "col-span-2 md:justify-center" : ""
@@ -94,7 +94,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             >
               <UilTwitter />
             </a>
-            <Link href="/resume - devin sharpe.pdf" passHref>
+            <Link href="/resume - devin sharpe - 20230508.pdf" passHref>
               <a
                 target="_blank"
                 rel="noreferrer"

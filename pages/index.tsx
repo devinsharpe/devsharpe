@@ -173,7 +173,7 @@ const Home: NextPage<{
             full-stack web developer from Atlanta, GA. I&apos;m not afraid of
             new codebases, making architecture changes, or approaching
             interesting UX challenges. I have dedicated over 4 years of my life
-            to software development, and I currently spend my time learning new
+            to software development, and I recently spent time learning new
             technologies and building new things at&nbsp;
             <a
               href="https://www.washingtonpost.com/"
@@ -183,6 +183,19 @@ const Home: NextPage<{
             >
               The Washington Post.
             </a>
+            &nbsp;I have been spending a lot of my time lately working on a
+            project called&nbsp;
+            <a
+              href="https://www.birb.social/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              Birb &mdash; Simple Social;
+            </a>
+            &nbsp;my greater goal is to create a social media app for me and
+            friends to use as a getaway from the &apos;content machine&apos; and
+            alogorithmic culture found elsewhere on the web.
           </p>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {bioImages.map((image) => (
@@ -217,7 +230,7 @@ const Home: NextPage<{
               Employment History
             </h4>
             <a
-              href="/resume - devin sharpe.pdf"
+              href="/resume - devin sharpe - 20230508.pdf"
               target="_blank"
               rel="noreferrer"
               download

@@ -13,7 +13,7 @@ const workHistory: WorkHistory[] = [
     company: "The Washington Post",
     link: "https://www.washingtonpost.com/",
     start: "April 2022",
-    end: "Current",
+    end: "Feb 2023",
     responsibilities: [
       "Developing and maintaining internal tools relating to WP's advertising operations",
       "Improve the UI/UX of WP applications",
