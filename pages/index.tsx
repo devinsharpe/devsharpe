@@ -230,7 +230,7 @@ const Home: NextPage<{
               Employment History
             </h4>
             <a
-              href="/resume - devin sharpe - 20230508.pdf"
+              href="/resume - devin sharpe - 20230712.pdf"
               target="_blank"
               rel="noreferrer"
               download

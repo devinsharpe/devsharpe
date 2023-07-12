@@ -94,7 +94,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             >
               <UilTwitter />
             </a>
-            <Link href="/resume - devin sharpe - 20230508.pdf" passHref>
+            <Link href="/resume - devin sharpe - 20230712.pdf" passHref>
               <a
                 target="_blank"
                 rel="noreferrer"

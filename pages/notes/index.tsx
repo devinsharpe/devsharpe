@@ -24,37 +24,51 @@ const NotesIndexPage: NextPage<{
 
       <section>
         <div className="section-body">
-          {posts.map((post) => (
-            <article
-              key={post.slug}
-              className="px-6 py-4 space-y-2 border-2 rounded-lg hover:border-emerald-600/50 dark:hover:border-emerald-400/50 bg-zinc-100 dark:bg-zinc-700 dark:border-zinc-600/50 border-zinc-300/50 group"
-            >
-              <Link href={`/notes/${post.slug}`} passHref>
-                <a className="text-2xl font-bold tracking-wide group-hover:underline group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
-                  <h3>{post.data.title}</h3>
-                </a>
-              </Link>
-              <p
-                style={{
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 3,
-                  overflow: "hidden"
-                }}
-              >
-                {post.data.description}
-              </p>
-              <div className="flex items-center justify-between">
-                <p className="text-zinc-600 dark:text-zinc-300">
-                  {new Date(post.data.postedAt * 1000).toLocaleDateString()}
-                </p>
+          {posts.length > 0 ? (
+            <>
+              {posts.map((post) => (
+                <article
+                  key={post.slug}
+                  className="px-6 py-4 space-y-2 border-2 rounded-lg hover:border-emerald-600/50 dark:hover:border-emerald-400/50 bg-zinc-100 dark:bg-zinc-700 dark:border-zinc-600/50 border-zinc-300/50 group"
+                >
+                  <Link href={`/notes/${post.slug}`} passHref>
+                    <a className="text-2xl font-bold tracking-wide group-hover:underline group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                      <h3>{post.data.title}</h3>
+                    </a>
+                  </Link>
+                  <p
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 3,
+                      overflow: "hidden"
+                    }}
+                  >
+                    {post.data.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-zinc-600 dark:text-zinc-300">
+                      {new Date(post.data.postedAt * 1000).toLocaleDateString()}
+                    </p>
 
-                <p className="px-4 py-1 mt-2 mr-2 rounded-full bg-zinc-200/50 dark:bg-zinc-600">
-                  {post.data.category}
-                </p>
-              </div>
+                    <p className="px-4 py-1 mt-2 mr-2 rounded-full bg-zinc-200/50 dark:bg-zinc-600">
+                      {post.data.category}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </>
+          ) : (
+            <article className="px-6 py-4 space-y-2 border-2 rounded-lg bg-zinc-100 dark:bg-zinc-700 dark:border-zinc-600/50 border-zinc-300/50">
+              <h3 className="text-2xl font-bold tracking-wide group-hover:underline text-emerald-600 dark:text-emerald-400 text-center">
+                ⚠️ Work In Progress ⚠️
+              </h3>
+              <p className="text-center">
+                I&apos;m working on sharing some notes here soon, feel free to
+                check back later
+              </p>
             </article>
-          ))}
+          )}
         </div>
       </section>
     </main>
