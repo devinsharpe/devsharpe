@@ -3,7 +3,7 @@ export interface Project {
   description: string;
   links: {
     github: string;
-    site: string;
+    site?: string;
   };
   tech: string[];
 }
@@ -12,7 +12,7 @@ const projects: Project[] = [
   {
     name: "Birb - Simple Social",
     description:
-      "A new age social media PWA attempting to connect people in a simplier, healthier way. Post three text posts and 1 image a day without hte pressures of making your online image 'perfect.' Managing multiple databases, maintaining multiple apps inside of a monorepo, and experimenting with the edge has been the learning thrill I'm always seeking out.",
+      "A new age social media PWA attempting to connect people in a simplier, healthier way. Post three text posts and 1 image a day without the pressures of making your online image 'perfect.' Managing multiple databases, maintaining multiple apps inside of a monorepo, and experimenting with the edge has been the learning thrill I'm always seeking out.",
     links: {
       github: "https://github.com/devinsharpe/Birb-Simple-Social",
       site: "https://birb.social/"
@@ -28,14 +28,21 @@ const projects: Project[] = [
     ]
   },
   {
-    name: "Task'd",
+    name: "T3 + DLC",
     description:
-      "Task'd is a Next/React PWA built to help more organize my life. Here I manage my tasks, projects, and time trackers. Time tracking functionality comes from the lovely Toggl API, while the task management is done through Supabase/PostgreSQL and Next API endpoints.",
+      "Taking the popular T3 stack and building out a starter template for any future projects I would like to take on. Focusing on developer experience without compromise client performance presented an interesting set of problems that excited me about the future of software development more.",
     links: {
-      github: "https://github.com/devinsharpe/taskd",
-      site: "https://taskd-web.vercel.app/"
+      github: "https://github.com/devinsharpe/t3dlc"
     },
-    tech: ["Typescript", "React", "Next", "PostgreSQL"]
+    tech: [
+      "Next",
+      "Playwright",
+      "PostgreSQL",
+      "React",
+      "TRPC",
+      "Turbo",
+      "Typescript"
+    ]
   },
   {
     name: "DevSharpe.io",

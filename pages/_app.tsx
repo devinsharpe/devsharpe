@@ -4,8 +4,7 @@ import "../styles/speedlify.css";
 import {
   UilFileDownload,
   UilGithub,
-  UilLinkedin,
-  UilTwitter
+  UilLinkedin
 } from "@iconscout/react-unicons";
 
 import { Analytics } from "@vercel/analytics/react";
@@ -14,7 +13,7 @@ import ContactDialog from "../components/ContactDialog";
 import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Script from "next/script";
 
@@ -84,15 +83,6 @@ function MyApp({ Component, pageProps }: AppProps) {
               className="hover:text-emerald-600 dark:hover:text-emerald-400"
             >
               <UilLinkedin />
-            </a>
-            <a
-              href="https://twitter.com/Devin_Sharpe"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Twitter Link"
-              className="hover:text-emerald-600 dark:hover:text-emerald-400"
-            >
-              <UilTwitter />
             </a>
             <Link href="/resume - devin sharpe - 20230712.pdf" passHref>
               <a

@@ -29,6 +29,11 @@ export const processFileSlug = (filename: string) => {
 };
 
 export const getPosts = async () => {
+  try {
+    await fs.access("posts");
+  } catch {
+    return [];
+  }
   const filenames = (await fs.readdir("posts")) as [string, ...string[]];
   const files: string[] = [];
   for (const filename of filenames) {

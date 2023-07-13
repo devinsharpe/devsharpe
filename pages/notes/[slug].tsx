@@ -55,7 +55,7 @@ const NotePage: NextPage<NotePageProps> = ({ content, data }) => {
             )}
             <div className="flex items-center space-x-2 text-zinc-600 dark:text-zinc-300">
               <Link href="/notes" passHref>
-                <a className="underline text-zinc-">Notes</a>
+                <a className="underline">Notes</a>
               </Link>
               <span>&#47;</span>
               <p className="truncate">{data.title}</p>

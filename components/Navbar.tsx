@@ -1,11 +1,9 @@
 import {
-  UilBuilding,
   UilEnvelope,
-  UilHome,
   UilHouseUser,
   UilLinkedin,
-  UilNotes,
-  UilTwitter
+  UilNotes
+  // UilTwitter
 } from "@iconscout/react-unicons";
 
 import { ChevronDownIcon } from "@heroicons/react/outline";
@@ -60,7 +58,7 @@ const Navbar: React.FC<{ handleClick: () => void }> = ({ handleClick }) => {
             as="div"
             className="absolute right-0 text-white rounded-lg top-12 bg-zinc-800 dark:bg-white"
           >
-            <Menu.Item
+            {/* <Menu.Item
               as="a"
               href="https://twitter.com/messages/compose?recipient_id=2312246869"
               target="_blank"
@@ -69,7 +67,7 @@ const Navbar: React.FC<{ handleClick: () => void }> = ({ handleClick }) => {
             >
               <UilTwitter />
               <p>Twitter</p>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item
               as="a"
               href="https://www.linkedin.com/in/devin-sharpe-8912b0191/"
