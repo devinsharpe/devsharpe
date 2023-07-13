@@ -12,7 +12,7 @@ const projects: Project[] = [
   {
     name: "Birb - Simple Social",
     description:
-      "A new age social media PWA attempting to connect people in a simplier, healthier way. Post three text posts and 1 image a day without the pressures of making your online image 'perfect.' Managing multiple databases, maintaining multiple apps inside of a monorepo, and experimenting with the edge has been the learning thrill I'm always seeking out.",
+      "I undertook the development of a modern social media PWA with the aim of fostering genuine connections among individuals in a simpler and healthier manner. This platform allows users to freely share three text posts and one image per day, alleviating the burdens of projecting an artificially perfect online image. The project involved managing multiple databases, maintaining multiple apps within a monorepo, and engaging in cutting-edge experimentation at the edge, offering me the exhilarating learning experience I constantly seek.",
     links: {
       github: "https://github.com/devinsharpe/Birb-Simple-Social",
       site: "https://birb.social/"
@@ -30,7 +30,7 @@ const projects: Project[] = [
   {
     name: "T3 + DLC",
     description:
-      "Taking the popular T3 stack and building out a starter template for any future projects I would like to take on. Focusing on developer experience without compromise client performance presented an interesting set of problems that excited me about the future of software development more.",
+      "I embarked on a project to leverage the popular T3 stack and construct a comprehensive starter template to streamline my future ventures. Emphasizing an exceptional developer experience while simultaneously upholding top-notch client performance posed a captivating array of challenges that ignited my enthusiasm for the future of software development.",
     links: {
       github: "https://github.com/devinsharpe/t3dlc"
     },
