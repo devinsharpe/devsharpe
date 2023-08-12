@@ -1,8 +1,6 @@
-import { Listbox } from "@headlessui/react";
-import { UilAngleDown } from "@iconscout/react-unicons";
-import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { getPosts, type PostData } from "../../utils/posts";
 
 const NotesIndexPage: NextPage<{
