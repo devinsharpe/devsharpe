@@ -1,6 +1,5 @@
 import {
   UilEnvelope,
-  UilHouseUser,
   UilLaptop,
   UilLinkedin,
   UilNotes,
@@ -10,7 +9,6 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { Menu } from "@headlessui/react";
 import React from "react";
-// import { useRouter } from "next/router";
 
 const Navbar: React.FC<{ handleClick: () => void }> = ({ handleClick }) => {
   // const router = useRouter();
@@ -22,14 +20,6 @@ const Navbar: React.FC<{ handleClick: () => void }> = ({ handleClick }) => {
         </a>
       </Link>
       <div className="flex items-stretch">
-        {/* {router.pathname !== "/" && (
-          <Link href="/" passHref>
-            <a className="flex items-center px-4 mr-2 rounded-lg bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600 hover:bg-zinc-200">
-              <UilHouseUser />
-            </a>
-          </Link>
-        )} */}
-
         <Link href="/uses" passHref>
           <a className="mr-2 flex items-center space-x-2 rounded-lg bg-zinc-200 px-4 hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600">
             <UilLaptop />
