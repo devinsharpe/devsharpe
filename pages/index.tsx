@@ -9,11 +9,11 @@ import {
 } from "@iconscout/react-unicons";
 import { useMemo, useState } from "react";
 
-import { BioImage } from "../constants/bioImages";
+import type { BioImage } from "../constants/bioImages";
 import Image from "next/image";
-import { Project } from "../constants/projects";
-import { Skill } from "../constants/skills";
-import { WorkHistory } from "../constants/workHistory";
+import type { Project } from "../constants/projects";
+import type { Skill } from "../constants/skills";
+import type { WorkHistory } from "../constants/workHistory";
 import constants from "../constants";
 
 const ProjectListItem: React.FC<{ project: Project }> = ({ project }) => {
