@@ -5,7 +5,7 @@ import {
   UilFileDownload,
   UilGithub,
   UilHeart,
-  UilLink
+  UilLink,
 } from "@iconscout/react-unicons";
 import { useMemo, useState } from "react";
 
@@ -18,9 +18,9 @@ import constants from "../constants";
 
 const ProjectListItem: React.FC<{ project: Project }> = ({ project }) => {
   return (
-    <article className="px-6 py-4 border-2 rounded-lg hover:border-emerald-600/50 dark:hover:border-emerald-400/50 bg-zinc-100 dark:bg-zinc-700 dark:border-zinc-600/50 border-zinc-300/50 group">
+    <article className="group rounded-lg border-2 border-zinc-300/50 bg-zinc-100 px-6 py-4 hover:border-emerald-600/50 dark:border-zinc-600/50 dark:bg-zinc-700 dark:hover:border-emerald-400/50">
       <div className="flex items-center justify-between">
-        <h5 className="text-xl font-semibold md:text-2xl group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+        <h5 className="text-xl font-semibold group-hover:text-emerald-600 dark:group-hover:text-emerald-400 md:text-2xl">
           {project.name}
         </h5>
         {project.links && (
@@ -48,10 +48,10 @@ const ProjectListItem: React.FC<{ project: Project }> = ({ project }) => {
       </div>
       <p className="mt-4">{project.description}</p>
 
-      <div className="flex flex-wrap items-center justify-start mt-2">
+      <div className="mt-2 flex flex-wrap items-center justify-start">
         {project.tech.map((tech) => (
           <p
-            className="px-4 py-1 mt-2 mr-2 rounded-full bg-zinc-200/50 dark:bg-zinc-600"
+            className="mt-2 mr-2 rounded-full bg-zinc-200/50 px-4 py-1 dark:bg-zinc-600"
             key={tech}
           >
             {tech}
@@ -66,7 +66,7 @@ const SkillListItem: React.FC<{
   skill: Skill;
 }> = ({ skill }) => {
   return (
-    <li className="flex items-center justify-between gap-2 px-6 py-3 border-2 rounded-lg hover:border-emerald-600/50 dark:hover:border-emerald-400/50 bg-zinc-100 dark:bg-zinc-700 dark:border-zinc-600/50 border-zinc-300/50 group">
+    <li className="group flex items-center justify-between gap-2 rounded-lg border-2 border-zinc-300/50 bg-zinc-100 px-6 py-3 hover:border-emerald-600/50 dark:border-zinc-600/50 dark:bg-zinc-700 dark:hover:border-emerald-400/50">
       <div className="flex items-center space-x-2">
         <Image
           src={skill.image}
@@ -89,12 +89,12 @@ const SkillListItem: React.FC<{
       </div>
 
       <div className="flex items-center space-x-2">
-        <p className="text-xs text-center transition duration-100 opacity-0 text-zinc-600 dark:text-zinc-300 group-hover:opacity-100">
+        <p className="text-center text-xs text-zinc-600 opacity-0 transition duration-100 group-hover:opacity-100 dark:text-zinc-300">
           Yrs Exp
         </p>
         {[...new Array(skill.exp)].map((_, index) => (
           <div
-            className="w-2 h-2 transition-colors duration-150 rounded-full bg-zinc-300 group-hover:bg-emerald-600 dark:group-hover:bg-emerald-400"
+            className="h-2 w-2 rounded-full bg-zinc-300 transition-colors duration-150 group-hover:bg-emerald-600 dark:group-hover:bg-emerald-400"
             key={index}
           >
             <p className="sr-only">{skill.exp} years of experience</p>
@@ -106,10 +106,10 @@ const SkillListItem: React.FC<{
 };
 
 const WorkHistoryArticle: React.FC<{ history: WorkHistory }> = ({
-  history
+  history,
 }) => {
   return (
-    <div className="px-4 py-6 border-2 rounded-lg group bg-zinc-100 dark:bg-zinc-700 border-zinc-300/50 hover:border-emerald-600/50 dark:hover:border-emerald-400/50 dark:border-zinc-600/50">
+    <div className="group rounded-lg border-2 border-zinc-300/50 bg-zinc-100 px-4 py-6 hover:border-emerald-600/50 dark:border-zinc-600/50 dark:bg-zinc-700 dark:hover:border-emerald-400/50">
       <h5 className="text-lg">
         <span>{history.title}</span>&nbsp;
         <span className="group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
@@ -128,7 +128,7 @@ const WorkHistoryArticle: React.FC<{ history: WorkHistory }> = ({
       <p className="m-0 text-sm">
         {history.start} - {history.end}
       </p>
-      <ul className="mt-2 mb-0 space-y-0 list-custom">
+      <ul className="list-custom mt-2 mb-0 space-y-0">
         {history.responsibilities.map((responsibility) => (
           <li className="m-0" key={responsibility}>
             {responsibility}
@@ -153,19 +153,19 @@ const Home: NextPage<{
 
   return (
     <main className="page-container">
-      <div className="max-w-4xl py-32 mx-auto">
-        <h2 className="text-xl font-bold tracking-wide text-center md:text-3xl font-display text-zinc-600 dark:text-zinc-300">
+      <div className="mx-auto max-w-4xl py-32">
+        <h2 className="text-center font-display text-xl font-bold tracking-wide text-zinc-600 dark:text-zinc-300 md:text-3xl">
           Hello!
         </h2>
-        <h3 className="text-3xl font-bold text-center text-black md:text-6xl font-display dark:text-white">
+        <h3 className="text-center font-display text-3xl font-bold text-black dark:text-white md:text-6xl">
           I&apos;m Devin Sharpe &mdash; full stack developer &amp; proud cat dad
           🐱
         </h3>
       </div>
 
       <section>
-        <article className="prose-lg section-body">
-          <h4 className="text-2xl font-bold md:text-4xl font-display">
+        <article className="section-body prose-lg">
+          <h4 className="font-display text-2xl font-bold md:text-4xl">
             Who Am I?
           </h4>
           <p>
@@ -183,19 +183,30 @@ const Home: NextPage<{
             >
               The Washington Post.
             </a>
-            &nbsp;I have been spending a lot of my time lately working on a
-            project called&nbsp;
+            &nbsp;I have been spending a lot of my time lately working on two
+            new applications,&nbsp;
             <a
               href="https://www.birb.social/"
               target="_blank"
               rel="noreferrer"
               className="underline"
             >
-              Birb &mdash; Simple Social;
+              Birb &mdash; Simple Social
             </a>
-            &nbsp;my greater goal is to create a social media app for me and
-            friends to use as a getaway from the &apos;content machine&apos; and
-            alogorithmic culture found elsewhere on the web.
+            &nbsp;and&nbsp;
+            <a
+              href="https://ikigai.devsharpe.io/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              Ikigai
+            </a>
+            ; my greater goal with software development is create applications
+            and experiences that help users connect with something larger than
+            themselves. Whether that&apos;s accomplished by connecting old
+            friends, creating free time, or easing their anxiety about their
+            obligations and life trajectory.
           </p>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {bioImages.map((image) => (
@@ -205,7 +216,7 @@ const Home: NextPage<{
                   alt={image.alt}
                   width={image.width}
                   height={image.height}
-                  className="rounded-lg aspect-square"
+                  className="aspect-square rounded-lg"
                 />
               </div>
             ))}
@@ -224,9 +235,9 @@ const Home: NextPage<{
       </section>
 
       <section>
-        <article className="prose-lg section-body">
+        <article className="section-body prose-lg">
           <div className="flex items-center justify-between">
-            <h4 className="m-0 text-2xl font-bold md:text-4xl font-display">
+            <h4 className="m-0 font-display text-2xl font-bold md:text-4xl">
               Employment History
             </h4>
             <a
@@ -235,7 +246,7 @@ const Home: NextPage<{
               rel="noreferrer"
               download
               aria-label="Download resume"
-              className="flex items-center justify-center p-2 text-center text-white rounded-lg bg-zinc-800 hover:bg-black dark:bg-zinc-700 dark:hover:bg-zinc-600"
+              className="flex items-center justify-center rounded-lg bg-zinc-800 p-2 text-center text-white hover:bg-black dark:bg-zinc-700 dark:hover:bg-zinc-600"
             >
               <UilFileDownload />
             </a>
@@ -249,12 +260,12 @@ const Home: NextPage<{
       <section>
         <div className="section-body">
           <div className="flex items-center justify-between">
-            <h4 className="m-0 text-2xl font-bold md:text-4xl font-display">
+            <h4 className="m-0 font-display text-2xl font-bold md:text-4xl">
               Skills &amp; Technology
             </h4>
             <button
               aria-label="Show More Skills"
-              className="flex items-center justify-center p-2 text-center text-white rounded-lg bg-zinc-800 hover:bg-black dark:bg-zinc-700 dark:hover:bg-zinc-600"
+              className="flex items-center justify-center rounded-lg bg-zinc-800 p-2 text-center text-white hover:bg-black dark:bg-zinc-700 dark:hover:bg-zinc-600"
               onClick={() => setShowSkills(!showSkills)}
             >
               {showSkills ? <UilAngleUp /> : <UilAngleDown />}
@@ -268,7 +279,7 @@ const Home: NextPage<{
           {showSkills && (
             <button
               aria-label="Show More Skills"
-              className="flex items-center justify-center px-6 py-2 mx-auto space-x-2 text-center text-white rounded-lg bg-zinc-800 hover:bg-black dark:bg-zinc-700 dark:hover:bg-zinc-600"
+              className="mx-auto flex items-center justify-center space-x-2 rounded-lg bg-zinc-800 px-6 py-2 text-center text-white hover:bg-black dark:bg-zinc-700 dark:hover:bg-zinc-600"
               onClick={() => setShowSkills(false)}
             >
               <span>Show Less Skills</span>
@@ -280,7 +291,7 @@ const Home: NextPage<{
 
       <section>
         <div className="section-body">
-          <h4 className="m-0 text-2xl font-bold md:text-4xl font-display">
+          <h4 className="m-0 font-display text-2xl font-bold md:text-4xl">
             Projects
           </h4>
           <div className="space-y-2">
