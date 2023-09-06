@@ -1,12 +1,12 @@
 import type { GetStaticProps, NextPage } from "next";
 import {
-  UilAngleDown,
-  UilAngleUp,
-  UilFileDownload,
-  UilGithub,
-  UilHeart,
-  UilLink,
-} from "@iconscout/react-unicons";
+  ChevronDown,
+  ChevronUp,
+  FileDown,
+  Github,
+  Heart,
+  LinkIcon,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 
 import type { BioImage } from "../constants/bioImages";
@@ -33,13 +33,13 @@ const ProjectListItem: React.FC<{ project: Project }> = ({ project }) => {
                 }
                 rel="noreferrer"
               >
-                <UilLink />
+                <LinkIcon />
                 <span className="sr-only">{`${project.name} site link`}</span>
               </a>
             )}
             {project.links.github && (
               <a href={project.links.github} target="_blank" rel="noreferrer">
-                <UilGithub />
+                <Github />
                 <span className="sr-only">{`${project.name} repository link`}</span>
               </a>
             )}
@@ -51,7 +51,7 @@ const ProjectListItem: React.FC<{ project: Project }> = ({ project }) => {
       <div className="mt-2 flex flex-wrap items-center justify-start">
         {project.tech.map((tech) => (
           <p
-            className="mt-2 mr-2 rounded-full bg-zinc-200/50 px-4 py-1 dark:bg-zinc-600"
+            className="mr-2 mt-2 rounded-full bg-zinc-200/50 px-4 py-1 dark:bg-zinc-600"
             key={tech}
           >
             {tech}
@@ -84,7 +84,7 @@ const SkillListItem: React.FC<{
           {skill.name}
         </a>
         {skill.isFavorite && (
-          <UilHeart className="h-5 text-zinc-500 group-hover:text-rose-600" />
+          <Heart className="h-5 text-zinc-500 group-hover:text-rose-600" />
         )}
       </div>
 
@@ -128,7 +128,7 @@ const WorkHistoryArticle: React.FC<{ history: WorkHistory }> = ({
       <p className="m-0 text-sm">
         {history.start} - {history.end}
       </p>
-      <ul className="list-custom mt-2 mb-0 space-y-0">
+      <ul className="list-custom mb-0 mt-2 space-y-0">
         {history.responsibilities.map((responsibility) => (
           <li className="m-0" key={responsibility}>
             {responsibility}
@@ -248,7 +248,7 @@ const Home: NextPage<{
               aria-label="Download resume"
               className="flex items-center justify-center rounded-lg bg-zinc-800 p-2 text-center text-white hover:bg-black dark:bg-zinc-700 dark:hover:bg-zinc-600"
             >
-              <UilFileDownload />
+              <FileDown />
             </a>
           </div>
           {workHistory.map((history) => (
@@ -268,7 +268,7 @@ const Home: NextPage<{
               className="flex items-center justify-center rounded-lg bg-zinc-800 p-2 text-center text-white hover:bg-black dark:bg-zinc-700 dark:hover:bg-zinc-600"
               onClick={() => setShowSkills(!showSkills)}
             >
-              {showSkills ? <UilAngleUp /> : <UilAngleDown />}
+              {showSkills ? <ChevronUp /> : <ChevronDown />}
             </button>
           </div>
           <ul className="space-y-2">
@@ -283,7 +283,7 @@ const Home: NextPage<{
               onClick={() => setShowSkills(false)}
             >
               <span>Show Less Skills</span>
-              <UilAngleUp />
+              <ChevronUp />
             </button>
           )}
         </div>

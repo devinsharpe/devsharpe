@@ -1,11 +1,5 @@
-import {
-  UilEnvelope,
-  UilLaptop,
-  UilLinkedin,
-  UilNotes,
-} from "@iconscout/react-unicons";
+import { Mail, Laptop, Linkedin, StickyNote, ChevronDown } from "lucide-react";
 
-import { ChevronDownIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { Menu } from "@headlessui/react";
 import React from "react";
@@ -22,14 +16,14 @@ const Navbar: React.FC<{ handleClick: () => void }> = ({ handleClick }) => {
       <div className="flex items-stretch">
         <Link href="/uses" passHref>
           <a className="mr-2 flex items-center space-x-2 rounded-lg bg-zinc-200 px-4 hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600">
-            <UilLaptop />
+            <Laptop />
             <span className="sr-only">DevSharpe uses</span>
           </a>
         </Link>
 
         <Link href="/notes" passHref>
           <a className="mr-2 flex items-center space-x-2 rounded-lg bg-zinc-200 px-4 hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600">
-            <UilNotes />
+            <StickyNote />
             <span>Notes</span>
           </a>
         </Link>
@@ -48,7 +42,7 @@ const Navbar: React.FC<{ handleClick: () => void }> = ({ handleClick }) => {
               aria-label="Contact menu toggle"
               className="flex aspect-square h-10 items-center justify-center rounded-r-lg border-l border-white bg-zinc-800 leading-none text-white hover:bg-black dark:bg-white dark:text-zinc-800 dark:hover:bg-zinc-200"
             >
-              <ChevronDownIcon className="h-6 w-6" />
+              <ChevronDown className="h-6 w-6" />
             </Menu.Button>
           </div>
 
@@ -63,7 +57,7 @@ const Navbar: React.FC<{ handleClick: () => void }> = ({ handleClick }) => {
               rel="noreferrer"
               className="flex items-center space-x-2 whitespace-nowrap border-b px-4 py-2 text-zinc-100 hover:text-blue-400 dark:text-zinc-800 dark:hover:text-blue-500"
             >
-              <UilLinkedin />
+              <Linkedin />
               <p>LinkedIn</p>
             </Menu.Item>
             <Menu.Item
@@ -73,7 +67,7 @@ const Navbar: React.FC<{ handleClick: () => void }> = ({ handleClick }) => {
               rel="noreferrer"
               className="flex items-center space-x-2 whitespace-nowrap px-4 py-2 text-zinc-100 hover:text-emerald-400 dark:text-zinc-800 dark:hover:text-emerald-500"
             >
-              <UilEnvelope />
+              <Mail />
               <p>Email</p>
             </Menu.Item>
           </Menu.Items>

@@ -1,11 +1,7 @@
 import "../styles/globals.css";
 import "../styles/speedlify.css";
 
-import {
-  UilFileDownload,
-  UilGithub,
-  UilLinkedin
-} from "@iconscout/react-unicons";
+import { FileDown, Github, Linkedin } from "lucide-react";
 
 import { Analytics } from "@vercel/analytics/react";
 import type { AppProps } from "next/app";
@@ -21,14 +17,14 @@ const speedlifyMap: Record<string, string> = {
   "/": "742c24c0",
   "/notes": "3b4614a3",
   "/notes/caddyfile-local-development": "a4024ef",
-  "/notes/signin-with-apple-with-next-auth": "fa204c92"
+  "/notes/signin-with-apple-with-next-auth": "fa204c92",
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const router = useRouter();
   const [speedlify, setSpeedlify] = useState<JSX.Element | undefined>(
-    undefined
+    undefined,
   );
   useEffect(() => {
     requestAnimationFrame(() =>
@@ -36,8 +32,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <speedlify-score
           speedlify-url="https://speedlify-sandy.vercel.app/"
           hash={speedlifyMap[router.asPath]}
-        />
-      )
+        />,
+      ),
     );
     return () => {
       setSpeedlify(undefined);
@@ -60,9 +56,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
       <Component {...pageProps} />
       <footer className="w-full px-2">
-        <div className="grid max-w-3xl grid-cols-1 gap-2 p-4 mx-auto mb-4 rounded-lg md:grid-cols-2 text-zinc-600 dark:text-zinc-200">
+        <div className="mx-auto mb-4 grid max-w-3xl grid-cols-1 gap-2 rounded-lg p-4 text-zinc-600 dark:text-zinc-200 md:grid-cols-2">
           <div
-            className={`flex items-center justify-center md:justify-start space-x-2 px-6 ${
+            className={`flex items-center justify-center space-x-2 px-6 md:justify-start ${
               !speedlify ? "col-span-2 md:justify-center" : ""
             }`}
           >
@@ -73,7 +69,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               aria-label="Github Link"
               className="hover:text-emerald-600 dark:hover:text-emerald-400"
             >
-              <UilGithub />
+              <Github />
             </a>
             <a
               href="https://www.linkedin.com/in/devin-sharpe-8912b0191/"
@@ -82,7 +78,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               aria-label="LinkedIn Link"
               className="hover:text-emerald-600 dark:hover:text-emerald-400"
             >
-              <UilLinkedin />
+              <Linkedin />
             </a>
             <Link href="/resume - devin sharpe - 20230712.pdf" passHref>
               <a
@@ -92,7 +88,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 aria-label="Download Resume Link"
                 className="hover:text-emerald-600 dark:hover:text-emerald-400"
               >
-                <UilFileDownload />
+                <FileDown />
               </a>
             </Link>
           </div>

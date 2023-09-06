@@ -1,16 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  UilChannel,
-  UilExclamationTriangle,
-  UilMessage,
-  UilSpin,
-  UilTimes
-} from "@iconscout/react-unicons";
-
+import { AlertTriangle, Loader2, MessageCircle, Share2, X } from "lucide-react";
 import React from "react";
 
 const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
-  props
+  props,
 ) => {
   const { isOpen, onClose } = props;
   const nameInputRef = React.useRef(null);
@@ -19,7 +12,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
   const [msgData, setMsgData] = React.useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   const handleSubmit = React.useCallback(async () => {
@@ -28,7 +21,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
       const res = await fetch("/api/send-message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(msgData)
+        body: JSON.stringify(msgData),
       });
       const data = await res.json();
       if (data) {
@@ -44,7 +37,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
   return (
     <Dialog
       as="div"
-      className="fixed inset-0 z-50 px-4 overflow-y-auto text-center"
+      className="fixed inset-0 z-50 overflow-y-auto px-4 text-center"
       initialFocus={nameInputRef}
       open={isOpen}
       onClose={onClose}
@@ -55,18 +48,18 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
         &#8203;
       </span>
 
-      <div className="inline-block w-full max-w-sm p-6 my-8 space-y-4 overflow-hidden text-left align-middle transition-all transform bg-white border-2 shadow-xl border-zinc-300/50 dark:border-zinc-600/50 dark:bg-zinc-800 md:max-w-md rounded-xl">
+      <div className="my-8 inline-block w-full max-w-sm transform space-y-4 overflow-hidden rounded-xl border-2 border-zinc-300/50 bg-white p-6 text-left align-middle shadow-xl transition-all dark:border-zinc-600/50 dark:bg-zinc-800 md:max-w-md">
         <Dialog.Title className="flex items-center space-x-2 text-2xl font-bold md:text-4xl">
-          <UilChannel className="w-8 h-8" />
+          <Share2 className="h-8 w-8" />
           <span>Reach Out</span>
         </Dialog.Title>
 
         <button
           type="button"
-          className="absolute top-0 p-2 rounded-full right-4 bg-zinc-100 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:hover:text-emerald-500 focus:outline-emerald-600 hover:text-emerald-600 hover:bg-zinc-50"
+          className="absolute right-4 top-0 rounded-full bg-zinc-100 p-2 hover:bg-zinc-50 hover:text-emerald-600 focus:outline-emerald-600 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:hover:text-emerald-500"
           onClick={onClose}
         >
-          <UilTimes />
+          <X />
         </button>
 
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
@@ -79,8 +72,8 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-0"
           >
-            <div className="flex items-center px-4 py-2 space-x-4 font-semibold transition-opacity rounded bg-rose-200/25 text-rose-700">
-              <UilExclamationTriangle />
+            <div className="flex items-center space-x-4 rounded bg-rose-200/25 px-4 py-2 font-semibold text-rose-700 transition-opacity">
+              <AlertTriangle />
               <p>Something went wrong!</p>
             </div>
           </Transition>
@@ -88,7 +81,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
             <label htmlFor="name">Name</label>
             <input
               type="text"
-              className="w-full rounded bg-zinc-100 dark:bg-zinc-700 focus:border-emerald-600 focus:ring-emerald-600"
+              className="w-full rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600 dark:bg-zinc-700"
               name="name"
               id="name"
               placeholder="Jane Doe"
@@ -101,7 +94,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
             <label htmlFor="email">Email Address</label>
             <input
               type="text"
-              className="w-full rounded bg-zinc-100 dark:bg-zinc-700 focus:border-emerald-600 focus:ring-emerald-600"
+              className="w-full rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600 dark:bg-zinc-700"
               name="email"
               id="email"
               value={msgData.email}
@@ -114,7 +107,7 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
           <fieldset className="space-y-2">
             <label htmlFor="message">Message</label>
             <textarea
-              className="w-full h-24 rounded bg-zinc-100 dark:bg-zinc-700 focus:border-emerald-600 focus:ring-emerald-600"
+              className="h-24 w-full rounded bg-zinc-100 focus:border-emerald-600 focus:ring-emerald-600 dark:bg-zinc-700"
               name="message"
               id="message"
               value={msgData.message}
@@ -129,20 +122,20 @@ const ContactDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = (
         <div className="flex items-center space-x-2">
           <button
             onClick={onClose}
-            className="flex items-center justify-center px-4 py-2 space-x-2 rounded hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600"
+            className="flex items-center justify-center space-x-2 rounded px-4 py-2 hover:bg-zinc-200 dark:bg-zinc-700 dark:hover:bg-zinc-600"
           >
-            <UilTimes />
+            <X />
             <span>Close</span>
           </button>
           <button
             onClick={handleSubmit}
-            className="flex items-center justify-center w-full p-2 space-x-2 text-white rounded dark:bg-white dark:hover:bg-zinc-200 dark:text-zinc-800 bg-zinc-800 hover:bg-black"
+            className="flex w-full items-center justify-center space-x-2 rounded bg-zinc-800 p-2 text-white hover:bg-black dark:bg-white dark:text-zinc-800 dark:hover:bg-zinc-200"
           >
             <span>Send Message</span>
             {isLoading ? (
-              <UilSpin className="animate animate-spin" />
+              <Loader2 className="animate animate-spin" />
             ) : (
-              <UilMessage />
+              <MessageCircle />
             )}
           </button>
         </div>
