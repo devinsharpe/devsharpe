@@ -10,6 +10,18 @@ export interface WorkHistory {
 const workHistory: WorkHistory[] = [
   {
     title: "Front End Software Engineer",
+    company: "Telrite Holdings, Inc.",
+    link: "https://www.telrite.com",
+    start: "Oct 2023",
+    end: "Present",
+    responsibilities: [
+      "Research and implement new technologies into legacy codebases",
+      "Develop new processes for streamlined collaboration between development, product management, and marketing",
+      "Expanded shared packages and opportunities for consistency across brands"
+    ]
+  },
+  {
+    title: "Front End Software Engineer",
     company: "The Washington Post",
     link: "https://www.washingtonpost.com/",
     start: "April 2022",
