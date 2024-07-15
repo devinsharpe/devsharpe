@@ -15,12 +15,13 @@ import type { Project } from "../constants/projects";
 import type { Skill } from "../constants/skills";
 import type { WorkHistory } from "../constants/workHistory";
 import constants from "../constants";
+import volunteerHistory from "../constants/volunteerHistory";
 
 const ProjectListItem: React.FC<{ project: Project }> = ({ project }) => {
   return (
     <article className="group rounded-lg border-2 border-zinc-300/50 bg-zinc-100 px-6 py-4 hover:border-emerald-600/50 dark:border-zinc-600/50 dark:bg-zinc-700 dark:hover:border-emerald-400/50">
       <div className="flex items-center justify-between">
-        <h5 className="text-xl font-semibold group-hover:text-emerald-600 dark:group-hover:text-emerald-400 md:text-2xl">
+        <h5 className="text-xl font-semibold group-hover:text-emerald-600 md:text-2xl dark:group-hover:text-emerald-400">
           {project.name}
         </h5>
         {project.links && (
@@ -154,10 +155,10 @@ const Home: NextPage<{
   return (
     <main className="page-container">
       <div className="mx-auto max-w-4xl py-32">
-        <h2 className="text-center font-display text-xl font-bold tracking-wide text-zinc-600 dark:text-zinc-300 md:text-3xl">
+        <h2 className="text-center font-display text-xl font-bold tracking-wide text-zinc-600 md:text-3xl dark:text-zinc-300">
           Hello!
         </h2>
-        <h3 className="text-center font-display text-3xl font-bold text-black dark:text-white md:text-6xl">
+        <h3 className="text-center font-display text-3xl font-bold text-black md:text-6xl dark:text-white">
           I&apos;m Devin Sharpe &mdash; full stack developer &amp; proud cat dad
           🐱
         </h3>
@@ -172,7 +173,7 @@ const Home: NextPage<{
             Hey! Welcome to devsharpe.io. I&apos;m Devin Sharpe, a passionate
             full-stack web developer from Atlanta, GA. I&apos;m not afraid of
             new codebases, making architecture changes, or approaching
-            interesting UX challenges. I have dedicated over 4 years of my life
+            interesting UX challenges. I have dedicated over 5 years of my life
             to software development, and I recently spent time learning new
             technologies and building new things at&nbsp;
             <a
@@ -181,32 +182,34 @@ const Home: NextPage<{
               rel="noreferrer"
               className="underline"
             >
-              The Washington Post.
-            </a>
-            &nbsp;I have been spending a lot of my time lately working on two
-            new applications,&nbsp;
-            <a
-              href="https://www.birb.social/"
-              target="_blank"
-              rel="noreferrer"
-              className="underline"
-            >
-              Birb &mdash; Simple Social
+              The Washington Post
             </a>
             &nbsp;and&nbsp;
             <a
-              href="https://ikigai.devsharpe.io/"
+              href="https://www.telrite.com/"
               target="_blank"
               rel="noreferrer"
               className="underline"
             >
-              Ikigai
+              Telrite Holdings.
             </a>
-            ; my greater goal with software development is create applications
-            and experiences that help users connect with something larger than
-            themselves. Whether that&apos;s accomplished by connecting old
-            friends, creating free time, or easing their anxiety about their
-            obligations and life trajectory.
+          </p>
+          <p>
+            I have been spending a lot of my time lately working on a new
+            application,&nbsp;
+            <a
+              href="https://euphoria.devsharpe.io/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline"
+            >
+              Euphoria.
+            </a>
+            &nbsp;My greater goal with software development is to create
+            applications and experiences that help users connect with something
+            larger than themselves. Whether that&apos;s accomplished by
+            connecting old friends, creating free time, or easing their anxiety
+            about their obligations and life trajectory.
           </p>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {bioImages.map((image) => (
@@ -241,7 +244,7 @@ const Home: NextPage<{
               Employment History
             </h4>
             <a
-              href="/resume - devin sharpe - 20240210.pdf"
+              href="/resume-devin_sharpe-20240715.pdf"
               target="_blank"
               rel="noreferrer"
               download
@@ -252,6 +255,19 @@ const Home: NextPage<{
             </a>
           </div>
           {workHistory.map((history) => (
+            <WorkHistoryArticle history={history} key={history.company} />
+          ))}
+        </article>
+      </section>
+
+      <section>
+        <article className="section-body prose-lg">
+          <div className="flex items-center justify-between">
+            <h4 className="m-0 font-display text-2xl font-bold md:text-4xl">
+              Volunteer History
+            </h4>
+          </div>
+          {volunteerHistory.map((history) => (
             <WorkHistoryArticle history={history} key={history.company} />
           ))}
         </article>
@@ -292,12 +308,29 @@ const Home: NextPage<{
       <section>
         <div className="section-body">
           <h4 className="m-0 font-display text-2xl font-bold md:text-4xl">
-            Projects
+            Active Projects
           </h4>
           <div className="space-y-2">
-            {projects.map((project) => (
-              <ProjectListItem project={project} key={project.name} />
-            ))}
+            {projects
+              .filter((project) => project.isActive)
+              .map((project) => (
+                <ProjectListItem project={project} key={project.name} />
+              ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="section-body">
+          <h4 className="m-0 font-display text-2xl font-bold md:text-4xl">
+            Retired Projects
+          </h4>
+          <div className="space-y-2">
+            {projects
+              .filter((project) => !project.isActive)
+              .map((project) => (
+                <ProjectListItem project={project} key={project.name} />
+              ))}
           </div>
         </div>
       </section>
