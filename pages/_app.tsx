@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
       <Component {...pageProps} />
       <footer className="w-full px-2">
-        <div className="mx-auto mb-4 grid max-w-3xl grid-cols-1 gap-2 rounded-lg p-4 text-zinc-600 dark:text-zinc-200 md:grid-cols-2">
+        <div className="mx-auto mb-4 grid max-w-3xl grid-cols-1 gap-2 rounded-lg p-4 text-zinc-600 md:grid-cols-2 dark:text-zinc-200">
           <div
             className={`flex items-center justify-center space-x-2 px-6 md:justify-start ${
               !speedlify ? "col-span-2 md:justify-center" : ""
@@ -80,7 +80,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             >
               <Linkedin />
             </a>
-            <Link href="/resume - devin sharpe - 20230712.pdf" passHref>
+            <Link href="/resume-devin_sharpe-20240715.pdf" passHref>
               <a
                 target="_blank"
                 rel="noreferrer"
