@@ -1,0 +1,51 @@
+{
+  "name": "devsharpe-start",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "start": "node .output/server/index.mjs",
+    "gen-migration": "npx drizzle-kit generate",
+    "migrate": "npx drizzle-kit migrate",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.27.20",
+    "@icons-pack/react-simple-icons": "^13.15.1",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-devtools": "^0.10.12",
+    "@tanstack/react-form-devtools": "^0.2.34",
+    "@tanstack/react-form-start": "^1.33.5",
+    "@tanstack/react-router": "^1.170.38",
+    "@tanstack/react-router-devtools": "^1.167.2",
+    "@tanstack/react-start": "^1.168.57",
+    "better-auth": "^1.7.6",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^18.0.4",
+    "drizzle-orm": "^1.0.0-rc.4",
+    "lucide-react": "^1.47.0",
+    "pg": "^8.23.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "slugify": "^1.6.9",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.3",
+    "uuid": "^14.0.2",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "drizzle-kit": "^1.0.0-rc.4",
+    "nitro": "^3.0.260903-beta",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}
