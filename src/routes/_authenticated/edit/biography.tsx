@@ -3,7 +3,7 @@ import { BreadcrumbItem, BreadcrumbNav } from "~/components/_ui/breadcrumb-nav";
 import Button from "~/components/_ui/button";
 import Main from "~/components/_ui/main";
 
-export const Route = createFileRoute("/_authenticated/dashboard/biography")({
+export const Route = createFileRoute("/_authenticated/edit/biography")({
   component: RouteComponent,
 });
 

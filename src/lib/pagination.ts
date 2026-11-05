@@ -1,3 +1,5 @@
+import * as z from "zod";
+
 export interface Pagination {
   page: number;
   size: number;
@@ -7,7 +9,7 @@ export type PaginationArg = Partial<Pagination> | undefined;
 export const DEFAULT_PAGINATION: Pagination = {
   page: 1,
   size: 16,
-};
+} as const;
 
 export function injectPaginationDefaults(pagination: PaginationArg) {
   if (pagination) {
@@ -32,3 +34,10 @@ export function buildPaginationQueryAugments(p: PaginationArg) {
     offset: 0,
   };
 }
+
+export const paginationSchema = z
+  .object({
+    page: z.number().positive().default(DEFAULT_PAGINATION.page),
+    limit: z.number().positive().default(DEFAULT_PAGINATION.size),
+  })
+  .optional();

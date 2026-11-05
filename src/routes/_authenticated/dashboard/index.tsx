@@ -11,6 +11,7 @@ import {
   RssIcon,
   UserSquareIcon,
 } from "lucide-react";
+import Divider from "~/components/_ui/divider";
 import Link from "~/components/_ui/link";
 import Main from "~/components/_ui/main";
 
@@ -21,12 +22,12 @@ export const Route = createFileRoute("/_authenticated/dashboard/")({
 function RouteComponent() {
   return (
     <Main>
-      <nav className="flex flex-wrap gap-2 w-full">
-        <Link to="/dashboard/biography">
+      <nav className="flex flex-wrap gap-2 w-full -mx-2">
+        <Link to="/edit/biography">
           <UserSquareIcon strokeWidth={1.5} size={16} />
           <span>Edit Biography</span>
         </Link>
-        <Link to="/dashboard/gear">
+        <Link to="/edit/gear">
           <ComputerIcon strokeWidth={1.5} size={16} />
           <span>Edit Gear</span>
         </Link>
@@ -61,6 +62,7 @@ function RouteComponent() {
           <span>View All Comments</span>
         </Link>
       </section>
+      <Divider />
       <section className="flex flex-col gap-4">
         <h2 className="opacity-80 text-2xl font-semibold hover:underline">
           <TanstackLink to="/dashboard/projects">Projects</TanstackLink>
@@ -72,6 +74,7 @@ function RouteComponent() {
           <span>View All Projects</span>
         </Link>
       </section>
+      <Divider />
       <section className="flex flex-col gap-4">
         <h2 className="opacity-80 text-2xl font-semibold hover:underline">
           <TanstackLink to="/dashboard/collections">

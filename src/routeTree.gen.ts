@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AiRouteImport } from './routes/ai'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EmploymentRouteImport } from './routes/employment'
+import { Route as LinksRouteImport } from './routes/links'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PhotographyRouteImport } from './routes/photography'
 import { Route as UsesRouteImport } from './routes/uses'
@@ -23,8 +24,8 @@ import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
-import { Route as AuthenticatedDashboardBiographyRouteImport } from './routes/_authenticated/dashboard/biography'
-import { Route as AuthenticatedDashboardGearRouteImport } from './routes/_authenticated/dashboard/gear'
+import { Route as AuthenticatedEditBiographyRouteImport } from './routes/_authenticated/edit/biography'
+import { Route as AuthenticatedEditGearRouteImport } from './routes/_authenticated/edit/gear'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AuthenticatedDashboardCollectionsIndexRouteImport } from './routes/_authenticated/dashboard/collections/index'
 import { Route as AuthenticatedDashboardCollectionsPhotosRouteImport } from './routes/_authenticated/dashboard/collections/photos'
@@ -56,6 +57,11 @@ const ContactRoute = ContactRouteImport.update({
 const EmploymentRoute = EmploymentRouteImport.update({
   id: '/employment',
   path: '/employment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinksRoute = LinksRouteImport.update({
+  id: '/links',
+  path: '/links',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -104,18 +110,17 @@ const AuthenticatedDashboardIndexRoute =
     path: '/dashboard/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
-const AuthenticatedDashboardBiographyRoute =
-  AuthenticatedDashboardBiographyRouteImport.update({
-    id: '/dashboard/biography',
-    path: '/dashboard/biography',
+const AuthenticatedEditBiographyRoute =
+  AuthenticatedEditBiographyRouteImport.update({
+    id: '/edit/biography',
+    path: '/edit/biography',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
-const AuthenticatedDashboardGearRoute =
-  AuthenticatedDashboardGearRouteImport.update({
-    id: '/dashboard/gear',
-    path: '/dashboard/gear',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
+const AuthenticatedEditGearRoute = AuthenticatedEditGearRouteImport.update({
+  id: '/edit/gear',
+  path: '/edit/gear',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -169,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/ai': typeof AiRoute
   '/contact': typeof ContactRoute
   '/employment': typeof EmploymentRoute
+  '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/photography': typeof PhotographyRoute
   '/uses': typeof UsesRoute
@@ -177,8 +183,8 @@ export interface FileRoutesByFullPath {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/posts/': typeof PostsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
-  '/dashboard/biography': typeof AuthenticatedDashboardBiographyRoute
-  '/dashboard/gear': typeof AuthenticatedDashboardGearRoute
+  '/edit/biography': typeof AuthenticatedEditBiographyRoute
+  '/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
@@ -194,6 +200,7 @@ export interface FileRoutesByTo {
   '/ai': typeof AiRoute
   '/contact': typeof ContactRoute
   '/employment': typeof EmploymentRoute
+  '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/photography': typeof PhotographyRoute
   '/uses': typeof UsesRoute
@@ -202,8 +209,8 @@ export interface FileRoutesByTo {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/posts': typeof PostsIndexRoute
   '/projects': typeof ProjectsIndexRoute
-  '/dashboard/biography': typeof AuthenticatedDashboardBiographyRoute
-  '/dashboard/gear': typeof AuthenticatedDashboardGearRoute
+  '/edit/biography': typeof AuthenticatedEditBiographyRoute
+  '/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
@@ -221,6 +228,7 @@ export interface FileRoutesById {
   '/ai': typeof AiRoute
   '/contact': typeof ContactRoute
   '/employment': typeof EmploymentRoute
+  '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/photography': typeof PhotographyRoute
   '/uses': typeof UsesRoute
@@ -229,8 +237,8 @@ export interface FileRoutesById {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/posts/': typeof PostsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
-  '/_authenticated/dashboard/biography': typeof AuthenticatedDashboardBiographyRoute
-  '/_authenticated/dashboard/gear': typeof AuthenticatedDashboardGearRoute
+  '/_authenticated/edit/biography': typeof AuthenticatedEditBiographyRoute
+  '/_authenticated/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
@@ -248,6 +256,7 @@ export interface FileRouteTypes {
     | '/ai'
     | '/contact'
     | '/employment'
+    | '/links'
     | '/login'
     | '/photography'
     | '/uses'
@@ -256,8 +265,8 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/posts/'
     | '/projects/'
-    | '/dashboard/biography'
-    | '/dashboard/gear'
+    | '/edit/biography'
+    | '/edit/gear'
     | '/api/auth/$'
     | '/dashboard/'
     | '/dashboard/collections/photos'
@@ -273,6 +282,7 @@ export interface FileRouteTypes {
     | '/ai'
     | '/contact'
     | '/employment'
+    | '/links'
     | '/login'
     | '/photography'
     | '/uses'
@@ -281,8 +291,8 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/posts'
     | '/projects'
-    | '/dashboard/biography'
-    | '/dashboard/gear'
+    | '/edit/biography'
+    | '/edit/gear'
     | '/api/auth/$'
     | '/dashboard'
     | '/dashboard/collections/photos'
@@ -299,6 +309,7 @@ export interface FileRouteTypes {
     | '/ai'
     | '/contact'
     | '/employment'
+    | '/links'
     | '/login'
     | '/photography'
     | '/uses'
@@ -307,8 +318,8 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/posts/'
     | '/projects/'
-    | '/_authenticated/dashboard/biography'
-    | '/_authenticated/dashboard/gear'
+    | '/_authenticated/edit/biography'
+    | '/_authenticated/edit/gear'
     | '/api/auth/$'
     | '/_authenticated/dashboard/'
     | '/_authenticated/dashboard/collections/photos'
@@ -326,6 +337,7 @@ export interface RootRouteChildren {
   AiRoute: typeof AiRoute
   ContactRoute: typeof ContactRoute
   EmploymentRoute: typeof EmploymentRoute
+  LinksRoute: typeof LinksRoute
   LoginRoute: typeof LoginRoute
   PhotographyRoute: typeof PhotographyRoute
   UsesRoute: typeof UsesRoute
@@ -372,6 +384,13 @@ declare module '@tanstack/react-router' {
       path: '/employment'
       fullPath: '/employment'
       preLoaderRoute: typeof EmploymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/links': {
+      id: '/links'
+      path: '/links'
+      fullPath: '/links'
+      preLoaderRoute: typeof LinksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -437,18 +456,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/dashboard/biography': {
-      id: '/_authenticated/dashboard/biography'
-      path: '/dashboard/biography'
-      fullPath: '/dashboard/biography'
-      preLoaderRoute: typeof AuthenticatedDashboardBiographyRouteImport
+    '/_authenticated/edit/biography': {
+      id: '/_authenticated/edit/biography'
+      path: '/edit/biography'
+      fullPath: '/edit/biography'
+      preLoaderRoute: typeof AuthenticatedEditBiographyRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/dashboard/gear': {
-      id: '/_authenticated/dashboard/gear'
-      path: '/dashboard/gear'
-      fullPath: '/dashboard/gear'
-      preLoaderRoute: typeof AuthenticatedDashboardGearRouteImport
+    '/_authenticated/edit/gear': {
+      id: '/_authenticated/edit/gear'
+      path: '/edit/gear'
+      fullPath: '/edit/gear'
+      preLoaderRoute: typeof AuthenticatedEditGearRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/api/auth/$': {
@@ -511,8 +530,8 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedDashboardBiographyRoute: typeof AuthenticatedDashboardBiographyRoute
-  AuthenticatedDashboardGearRoute: typeof AuthenticatedDashboardGearRoute
+  AuthenticatedEditBiographyRoute: typeof AuthenticatedEditBiographyRoute
+  AuthenticatedEditGearRoute: typeof AuthenticatedEditGearRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedDashboardCollectionsPhotosRoute: typeof AuthenticatedDashboardCollectionsPhotosRoute
   AuthenticatedDashboardCollectionsZinesRoute: typeof AuthenticatedDashboardCollectionsZinesRoute
@@ -524,8 +543,8 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedDashboardBiographyRoute: AuthenticatedDashboardBiographyRoute,
-  AuthenticatedDashboardGearRoute: AuthenticatedDashboardGearRoute,
+  AuthenticatedEditBiographyRoute: AuthenticatedEditBiographyRoute,
+  AuthenticatedEditGearRoute: AuthenticatedEditGearRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
   AuthenticatedDashboardCollectionsPhotosRoute:
     AuthenticatedDashboardCollectionsPhotosRoute,
@@ -552,6 +571,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiRoute: AiRoute,
   ContactRoute: ContactRoute,
   EmploymentRoute: EmploymentRoute,
+  LinksRoute: LinksRoute,
   LoginRoute: LoginRoute,
   PhotographyRoute: PhotographyRoute,
   UsesRoute: UsesRoute,

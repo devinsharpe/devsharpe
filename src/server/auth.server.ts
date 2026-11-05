@@ -4,8 +4,6 @@ import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { db } from "~/server/database/index.server";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 import * as schema from "~/server/database/schema.server";
-import { createMiddleware } from "@tanstack/react-start";
-import { getRequestHeaders } from "@tanstack/react-start/server";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -29,20 +27,3 @@ export const auth = betterAuth({
     }),
   ],
 });
-
-export const auth_fn_middleware = createMiddleware({ type: "function" }).server(
-  async ({ next }) => {
-    const headers = getRequestHeaders();
-    const session = await auth.api.getSession({ headers });
-
-    if (session) {
-      console.log(`${new Date().toLocaleString()} ✅ Found session`);
-    } else {
-      console.log(`${new Date().toLocaleString()} ❎ No session found`);
-    }
-
-    return next({
-      context: { ...session },
-    });
-  },
-);

@@ -59,7 +59,7 @@ export default function Button({
         <LoaderIcon
           size={20}
           strokeWidth={1.5}
-          className="animate-spin absolute inset-x-0 mx-auto text-white"
+          className="animate-spin absolute inset-x-0 mx-auto text-black dark:text-white"
         />
       )}
     </button>

@@ -110,7 +110,7 @@ function Root({
     open: openValue,
     onOpenChange: handleOpenChange,
     placement: "bottom-start",
-    middleware: [offset(8), shift()],
+    middleware: [offset(0), shift()],
   });
 
   const clickInteraction = useClick(floatingContext);

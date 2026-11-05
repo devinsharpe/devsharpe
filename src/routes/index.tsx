@@ -1,8 +1,8 @@
 import { createFileRoute, Link as TanstackLink } from "@tanstack/react-router";
-import { listPosts } from "~/functions/posts.functions";
+import { listPosts } from "~/server/functions/posts.functions";
 import { PostCard } from "~/components/post-card";
 import Main from "~/components/_ui/main";
-import { listPositions } from "~/functions/about.functions";
+import { listPositions } from "~/server/functions/about.functions";
 import PositionListItem from "~/components/position-list-item";
 import { useMemo } from "react";
 import Link from "~/components/_ui/link";

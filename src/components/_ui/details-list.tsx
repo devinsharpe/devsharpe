@@ -67,7 +67,9 @@ function Details({ children }: DetailsProps) {
       }}
     >
       <dl
-        className={cn("not-prose group/details border-y")}
+        className={cn(
+          "not-prose group/details border-y border-neutral-400 dark:border-neutral-600",
+        )}
         data-focused-item={focusedItem ?? ""}
       >
         {children}
@@ -113,7 +115,7 @@ function DetailsItem({ id, className, children, ...props }: DetailsItemProps) {
     <DetailsItemContext.Provider value={{ id, isOpen }}>
       <div
         className={cn(
-          "border-x-2 border-y transition-[margin] duration-200 ease-in",
+          "border-x-2 border-y border-neutral-400 dark:border-neutral-600 transition-[margin] duration-200 ease-in",
           className,
         )}
         {...props}
@@ -136,7 +138,7 @@ function DetailsTrigger({
     <dt
       id={`${id}-trigger`}
       className={cn(
-        "flex items-center justify-between p-2 font-semibold",
+        "flex items-center justify-between p-2 font-medium",
         className,
       )}
       {...props}

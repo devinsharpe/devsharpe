@@ -11,18 +11,21 @@ import { useState } from "react";
 import { BreadcrumbItem, BreadcrumbNav } from "~/components/_ui/breadcrumb-nav";
 import Button from "~/components/_ui/button";
 import Dialog from "~/components/_ui/dialog";
+import Divider from "~/components/_ui/divider";
 import Main from "~/components/_ui/main";
 import { HardwareFormItem } from "~/components/form-items/hardware-form-item";
 import { SoftwareFormItem } from "~/components/form-items/software-form-item";
 import { HardwareItemForm } from "~/components/forms/hardware-item-form";
-import { listDailySoftware, listHardware } from "~/functions/gear.functions";
-import { softwareItem } from "~/server/database/schema.server";
+import {
+  listDailySoftware,
+  listHardwareItems,
+} from "~/server/functions/gear.functions";
 
-export const Route = createFileRoute("/_authenticated/dashboard/gear")({
+export const Route = createFileRoute("/_authenticated/edit/gear")({
   component: RouteComponent,
   loader: async () => {
     return {
-      hardware_items: await listHardware(),
+      hardware_items: await listHardwareItems(),
       software_items: await listDailySoftware(),
     };
   },
@@ -55,6 +58,7 @@ function RouteComponent() {
           <p className="italic opacity-80">No hardware items to show</p>
         )}
       </section>
+      <Divider />
       <section className="flex flex-col gap-4">
         <div className="flex gap-8">
           <h2 className="text-2xl font-semibold">Software</h2>
@@ -75,6 +79,7 @@ function RouteComponent() {
           </>
         )}
       </section>
+      <Divider />
       <section className="flex flex-col gap-4">
         <div className="flex gap-8">
           <h2 className="text-2xl font-semibold">Cameras</h2>

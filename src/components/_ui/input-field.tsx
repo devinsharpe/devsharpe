@@ -1,18 +1,14 @@
 import { AnyFieldApi } from "@tanstack/react-form-start";
 import { type ComponentProps } from "react";
+import { useFormFieldId } from "~/hooks/useFormFieldId";
 import { cn } from "~/lib/utils";
-
-function useFormFieldId(formId: string, field: AnyFieldApi) {
-  return `${formId}__${field.name}`;
-}
 
 interface InputFieldProps extends ComponentProps<"input"> {
   field: AnyFieldApi;
-  formId: string;
 }
 
-function InputField({ field, formId, className, ...props }: InputFieldProps) {
-  const id = useFormFieldId(formId, field);
+function InputField({ field, className, ...props }: InputFieldProps) {
+  const id = useFormFieldId(field);
 
   return (
     <input

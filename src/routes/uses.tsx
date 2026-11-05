@@ -9,8 +9,8 @@ import Main from "~/components/_ui/main";
 import {
   listCameras,
   listDailySoftware,
-  listHardware,
-} from "~/functions/gear.functions";
+  listHardwareItems,
+} from "~/server/functions/gear.functions";
 import SoftwareListItem from "~/components/software-list-item";
 import Link from "~/components/_ui/link";
 import { ImageIcon } from "lucide-react";
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/uses")({
   loader: async () => {
     return {
       cameras: await listCameras(),
-      hardware: await listHardware(),
+      hardware: await listHardwareItems(),
       software: await listDailySoftware(),
     };
   },

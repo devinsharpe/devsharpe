@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { AppDatabase } from "../database/index.server";
 import {
   camera,
@@ -17,7 +18,7 @@ export class GearRepository {
     this.db = db;
   }
 
-  private listCameras(p: PaginationArg) {
+  public listCameras(p: PaginationArg) {
     const pagination = buildPaginationQueryAugments(p);
     return this.db
       .select()
@@ -26,7 +27,7 @@ export class GearRepository {
       .offset(pagination.offset);
   }
 
-  private listHardwareItems(p: PaginationArg) {
+  public listHardwareItems(p: PaginationArg) {
     const pagination = buildPaginationQueryAugments(p);
 
     return this.db
@@ -36,7 +37,7 @@ export class GearRepository {
       .offset(pagination.offset);
   }
 
-  private listSoftwareItems(p: PaginationArg) {
+  public listSoftwareItems(p: PaginationArg) {
     const pagination = buildPaginationQueryAugments(p);
 
     return this.db
@@ -46,20 +47,33 @@ export class GearRepository {
       .offset(pagination.offset);
   }
 
-  public list(type: GearType, pagination?: PaginationArg) {
-    switch (type) {
-      case "hardware-item":
-        return this.listHardwareItems(pagination);
-      case "software-item":
-        return this.listSoftwareItems(pagination);
-      case "camera":
-        return this.listCameras(pagination);
-      default:
-        throw new Error("Invalid gear type");
-    }
+  public async createHardwareItem(item: NewHardwareItem) {
+    const new_item = await this.db
+      .insert(hardwareItem)
+      .values(item)
+      .returning();
+    return new_item[0];
   }
 
-  public validateNewHardwareItem(item: unknown): item is NewHardwareItem {
-    return hardwareItemInsertSchema.validate(item);
+  public async getCamera(id: string) {
+    const cameras = await this.db
+      .select()
+      .from(camera)
+      .where(eq(camera.id, id))
+      .limit(1);
+    return cameras.length ? cameras[0] : null;
+  }
+
+  public async getHardwareItem(id: string) {
+    const hardware_items = await this.db
+      .select()
+      .from(hardwareItem)
+      .where(eq(hardwareItem.id, id))
+      .limit(1);
+    return hardware_items.length ? hardware_items[0] : null;
+  }
+
+  public validateNewHardwareItem(item: unknown) {
+    return hardwareItemInsertSchema.safeParse(item);
   }
 }

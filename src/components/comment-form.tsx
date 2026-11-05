@@ -1,38 +1,40 @@
-import { useState } from 'react'
-import { z } from 'zod'
-import { useRouter } from '@tanstack/react-router'
-import { useServerFn } from '@tanstack/react-start'
-import { addComment } from '~/functions/posts.functions'
-import { commentInputSchema } from '~/lib/posts'
+import { useState } from "react";
+import { z } from "zod";
+import { useRouter } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { addComment } from "~/server/functions/posts.functions";
+import { commentInputSchema } from "~/lib/posts";
 
 export function CommentForm({ postId }: { postId: string }) {
-  const router = useRouter()
-  const add = useServerFn(addComment)
-  const [errors, setErrors] = useState<Record<string, Array<string> | undefined>>({})
-  const [pending, setPending] = useState(false)
+  const router = useRouter();
+  const add = useServerFn(addComment);
+  const [errors, setErrors] = useState<
+    Record<string, Array<string> | undefined>
+  >({});
+  const [pending, setPending] = useState(false);
 
   return (
     <form
       className="stack"
       onSubmit={async (e) => {
-        e.preventDefault()
-        const form = e.currentTarget
-        const values = Object.fromEntries(new FormData(form))
+        e.preventDefault();
+        const form = e.currentTarget;
+        const values = Object.fromEntries(new FormData(form));
         // Same schema the server enforces, run early for instant feedback.
-        const parsed = commentInputSchema.safeParse({ ...values, postId })
+        const parsed = commentInputSchema.safeParse({ ...values, postId });
         if (!parsed.success) {
-          setErrors(z.flattenError(parsed.error).fieldErrors)
-          return
+          setErrors(z.flattenError(parsed.error).fieldErrors);
+          return;
         }
-        setErrors({})
-        setPending(true)
+        setErrors({});
+        setPending(true);
         try {
-          await add({ data: parsed.data })
-          form.reset()
+          await add({ data: parsed.data });
+          form.reset();
           // Re-run the loader so the list reflects the persisted write.
-          await router.invalidate({ sync: true })
+          await router.invalidate({ sync: true });
         } finally {
-          setPending(false)
+          setPending(false);
         }
       }}
     >
@@ -47,8 +49,8 @@ export function CommentForm({ postId }: { postId: string }) {
         {errors.body && <span className="error">{errors.body[0]}</span>}
       </label>
       <button type="submit" disabled={pending}>
-        {pending ? 'Posting…' : 'Post comment'}
+        {pending ? "Posting…" : "Post comment"}
       </button>
     </form>
-  )
+  );
 }

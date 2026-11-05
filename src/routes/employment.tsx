@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import Dropdown from "~/components/_ui/dropdown";
 import Main from "~/components/_ui/main";
 import PositionListItem from "~/components/position-list-item";
-import { listPositions } from "~/functions/about.functions";
+import { listPositions } from "~/server/functions/about.functions";
 
 export const Route = createFileRoute("/employment")({
   component: RouteComponent,

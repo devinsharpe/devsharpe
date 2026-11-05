@@ -13,8 +13,8 @@ import appCss from "~/styles/styles.css?url";
 import Header from "~/components/_ui/header";
 import { ToastProvider } from "~/components/_ui/toast";
 import Footer from "~/components/_ui/footer";
-import { getSiteTitle } from "~/functions/site.functions";
-import { getThemePreference } from "~/functions/preferences.functions";
+import { getSiteTitle } from "~/server/functions/site.functions";
+import { getThemePreference } from "~/server/functions/preferences.functions";
 
 export const Route = createRootRoute({
   // The site name comes from server env, so it goes through a server function.
@@ -51,15 +51,12 @@ function RootDocument({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="root flex min-h-dvh flex-col bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
+      <body className="root flex min-h-dvh flex-col bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
         <Header title={title} subtitle={subtitle} />
         <ToastProvider placement="top">{children}</ToastProvider>
         <Footer />
         <TanStackRouterDevtools />
-        <TanStackDevtools
-          config={{ hideUntilHover: true }}
-          plugins={[formDevtoolsPlugin()]}
-        />
+        <TanStackDevtools plugins={[formDevtoolsPlugin()]} />
         <Scripts />
       </body>
     </html>

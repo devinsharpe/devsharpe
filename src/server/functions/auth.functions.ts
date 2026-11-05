@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
-import { auth, auth_fn_middleware } from "~/server/auth.server";
+import { auth } from "~/server/auth.server";
+import { auth_fn_middleware } from "~/server/middleware/auth.middleware";
 
 export const getSession = createServerFn({ method: "GET" }).handler(
   async () => {

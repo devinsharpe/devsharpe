@@ -26,7 +26,7 @@ export default function Header({
   return (
     <header
       className={cn(
-        "w-screen group sticky top-0 backdrop-blur-xl z-10",
+        "w-full group sticky top-0 backdrop-blur-xl z-10",
         className,
       )}
       {...props}

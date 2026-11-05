@@ -11,10 +11,7 @@ export const Route = createFileRoute("/login")({
 function RouteComponent() {
   return (
     <Main>
-      <Button
-        className="mx-auto"
-        onClick={() => auth_client.signIn.social({ provider: "dqc" })}
-      >
+      <Button onClick={() => auth_client.signIn.social({ provider: "dqc" })}>
         <LogInIcon strokeWidth={1.5} size={16} />
         <span>Sign In with DQC</span>
       </Button>
