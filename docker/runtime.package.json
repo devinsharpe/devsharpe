@@ -1,0 +1,9 @@
+{
+  "name": "devsharpe",
+  "private": true,
+  "description": "The production image's package.json (see the Dockerfile), so `npm run seed` and `npm run migrate` work in the container. The image has no node_modules: each script runs a self-contained build from .output/tools.",
+  "scripts": {
+    "migrate": "node .output/tools/migrate.mjs",
+    "seed": "node .output/tools/seed.mjs"
+  }
+}

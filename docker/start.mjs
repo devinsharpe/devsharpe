@@ -1,8 +1,8 @@
-// Starts the production container (see the Dockerfile). The runtime image has
-// no shell, so this runs in the one Node process: it applies pending
-// migrations, optionally prepares the bucket, then starts the server. A step
-// that fails rejects here, which exits with an error before the server ever
-// listens, so it never runs against an old schema.
+// Starts the production container (see the Dockerfile), all in one Node
+// process, which stays PID 1 and gets the stop signals itself: it applies
+// pending migrations, optionally prepares the bucket, then starts the server.
+// A step that fails rejects here, which exits with an error before the server
+// ever listens, so it never runs against an old schema.
 
 // Resolves once the migrations have finished (or rejects if they fail).
 await import("../.output/tools/migrate.mjs");
