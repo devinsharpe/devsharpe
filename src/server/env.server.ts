@@ -41,5 +41,13 @@ export function getServerEnv() {
       // needs IMGPROXY_USE_S3=true on the imgproxy side.
       sourcePrefix: process.env.IMGPROXY_SOURCE_PREFIX ?? '',
     },
+    // Cloudflare Turnstile, in front of the contact form. The site key is
+    // public: the server hands it to the contact page at request time (it's
+    // never built into the client bundle, despite the VITE_ prefix), so both
+    // keys are set wherever the server runs.
+    turnstile: {
+      siteKey: process.env.VITE_CLOUDFLARE_SITEKEY ?? '',
+      secretKey: process.env.CLOUDFLARE_SECRET_KEY ?? '',
+    },
   }
 }
