@@ -16,6 +16,9 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EmploymentRouteImport } from './routes/employment'
 import { Route as LinksRouteImport } from './routes/links'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PhotographyRouteRouteImport } from './routes/photography/route'
+import { Route as PostsRouteRouteImport } from './routes/posts/route'
+import { Route as ProjectsRouteRouteImport } from './routes/projects/route'
 import { Route as ResumeDotmdRouteImport } from './routes/resume[.]md'
 import { Route as ResumeDotpdfRouteImport } from './routes/resume[.]pdf'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
@@ -23,6 +26,7 @@ import { Route as UsesRouteImport } from './routes/uses'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiLinkClickRouteImport } from './routes/api/link-click'
 import { Route as PhotographyIndexRouteImport } from './routes/photography/index'
+import { Route as PhotographySlugRouteRouteImport } from './routes/photography/$slug/route'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
@@ -81,6 +85,21 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PhotographyRouteRoute = PhotographyRouteRouteImport.update({
+  id: '/photography',
+  path: '/photography',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PostsRouteRoute = PostsRouteRouteImport.update({
+  id: '/posts',
+  path: '/posts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRouteRoute = ProjectsRouteRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResumeDotmdRoute = ResumeDotmdRouteImport.update({
   id: '/resume.md',
   path: '/resume.md',
@@ -112,29 +131,34 @@ const ApiLinkClickRoute = ApiLinkClickRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const PhotographyIndexRoute = PhotographyIndexRouteImport.update({
-  id: '/photography/',
-  path: '/photography/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => PhotographyRouteRoute,
+} as any)
+const PhotographySlugRouteRoute = PhotographySlugRouteRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PhotographyRouteRoute,
 } as any)
 const PostsIndexRoute = PostsIndexRouteImport.update({
-  id: '/posts/',
-  path: '/posts/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => PostsRouteRoute,
 } as any)
 const PostsSlugRoute = PostsSlugRouteImport.update({
-  id: '/posts/$slug',
-  path: '/posts/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PostsRouteRoute,
 } as any)
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
-  id: '/projects/',
-  path: '/projects/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProjectsRouteRoute,
 } as any)
 const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
-  id: '/projects/$slug',
-  path: '/projects/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ProjectsRouteRoute,
 } as any)
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
@@ -158,14 +182,14 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const PhotographySlugIndexRoute = PhotographySlugIndexRouteImport.update({
-  id: '/photography/$slug/',
-  path: '/photography/$slug/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => PhotographySlugRouteRoute,
 } as any)
 const PhotographySlugPhotoIdRoute = PhotographySlugPhotoIdRouteImport.update({
-  id: '/photography/$slug/$photoId',
-  path: '/photography/$slug/$photoId',
-  getParentRoute: () => rootRouteImport,
+  id: '/$photoId',
+  path: '/$photoId',
+  getParentRoute: () => PhotographySlugRouteRoute,
 } as any)
 const AuthenticatedDashboardCollectionsIndexRoute =
   AuthenticatedDashboardCollectionsIndexRouteImport.update({
@@ -248,6 +272,9 @@ const AuthenticatedEditBiographyWriteRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/photography': typeof PhotographyRouteRouteWithChildren
+  '/posts': typeof PostsRouteRouteWithChildren
+  '/projects': typeof ProjectsRouteRouteWithChildren
   '/ai': typeof AiRoute
   '/contact': typeof ContactRoute
   '/employment': typeof EmploymentRoute
@@ -257,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/resume.pdf': typeof ResumeDotpdfRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/uses': typeof UsesRoute
+  '/photography/$slug': typeof PhotographySlugRouteRouteWithChildren
   '/api/health': typeof ApiHealthRoute
   '/api/link-click': typeof ApiLinkClickRoute
   '/posts/$slug': typeof PostsSlugRoute
@@ -325,6 +353,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/photography': typeof PhotographyRouteRouteWithChildren
+  '/posts': typeof PostsRouteRouteWithChildren
+  '/projects': typeof ProjectsRouteRouteWithChildren
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/ai': typeof AiRoute
   '/contact': typeof ContactRoute
@@ -335,6 +366,7 @@ export interface FileRoutesById {
   '/resume.pdf': typeof ResumeDotpdfRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/uses': typeof UsesRoute
+  '/photography/$slug': typeof PhotographySlugRouteRouteWithChildren
   '/api/health': typeof ApiHealthRoute
   '/api/link-click': typeof ApiLinkClickRoute
   '/posts/$slug': typeof PostsSlugRoute
@@ -366,6 +398,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/photography'
+    | '/posts'
+    | '/projects'
     | '/ai'
     | '/contact'
     | '/employment'
@@ -375,6 +410,7 @@ export interface FileRouteTypes {
     | '/resume.pdf'
     | '/rss.xml'
     | '/uses'
+    | '/photography/$slug'
     | '/api/health'
     | '/api/link-click'
     | '/posts/$slug'
@@ -442,6 +478,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/photography'
+    | '/posts'
+    | '/projects'
     | '/_authenticated'
     | '/ai'
     | '/contact'
@@ -452,6 +491,7 @@ export interface FileRouteTypes {
     | '/resume.pdf'
     | '/rss.xml'
     | '/uses'
+    | '/photography/$slug'
     | '/api/health'
     | '/api/link-click'
     | '/posts/$slug'
@@ -482,6 +522,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PhotographyRouteRoute: typeof PhotographyRouteRouteWithChildren
+  PostsRouteRoute: typeof PostsRouteRouteWithChildren
+  ProjectsRouteRoute: typeof ProjectsRouteRouteWithChildren
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AiRoute: typeof AiRoute
   ContactRoute: typeof ContactRoute
@@ -494,14 +537,7 @@ export interface RootRouteChildren {
   UsesRoute: typeof UsesRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiLinkClickRoute: typeof ApiLinkClickRoute
-  PostsSlugRoute: typeof PostsSlugRoute
-  ProjectsSlugRoute: typeof ProjectsSlugRoute
-  PhotographyIndexRoute: typeof PhotographyIndexRoute
-  PostsIndexRoute: typeof PostsIndexRoute
-  ProjectsIndexRoute: typeof ProjectsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  PhotographySlugPhotoIdRoute: typeof PhotographySlugPhotoIdRoute
-  PhotographySlugIndexRoute: typeof PhotographySlugIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -555,6 +591,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/photography': {
+      id: '/photography'
+      path: '/photography'
+      fullPath: '/photography'
+      preLoaderRoute: typeof PhotographyRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts': {
+      id: '/posts'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof PostsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resume.md': {
       id: '/resume.md'
       path: '/resume.md'
@@ -599,38 +656,45 @@ declare module '@tanstack/react-router' {
     }
     '/photography/': {
       id: '/photography/'
-      path: '/photography'
+      path: '/'
       fullPath: '/photography/'
       preLoaderRoute: typeof PhotographyIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PhotographyRouteRoute
+    }
+    '/photography/$slug': {
+      id: '/photography/$slug'
+      path: '/$slug'
+      fullPath: '/photography/$slug'
+      preLoaderRoute: typeof PhotographySlugRouteRouteImport
+      parentRoute: typeof PhotographyRouteRoute
     }
     '/posts/': {
       id: '/posts/'
-      path: '/posts'
+      path: '/'
       fullPath: '/posts/'
       preLoaderRoute: typeof PostsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PostsRouteRoute
     }
     '/posts/$slug': {
       id: '/posts/$slug'
-      path: '/posts/$slug'
+      path: '/$slug'
       fullPath: '/posts/$slug'
       preLoaderRoute: typeof PostsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PostsRouteRoute
     }
     '/projects/': {
       id: '/projects/'
-      path: '/projects'
+      path: '/'
       fullPath: '/projects/'
       preLoaderRoute: typeof ProjectsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProjectsRouteRoute
     }
     '/projects/$slug': {
       id: '/projects/$slug'
-      path: '/projects/$slug'
+      path: '/$slug'
       fullPath: '/projects/$slug'
       preLoaderRoute: typeof ProjectsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ProjectsRouteRoute
     }
     '/_authenticated/dashboard/': {
       id: '/_authenticated/dashboard/'
@@ -662,17 +726,17 @@ declare module '@tanstack/react-router' {
     }
     '/photography/$slug/': {
       id: '/photography/$slug/'
-      path: '/photography/$slug'
+      path: '/'
       fullPath: '/photography/$slug/'
       preLoaderRoute: typeof PhotographySlugIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PhotographySlugRouteRoute
     }
     '/photography/$slug/$photoId': {
       id: '/photography/$slug/$photoId'
-      path: '/photography/$slug/$photoId'
+      path: '/$photoId'
       fullPath: '/photography/$slug/$photoId'
       preLoaderRoute: typeof PhotographySlugPhotoIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PhotographySlugRouteRoute
     }
     '/_authenticated/dashboard/collections/': {
       id: '/_authenticated/dashboard/collections/'
@@ -768,6 +832,60 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface PhotographySlugRouteRouteChildren {
+  PhotographySlugPhotoIdRoute: typeof PhotographySlugPhotoIdRoute
+  PhotographySlugIndexRoute: typeof PhotographySlugIndexRoute
+}
+
+const PhotographySlugRouteRouteChildren: PhotographySlugRouteRouteChildren = {
+  PhotographySlugPhotoIdRoute: PhotographySlugPhotoIdRoute,
+  PhotographySlugIndexRoute: PhotographySlugIndexRoute,
+}
+
+const PhotographySlugRouteRouteWithChildren =
+  PhotographySlugRouteRoute._addFileChildren(PhotographySlugRouteRouteChildren)
+
+interface PhotographyRouteRouteChildren {
+  PhotographySlugRouteRoute: typeof PhotographySlugRouteRouteWithChildren
+  PhotographyIndexRoute: typeof PhotographyIndexRoute
+}
+
+const PhotographyRouteRouteChildren: PhotographyRouteRouteChildren = {
+  PhotographySlugRouteRoute: PhotographySlugRouteRouteWithChildren,
+  PhotographyIndexRoute: PhotographyIndexRoute,
+}
+
+const PhotographyRouteRouteWithChildren =
+  PhotographyRouteRoute._addFileChildren(PhotographyRouteRouteChildren)
+
+interface PostsRouteRouteChildren {
+  PostsSlugRoute: typeof PostsSlugRoute
+  PostsIndexRoute: typeof PostsIndexRoute
+}
+
+const PostsRouteRouteChildren: PostsRouteRouteChildren = {
+  PostsSlugRoute: PostsSlugRoute,
+  PostsIndexRoute: PostsIndexRoute,
+}
+
+const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
+  PostsRouteRouteChildren,
+)
+
+interface ProjectsRouteRouteChildren {
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
+  ProjectsIndexRoute: typeof ProjectsIndexRoute
+}
+
+const ProjectsRouteRouteChildren: ProjectsRouteRouteChildren = {
+  ProjectsSlugRoute: ProjectsSlugRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
+}
+
+const ProjectsRouteRouteWithChildren = ProjectsRouteRoute._addFileChildren(
+  ProjectsRouteRouteChildren,
+)
+
 interface AuthenticatedRouteChildren {
   AuthenticatedEditGearRoute: typeof AuthenticatedEditGearRoute
   AuthenticatedEditLinksRoute: typeof AuthenticatedEditLinksRoute
@@ -821,6 +939,9 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PhotographyRouteRoute: PhotographyRouteRouteWithChildren,
+  PostsRouteRoute: PostsRouteRouteWithChildren,
+  ProjectsRouteRoute: ProjectsRouteRouteWithChildren,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AiRoute: AiRoute,
   ContactRoute: ContactRoute,
@@ -833,14 +954,7 @@ const rootRouteChildren: RootRouteChildren = {
   UsesRoute: UsesRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiLinkClickRoute: ApiLinkClickRoute,
-  PostsSlugRoute: PostsSlugRoute,
-  ProjectsSlugRoute: ProjectsSlugRoute,
-  PhotographyIndexRoute: PhotographyIndexRoute,
-  PostsIndexRoute: PostsIndexRoute,
-  ProjectsIndexRoute: ProjectsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  PhotographySlugPhotoIdRoute: PhotographySlugPhotoIdRoute,
-  PhotographySlugIndexRoute: PhotographySlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

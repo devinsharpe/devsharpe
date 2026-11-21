@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowLeftIcon } from "lucide-react";
 import { useMemo } from "react";
-import Link from "~/components/_ui/link";
 import Main from "~/components/_ui/main";
 import { PublishedDate } from "~/components/_ui/published-date";
 import { PhotoGrid } from "~/components/photography/photo-grid";
@@ -45,10 +43,6 @@ function RouteComponent() {
 
   return (
     <Main>
-      <Link to="/photography" size="sm" className="-ml-2 self-start">
-        <ArrowLeftIcon strokeWidth={1.5} size={16} aria-hidden />
-        All collections
-      </Link>
       <header className="flex flex-col gap-3">
         <p className="text-sm opacity-80">
           {collection.publishedAt && (

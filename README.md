@@ -492,6 +492,14 @@ sequenceDiagram
 - `/login`
 - `/ai`: a placeholder
 
+**Breadcrumbs.** Public pages show a trail such as Home › Photography › Test Roll › Photo 3 of 12. Each route sets its own crumb with `staticData.breadcrumb`, and the trail follows the route tree. [`Main`](src/components/_ui/main.tsx) renders it ([`breadcrumbs.tsx`](src/components/_ui/breadcrumbs.tsx)), and only when there's a crumb past Home.
+
+- **A fixed label** is a string: `staticData: { breadcrumb: "Gear" }`.
+- **A label from the page's data** is a component. For example, `/posts/$slug` uses `function Breadcrumb(): string { return Route.useLoaderData().post.title; }`. The return type has to be written out, because TypeScript can't infer it from a route whose options include it.
+- **A section's crumb** goes on its layout route, such as [`posts/route.tsx`](src/routes/posts/route.tsx), so it shows on the list and on every page under it. Index routes don't set one.
+- **The crumb for the current page** isn't a link. When the URL has a search, such as `/posts?tag=film`, the section's crumb links back to the whole list.
+- **Routes without a crumb** add nothing to the trail. On `/`, `/login` and `/ai` that leaves only Home, so no trail shows. The admin pages set no crumbs either, and keep their own `BreadcrumbNav`.
+
 **Server routes:** `/rss.xml`, `/resume.pdf`, `/resume.md`, `/api/health`, `/api/link-click`, `/api/auth/$`.
 
 **Admin pages**, behind `_authenticated`:
@@ -556,7 +564,7 @@ Using a hypothetical "talks" list as the example:
 3. **Repository.** In `src/server/repositories/talks.repository.server.ts`, write a `TalksRepository` with `list`, `get`, `create`, `update`, `delete` and `reorder`, using `nextSortOrder` and `buildReorderQuery` for order.
 4. **Middleware.** `src/server/middleware/talks.middleware.ts` puts `context.talks` in place.
 5. **Server functions.** In `src/server/functions/talks.functions.ts`: public reads take `[talks_middleware]`, and admin writes take `[ensure_auth_middleware, talks_middleware]` plus the lib schema as the validator.
-6. **Pages.** The public page goes under `src/routes/`, with a loader that calls the read function. The admin page goes under `src/routes/_authenticated/`.
+6. **Pages.** The public page goes under `src/routes/`, with a loader that calls the read function, and a `staticData.breadcrumb` (see [Breadcrumbs](#routes)). The admin page goes under `src/routes/_authenticated/`.
 7. **Forms.** Use `useAppForm` with `validators: { onChange: talkInputSchema }`, `useMutationFeedback("talk")`, and `router.invalidate()` after saving. Use `SortableList` for ordering.
 8. **Images.** If talks can show library images, resolve them with `resolveRichTextMedia`, or `toMediaView` for a single image. Add the table to `MediaRepository.findMediaUsage`, so deleting an image warns that it's used there.
 9. **Seed data (optional).** Add a `prepareTalks` to `seed/seeders.server.ts` and its data under `seed/data/`.

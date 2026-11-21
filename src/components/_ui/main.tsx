@@ -1,8 +1,10 @@
 import { cn } from "~/lib/utils";
 import type { ComponentProps } from "react";
+import Breadcrumbs from "./breadcrumbs";
 
 interface MainProps extends ComponentProps<"div"> {}
 
+/** A page's main column, starting with its breadcrumbs (when it has any). */
 export default function Main({ children, className, ...props }: MainProps) {
   return (
     <main
@@ -12,6 +14,7 @@ export default function Main({ children, className, ...props }: MainProps) {
       )}
       {...props}
     >
+      <Breadcrumbs />
       {children}
     </main>
   );
