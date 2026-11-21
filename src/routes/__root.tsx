@@ -15,6 +15,12 @@ import Footer from "~/components/_ui/footer";
 import { getSiteTitle } from "~/server/functions/site.functions";
 import { getThemePreference } from "~/server/functions/preferences.functions";
 import { POSTS_FEED_PATH, postsFeedTitle } from "~/lib/posts";
+import {
+  previewMeta,
+  shareCardPath,
+  shareImageMeta,
+  withoutTrailingSlash,
+} from "~/lib/share";
 
 // Dev only. `import.meta.env.DEV` is false in production builds, so this
 // import (and the devtools packages) are dropped from them entirely.
@@ -29,30 +35,66 @@ export const Route = createRootRoute({
   loader: async () => ({
     title: await getSiteTitle(),
   }),
-  head: ({ loaderData }) => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: loaderData?.title.title ?? "Dispatch" },
-    ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      // Lets browsers and feed readers find the RSS feed from any page.
-      {
-        rel: "alternate",
-        type: "application/rss+xml",
-        title: postsFeedTitle(loaderData?.title.title ?? "Dispatch"),
-        href: POSTS_FEED_PATH,
-      },
-    ],
-    scripts: [
-      {
-        defer: true,
-        "data-domain": "devsharpe.io",
-        src: "https://analytics.dqc.dev/js/script.js",
-      },
-    ],
-  }),
+  head: ({ loaderData, matches }) => {
+    const site_title = loaderData?.title.title ?? "Dispatch";
+    const subtitle = loaderData?.title.subtitle;
+    const origin = loaderData?.title.origin;
+    const path = withoutTrailingSlash(matches.at(-1)?.pathname ?? "/");
+    // A page whose own crumb is fixed (e.g. /uses, "Gear") previews as that.
+    // A crumb from the page's data (a post's title) can't be read here, so
+    // those pages set their preview title themselves (pageMeta).
+    const crumb = matches
+      .slice(1)
+      .findLast((match) => match.staticData?.breadcrumb)?.staticData.breadcrumb;
+    return {
+      // Defaults for every page. A page's own head wins, tag by tag.
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { title: site_title },
+        ...previewMeta("title", typeof crumb === "string" ? crumb : site_title),
+        ...(subtitle
+          ? [
+              { name: "description", content: subtitle },
+              ...previewMeta("description", subtitle),
+            ]
+          : []),
+        { property: "og:site_name", content: site_title },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        // Link previews need absolute URLs. The image is the page's
+        // generated card (routes/og/$.ts) unless the page sets its own.
+        ...(origin
+          ? [
+              ...previewMeta("url", origin + path),
+              ...shareImageMeta(origin + shareCardPath(path)),
+            ]
+          : []),
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        // The site icon (routes/favicon[.]svg.ts and the others). The .ico's
+        // size keeps browsers that read SVG from preferring it.
+        { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+        { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+        { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+        // Lets browsers and feed readers find the RSS feed from any page.
+        {
+          rel: "alternate",
+          type: "application/rss+xml",
+          title: postsFeedTitle(site_title),
+          href: POSTS_FEED_PATH,
+        },
+      ],
+      scripts: [
+        {
+          defer: true,
+          "data-domain": "devsharpe.io",
+          src: "https://analytics.dqc.dev/js/script.js",
+        },
+      ],
+    };
+  },
   // The shell renders even when a route errors or is not found.
   shellComponent: RootDocument,
   component: () => <Outlet />,

@@ -3,6 +3,7 @@ import { buttonVariants } from "~/components/_ui/button";
 import { LinkBrandIcon } from "~/components/links/link-icon";
 import { recordLinkClick } from "~/components/links/record-link-click";
 import { MediaImage } from "~/components/media/media-image";
+import { pageMeta } from "~/lib/share";
 import { cn } from "~/lib/utils";
 import { getLinksPage } from "~/server/functions/links.functions";
 
@@ -14,17 +15,7 @@ export const Route = createFileRoute("/links")({
     if (!loaderData) return {};
     const { title, bio, share_image } = loaderData;
     return {
-      meta: [
-        { title },
-        { property: "og:title", content: title },
-        ...(bio
-          ? [
-              { name: "description", content: bio },
-              { property: "og:description", content: bio },
-            ]
-          : []),
-        ...(share_image ? [{ property: "og:image", content: share_image }] : []),
-      ],
+      meta: pageMeta({ title, description: bio, image: share_image }),
     };
   },
   component: RouteComponent,

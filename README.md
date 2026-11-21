@@ -17,6 +17,7 @@ A personal site: a portfolio, a blog ("musings"), photography, and a link-in-bio
 - [Media](#media)
 - [Authentication](#authentication)
 - [Routes](#routes)
+- [Link previews and the site icon](#link-previews-and-the-site-icon)
 - [Migrations and seeding](#migrations-and-seeding)
 - [Adding a feature](#adding-a-feature)
 - [Conventions](#conventions)
@@ -24,18 +25,19 @@ A personal site: a portfolio, a blog ("musings"), photography, and a link-in-bio
 
 ## Stack
 
-| Concern    | Choice                                                                                                                                                   |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Framework  | [TanStack Start](https://tanstack.com/start) (React 19, TanStack Router file routes, server functions), built with Vite and Nitro (`node-server` preset) |
-| Database   | Postgres, with [Drizzle ORM](https://orm.drizzle.team) (1.0 RC) and drizzle-kit migrations                                                               |
-| Validation | Zod 4, shared by forms and server functions                                                                                                              |
-| Forms      | TanStack Form (`@tanstack/react-form-start`)                                                                                                             |
-| Rich text  | [Lexical](https://lexical.dev), stored as its JSON editor state                                                                                          |
-| Auth       | [Better Auth](https://better-auth.com) with a generic OAuth provider (DQC's sign-in service)                                                             |
-| Media      | Any S3-compatible bucket (RustFS locally), rendered through [imgproxy](https://imgproxy.net)                                                             |
-| Styling    | Tailwind CSS v4 and `@tailwindcss/typography`                                                                                                            |
-| Bot check  | Cloudflare Turnstile on the contact form                                                                                                                 |
-| Analytics  | Plausible (self-hosted), loaded from the root route                                                                                                      |
+| Concern      | Choice                                                                                                                                                     |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework    | [TanStack Start](https://tanstack.com/start) (React 19, TanStack Router file routes, server functions), built with Vite and Nitro (`node-server` preset)   |
+| Database     | Postgres, with [Drizzle ORM](https://orm.drizzle.team) (1.0 RC) and drizzle-kit migrations                                                                 |
+| Validation   | Zod 4, shared by forms and server functions                                                                                                                |
+| Forms        | TanStack Form (`@tanstack/react-form-start`)                                                                                                               |
+| Rich text    | [Lexical](https://lexical.dev), stored as its JSON editor state                                                                                            |
+| Auth         | [Better Auth](https://better-auth.com) with a generic OAuth provider (DQC's sign-in service)                                                               |
+| Media        | Any S3-compatible bucket (RustFS locally), rendered through [imgproxy](https://imgproxy.net)                                                               |
+| Share images | [satori](https://github.com/vercel/satori) and [resvg](https://github.com/yisibl/resvg-js) (both WebAssembly) draw the link-preview cards and the favicons |
+| Styling      | Tailwind CSS v4 and `@tailwindcss/typography`                                                                                                              |
+| Bot check    | Cloudflare Turnstile on the contact form                                                                                                                   |
+| Analytics    | Plausible (self-hosted), loaded from the root route                                                                                                        |
 
 ## Getting started
 
@@ -91,18 +93,18 @@ Inside Docker, prefix any of these with `docker compose exec app`.
 
 See [`.env.example`](.env.example) for every variable, with comments. Server code reads them through `getServerEnv()` in [`src/server/env.server.ts`](src/server/env.server.ts). It reads them on each call, never at module scope.
 
-| Variables                                                                                                                        | Used for                                                                             | Without them                                                    |
-| -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
-| `DATABASE_URL`                                                                                                                   | Postgres                                                                             | Nothing works                                                   |
-| `BETTER_AUTH_URL`, `BETTER_AUTH_SECRET`                                                                                          | Sessions and the OAuth callback                                                      | Sign-in fails                                                   |
-| `DQC_CLIENT_ID`, `DQC_CLIENT_SECRET`, `DQC_AUTHORIZE_URL`, `DQC_TOKEN_URL`, `DQC_USER_INFO_URL`, `DQC_END_SESSION_URL`           | The OAuth provider                                                                   | Sign-in fails                                                   |
-| `SITE_TITLE`                                                                                                                     | The site name in the header and the page title                                       | Falls back to a default in `env.server.ts`                      |
-| `SITE_SUBTITLE`                                                                                                                  | The header subtitle, until one is saved in the admin                                 | Shows no subtitle                                               |
-| `SITE_URL`                                                                                                                       | Absolute links (the RSS feed)                                                        | Falls back to `BETTER_AUTH_URL`, then the request's origin      |
-| `VITE_CLOUDFLARE_SITEKEY`, `CLOUDFLARE_SECRET_KEY`                                                                               | Turnstile on `/contact`                                                              | The contact form is switched off                                |
-| `S3_BUCKET`, `S3_REGION`, `S3_ENDPOINT`, `S3_PUBLIC_ENDPOINT`, `S3_FORCE_PATH_STYLE`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | Media and résumé uploads                                                             | Uploads are disabled, and the media library says what's missing |
-| `S3_CORS_ORIGINS`                                                                                                                | Optional: origins allowed to upload, applied to the bucket when the container starts | The bucket's CORS rules are left alone                          |
-| `IMGPROXY_URL`, `IMGPROXY_KEY`, `IMGPROXY_SALT`, `IMGPROXY_SOURCE_PREFIX`                                                        | Rendering images                                                                     | Images are left out of pages                                    |
+| Variables                                                                                                                        | Used for                                                                                         | Without them                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| `DATABASE_URL`                                                                                                                   | Postgres                                                                                         | Nothing works                                                   |
+| `BETTER_AUTH_URL`, `BETTER_AUTH_SECRET`                                                                                          | Sessions and the OAuth callback                                                                  | Sign-in fails                                                   |
+| `DQC_CLIENT_ID`, `DQC_CLIENT_SECRET`, `DQC_AUTHORIZE_URL`, `DQC_TOKEN_URL`, `DQC_USER_INFO_URL`, `DQC_END_SESSION_URL`           | The OAuth provider                                                                               | Sign-in fails                                                   |
+| `SITE_TITLE`                                                                                                                     | The site name in the header, the page title and the share cards. The favicon shows its initials. | Falls back to a default in `env.server.ts`                      |
+| `SITE_SUBTITLE`                                                                                                                  | The header subtitle, until one is saved in the admin                                             | Shows no subtitle                                               |
+| `SITE_URL`                                                                                                                       | Absolute links (the RSS feed, link previews)                                                     | Falls back to `BETTER_AUTH_URL`, then the request's origin      |
+| `VITE_CLOUDFLARE_SITEKEY`, `CLOUDFLARE_SECRET_KEY`                                                                               | Turnstile on `/contact`                                                                          | The contact form is switched off                                |
+| `S3_BUCKET`, `S3_REGION`, `S3_ENDPOINT`, `S3_PUBLIC_ENDPOINT`, `S3_FORCE_PATH_STYLE`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | Media and résumé uploads                                                                         | Uploads are disabled, and the media library says what's missing |
+| `S3_CORS_ORIGINS`                                                                                                                | Optional: origins allowed to upload, applied to the bucket when the container starts             | The bucket's CORS rules are left alone                          |
+| `IMGPROXY_URL`, `IMGPROXY_KEY`, `IMGPROXY_SALT`, `IMGPROXY_SOURCE_PREFIX`                                                        | Rendering images                                                                                 | Images are left out of pages                                    |
 
 ## Project layout
 
@@ -114,7 +116,7 @@ See [`.env.example`](.env.example) for every variable, with comments. Server cod
 ├── docker/                   Dev entrypoint, bucket setup, production start script, its build config and package.json
 ├── drizzle/                  Generated SQL migrations (one folder each)
 ├── drizzle.config.ts         drizzle-kit: schema path, output folder
-├── vite.config.ts            TanStack Start + Nitro + Tailwind + React
+├── vite.config.ts            TanStack Start + Nitro + Tailwind + React, and `?base64` imports
 └── src/
     ├── start.ts              Request middleware: logging, CSRF
     ├── router.tsx            Router defaults (pending/error/not-found views)
@@ -123,7 +125,8 @@ See [`.env.example`](.env.example) for every variable, with comments. Server cod
     │   ├── __root.tsx        Document shell, header/footer, <head>
     │   ├── _authenticated.tsx  Sign-in guard for the admin pages
     │   ├── _authenticated/   Admin: /dashboard/*, /edit/*
-    │   └── api/              Server routes: auth, health, link clicks
+    │   ├── api/              Server routes: auth, health, link clicks
+    │   └── og/               Server route: share cards (/og/*)
     ├── components/
     │   ├── _ui/              Primitives: buttons, fields, dialogs, toasts, sortable list…
     │   ├── forms/            Admin create/edit forms, one per record type
@@ -141,6 +144,7 @@ See [`.env.example`](.env.example) for every variable, with comments. Server cod
     │   ├── repositories/     Database access (*.repository.server.ts)
     │   ├── database/         Drizzle client, schema, relations, ordering helpers, seed/
     │   ├── media/            S3 storage, imgproxy signing, media views
+    │   ├── og/               Share cards and the site icon: designs, drawing, responses
     │   ├── auth.server.ts    Better Auth instance
     │   ├── env.server.ts     Environment access
     │   └── *.server.ts       RSS feed, résumé downloads, link clicks, Turnstile, rich text to HTML
@@ -153,7 +157,7 @@ See [`.env.example`](.env.example) for every variable, with comments. Server cod
 flowchart LR
   B["Browser"] --> RM["Request middleware: logger, CSRF"]
   RM --> P["Page: route loader + component"]
-  RM --> SR["Server route: /api/*, /rss.xml, /resume.*"]
+  RM --> SR["Server route: /api/*, /rss.xml, /resume.*, /og/*, icons"]
   P -->|"calls"| SF["Server function"]
   SF --> FM["Function middleware: auth, then repositories"]
   FM --> H["Handler: validated data + context"]
@@ -165,7 +169,7 @@ flowchart LR
 - **Request middleware** ([`src/start.ts`](src/start.ts)) wraps everything the server handles: SSR documents, server functions and server routes. `requestLogger` logs `[id] METHOD /path 12ms` and sets an `x-request-id` header. `createCsrfMiddleware` guards server function calls.
 - **Pages** load data in their route `loader` by calling server functions. During SSR the call runs in-process. On client-side navigation it becomes an RPC request.
 - **Server functions** are the app's only API for pages. Each one declares its middleware (which puts repositories into `context`) and a Zod validator, then calls into a repository.
-- **Server routes** handle raw HTTP that isn't page data: the Better Auth handler, `/api/health`, the RSS feed, résumé downloads, and the `/links` click beacon.
+- **Server routes** handle raw HTTP that isn't page data: the Better Auth handler, `/api/health`, the RSS feed, résumé downloads, the `/links` click beacon, share cards and the site icon.
 
 ## Server functions
 
@@ -243,13 +247,14 @@ Admin forms follow one shape ([`components/forms/`](src/components/forms)). `use
 
 Use a **server function** for anything a page loads or a form submits. Use a **server route** (`server.handlers` on a file route) when the HTTP contract matters:
 
-| Route                       | Why it's a server route                                                                                           |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `/api/auth/$`               | Better Auth's own handler                                                                                         |
-| `/api/health`               | Probes and uptime checks                                                                                          |
-| `/rss.xml`                  | A feed with `ETag` and `Cache-Control`                                                                            |
-| `/resume.pdf`, `/resume.md` | File downloads                                                                                                    |
-| `/api/link-click`           | `navigator.sendBeacon` can't send the headers a server function needs. It checks `Sec-Fetch-Site` itself instead. |
+| Route                                                            | Why it's a server route                                                                                           |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `/api/auth/$`                                                    | Better Auth's own handler                                                                                         |
+| `/api/health`                                                    | Probes and uptime checks                                                                                          |
+| `/rss.xml`                                                       | A feed with `ETag` and `Cache-Control`                                                                            |
+| `/og/$`, `/favicon.svg`, `/favicon.ico`, `/apple-touch-icon.png` | Images, with `ETag` and `Cache-Control`                                                                           |
+| `/resume.pdf`, `/resume.md`                                      | File downloads                                                                                                    |
+| `/api/link-click`                                                | `navigator.sendBeacon` can't send the headers a server function needs. It checks `Sec-Fetch-Site` itself instead. |
 
 ## Middleware
 
@@ -500,7 +505,7 @@ sequenceDiagram
 - **The crumb for the current page** isn't a link. When the URL has a search, such as `/posts?tag=film`, the section's crumb links back to the whole list.
 - **Routes without a crumb** add nothing to the trail. On `/`, `/login` and `/ai` that leaves only Home, so no trail shows. The admin pages set no crumbs either, and keep their own `BreadcrumbNav`.
 
-**Server routes:** `/rss.xml`, `/resume.pdf`, `/resume.md`, `/api/health`, `/api/link-click`, `/api/auth/$`.
+**Server routes:** `/rss.xml`, `/resume.pdf`, `/resume.md`, `/api/health`, `/api/link-click`, `/api/auth/$`, `/og/$`, `/favicon.svg`, `/favicon.ico`, `/apple-touch-icon.png`.
 
 **Admin pages**, behind `_authenticated`:
 
@@ -517,6 +522,31 @@ sequenceDiagram
 | `/edit/links`                                                                                     | `/links`: its photo, bio and links                                                   |
 
 `src/routeTree.gen.ts` is regenerated by the router's Vite plugin when routes change. Don't edit it by hand.
+
+## Link previews and the site icon
+
+When a page is shared in Slack, iMessage, Bluesky and the like, the preview comes from its Open Graph tags. Every page has them.
+
+**The defaults** come from the root route's `head` ([`__root.tsx`](src/routes/__root.tsx)):
+
+- `og:title` is the page's own crumb when that's a fixed label (`/uses` previews as "Gear"), or else the site title.
+- The description is the subtitle.
+- `og:url` and the image are absolute URLs on `SITE_URL` (see [Environment](#environment) for its fallbacks).
+- `og:image` is the page's generated share card.
+- The title, description, URL and image also go out as X's `twitter:` tags, and `twitter:card` is `summary_large_image`. X reads the `og:` tags when its own are missing, but other readers and SEO checkers look for both.
+
+A page's own `head` wins, tag by tag. Pages set theirs with `pageMeta({ title, description, image })` from [`src/lib/share.ts`](src/lib/share.ts), which sets the `og:` and `twitter:` tags together, plus the `<title>` and the description. Leave out `image` to keep the card. Collections, photos and `/links` pass a 1200 × 630 crop of their photo from imgproxy instead (a collection's is its cover), and fall back to the card when there's no photo or imgproxy isn't configured.
+
+**Share cards** are 1200 × 630 PNGs at `/og` plus the page's path: `/og/posts/my-post` is the card for `/posts/my-post`. Open one in the browser to see it. The card shows the site title and host along the top, and the page's breadcrumbs: the last crumb as the title, the ones before it above that, and the subtitle on the home page.
+
+- **The text comes from the path, never from the request.** The card matches the path against the router and reads the crumbs the routes set. So nobody can put their own words on a card served from this site. Paths that aren't pages, the admin pages, the APIs and `/og` itself are a 404.
+- **Crumbs that are components** read loader data in the browser, which the card can't do. [`cards.server.tsx`](src/server/og/cards.server.tsx) looks their labels up itself, in `PAGE_LABELS`, from published content only. When you add a route whose crumb is a component, add its label there too. Without one, the card shows the section instead.
+- **The designs** are in [`designs.server.tsx`](src/server/og/designs.server.tsx): satori element trees with inline styles and flexbox, not page components. Bump `DESIGN_VERSION` in `cards.server.tsx` when you change one, so its `ETag` changes. The text is drawn with Nudica, the site's own font, and it's the only font: text in a script Nudica doesn't cover won't show.
+- **Caching.** Cards are cached for a day and icons for a week, with an `ETag`. Each process also keeps the last 100 images it drew, so a card is usually drawn once. Drawing one takes about 15 ms, plus about 100 ms for the first image after a start.
+
+**The site icon** is the site title's initials (`SITE_TITLE`) on the site's dark background, drawn by the same code: `/favicon.svg`, a 48 px `/favicon.ico` and a 180 px `/apple-touch-icon.png`.
+
+**How they're drawn.** [satori](https://github.com/vercel/satori) lays out the element tree and turns it into an SVG, with text as paths. [resvg](https://github.com/yisibl/resvg-js) turns the SVG into a PNG ([`render.server.ts`](src/server/og/render.server.ts)). Both are WebAssembly, so the build is the same on every platform. The image has no `node_modules`, so resvg's `.wasm` and the font are built into the server bundle with a `?base64` import, a small plugin in [`vite.config.ts`](vite.config.ts). The renderer loads on the first image a process draws, and takes about 50 MB of memory from then on.
 
 ## Migrations and seeding
 
@@ -564,7 +594,7 @@ Using a hypothetical "talks" list as the example:
 3. **Repository.** In `src/server/repositories/talks.repository.server.ts`, write a `TalksRepository` with `list`, `get`, `create`, `update`, `delete` and `reorder`, using `nextSortOrder` and `buildReorderQuery` for order.
 4. **Middleware.** `src/server/middleware/talks.middleware.ts` puts `context.talks` in place.
 5. **Server functions.** In `src/server/functions/talks.functions.ts`: public reads take `[talks_middleware]`, and admin writes take `[ensure_auth_middleware, talks_middleware]` plus the lib schema as the validator.
-6. **Pages.** The public page goes under `src/routes/`, with a loader that calls the read function, and a `staticData.breadcrumb` (see [Breadcrumbs](#routes)). The admin page goes under `src/routes/_authenticated/`.
+6. **Pages.** The public page goes under `src/routes/`, with a loader that calls the read function, and a `staticData.breadcrumb` (see [Breadcrumbs](#routes)). Set its title and description with `pageMeta` in its `head`. If its crumb is a component, add its label to the share cards' `PAGE_LABELS` (see [Link previews](#link-previews-and-the-site-icon)). The admin page goes under `src/routes/_authenticated/`.
 7. **Forms.** Use `useAppForm` with `validators: { onChange: talkInputSchema }`, `useMutationFeedback("talk")`, and `router.invalidate()` after saving. Use `SortableList` for ordering.
 8. **Images.** If talks can show library images, resolve them with `resolveRichTextMedia`, or `toMediaView` for a single image. Add the table to `MediaRepository.findMediaUsage`, so deleting an image warns that it's used there.
 9. **Seed data (optional).** Add a `prepareTalks` to `seed/seeders.server.ts` and its data under `seed/data/`.
@@ -653,7 +683,7 @@ Either way, the workflow and Dokploy follow `main`.
 | `BETTER_AUTH_URL`                                                         | The public origin, e.g. `https://devsharpe.io`. Session cookies are marked secure, and the OAuth redirect URI is built, from it. |
 | `BETTER_AUTH_SECRET`                                                      | A long random value, e.g. `openssl rand -base64 32`                                                                              |
 | `DQC_*`                                                                   | The DQC sign-in application's client and endpoints. Add `https://<domain>/api/auth/callback/dqc` to its redirect URIs.           |
-| `SITE_URL`                                                                | The public origin, for links in the RSS feed                                                                                     |
+| `SITE_URL`                                                                | The public origin, for links in the RSS feed and link previews                                                                   |
 | `SITE_TITLE`, `SITE_SUBTITLE`                                             | As in development                                                                                                                |
 | `VITE_CLOUDFLARE_SITEKEY`, `CLOUDFLARE_SECRET_KEY`                        | A real Turnstile widget's keys, with the domain in its hostnames. Both are read when the server runs, not at build time.         |
 | `S3_*`                                                                    | The production bucket and its credentials. `S3_CORS_ORIGINS` (e.g. `https://devsharpe.io`) is optional.                          |

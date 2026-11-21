@@ -8,6 +8,7 @@ import { PublishedDate } from "~/components/_ui/published-date";
 import { RICH_TEXT_PROSE } from "~/components/rich-text/rich-text-classes";
 import { RichTextRenderer } from "~/components/rich-text/rich-text-renderer";
 import { hasRichTextContent } from "~/lib/rich-text";
+import { pageMeta } from "~/lib/share";
 import { getPublishedProjectPage } from "~/server/functions/projects.functions";
 
 export const Route = createFileRoute("/projects/$slug")({
@@ -15,6 +16,15 @@ export const Route = createFileRoute("/projects/$slug")({
   component: RouteComponent,
   loader: ({ params }) =>
     getPublishedProjectPage({ data: { slug: params.slug } }),
+  head: ({ loaderData }) =>
+    loaderData
+      ? {
+          meta: pageMeta({
+            title: loaderData.project.name,
+            description: loaderData.project.description,
+          }),
+        }
+      : {},
 });
 
 // Annotated: its type can't be inferred from Route, whose options include it.

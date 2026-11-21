@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AiRouteImport } from './routes/ai'
+import { Route as AppleTouchIconDotpngRouteImport } from './routes/apple-touch-icon[.]png'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EmploymentRouteImport } from './routes/employment'
+import { Route as FaviconDoticoRouteImport } from './routes/favicon[.]ico'
+import { Route as FaviconDotsvgRouteImport } from './routes/favicon[.]svg'
 import { Route as LinksRouteImport } from './routes/links'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PhotographyRouteRouteImport } from './routes/photography/route'
@@ -25,6 +28,7 @@ import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as UsesRouteImport } from './routes/uses'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiLinkClickRouteImport } from './routes/api/link-click'
+import { Route as OgSplatRouteImport } from './routes/og/$'
 import { Route as PhotographyIndexRouteImport } from './routes/photography/index'
 import { Route as PhotographySlugRouteRouteImport } from './routes/photography/$slug/route'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
@@ -65,6 +69,11 @@ const AiRoute = AiRouteImport.update({
   path: '/ai',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppleTouchIconDotpngRoute = AppleTouchIconDotpngRouteImport.update({
+  id: '/apple-touch-icon.png',
+  path: '/apple-touch-icon.png',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -73,6 +82,16 @@ const ContactRoute = ContactRouteImport.update({
 const EmploymentRoute = EmploymentRouteImport.update({
   id: '/employment',
   path: '/employment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaviconDoticoRoute = FaviconDoticoRouteImport.update({
+  id: '/favicon.ico',
+  path: '/favicon.ico',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaviconDotsvgRoute = FaviconDotsvgRouteImport.update({
+  id: '/favicon.svg',
+  path: '/favicon.svg',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LinksRoute = LinksRouteImport.update({
@@ -128,6 +147,11 @@ const ApiHealthRoute = ApiHealthRouteImport.update({
 const ApiLinkClickRoute = ApiLinkClickRouteImport.update({
   id: '/api/link-click',
   path: '/api/link-click',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OgSplatRoute = OgSplatRouteImport.update({
+  id: '/og/$',
+  path: '/og/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PhotographyIndexRoute = PhotographyIndexRouteImport.update({
@@ -276,8 +300,11 @@ export interface FileRoutesByFullPath {
   '/posts': typeof PostsRouteRouteWithChildren
   '/projects': typeof ProjectsRouteRouteWithChildren
   '/ai': typeof AiRoute
+  '/apple-touch-icon.png': typeof AppleTouchIconDotpngRoute
   '/contact': typeof ContactRoute
   '/employment': typeof EmploymentRoute
+  '/favicon.ico': typeof FaviconDoticoRoute
+  '/favicon.svg': typeof FaviconDotsvgRoute
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/resume.md': typeof ResumeDotmdRoute
@@ -287,6 +314,7 @@ export interface FileRoutesByFullPath {
   '/photography/$slug': typeof PhotographySlugRouteRouteWithChildren
   '/api/health': typeof ApiHealthRoute
   '/api/link-click': typeof ApiLinkClickRoute
+  '/og/$': typeof OgSplatRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/photography/': typeof PhotographyIndexRoute
@@ -315,8 +343,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ai': typeof AiRoute
+  '/apple-touch-icon.png': typeof AppleTouchIconDotpngRoute
   '/contact': typeof ContactRoute
   '/employment': typeof EmploymentRoute
+  '/favicon.ico': typeof FaviconDoticoRoute
+  '/favicon.svg': typeof FaviconDotsvgRoute
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/resume.md': typeof ResumeDotmdRoute
@@ -325,6 +356,7 @@ export interface FileRoutesByTo {
   '/uses': typeof UsesRoute
   '/api/health': typeof ApiHealthRoute
   '/api/link-click': typeof ApiLinkClickRoute
+  '/og/$': typeof OgSplatRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/photography': typeof PhotographyIndexRoute
@@ -358,8 +390,11 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRouteRouteWithChildren
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/ai': typeof AiRoute
+  '/apple-touch-icon.png': typeof AppleTouchIconDotpngRoute
   '/contact': typeof ContactRoute
   '/employment': typeof EmploymentRoute
+  '/favicon.ico': typeof FaviconDoticoRoute
+  '/favicon.svg': typeof FaviconDotsvgRoute
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/resume.md': typeof ResumeDotmdRoute
@@ -369,6 +404,7 @@ export interface FileRoutesById {
   '/photography/$slug': typeof PhotographySlugRouteRouteWithChildren
   '/api/health': typeof ApiHealthRoute
   '/api/link-click': typeof ApiLinkClickRoute
+  '/og/$': typeof OgSplatRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/photography/': typeof PhotographyIndexRoute
@@ -402,8 +438,11 @@ export interface FileRouteTypes {
     | '/posts'
     | '/projects'
     | '/ai'
+    | '/apple-touch-icon.png'
     | '/contact'
     | '/employment'
+    | '/favicon.ico'
+    | '/favicon.svg'
     | '/links'
     | '/login'
     | '/resume.md'
@@ -413,6 +452,7 @@ export interface FileRouteTypes {
     | '/photography/$slug'
     | '/api/health'
     | '/api/link-click'
+    | '/og/$'
     | '/posts/$slug'
     | '/projects/$slug'
     | '/photography/'
@@ -441,8 +481,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/ai'
+    | '/apple-touch-icon.png'
     | '/contact'
     | '/employment'
+    | '/favicon.ico'
+    | '/favicon.svg'
     | '/links'
     | '/login'
     | '/resume.md'
@@ -451,6 +494,7 @@ export interface FileRouteTypes {
     | '/uses'
     | '/api/health'
     | '/api/link-click'
+    | '/og/$'
     | '/posts/$slug'
     | '/projects/$slug'
     | '/photography'
@@ -483,8 +527,11 @@ export interface FileRouteTypes {
     | '/projects'
     | '/_authenticated'
     | '/ai'
+    | '/apple-touch-icon.png'
     | '/contact'
     | '/employment'
+    | '/favicon.ico'
+    | '/favicon.svg'
     | '/links'
     | '/login'
     | '/resume.md'
@@ -494,6 +541,7 @@ export interface FileRouteTypes {
     | '/photography/$slug'
     | '/api/health'
     | '/api/link-click'
+    | '/og/$'
     | '/posts/$slug'
     | '/projects/$slug'
     | '/photography/'
@@ -527,8 +575,11 @@ export interface RootRouteChildren {
   ProjectsRouteRoute: typeof ProjectsRouteRouteWithChildren
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AiRoute: typeof AiRoute
+  AppleTouchIconDotpngRoute: typeof AppleTouchIconDotpngRoute
   ContactRoute: typeof ContactRoute
   EmploymentRoute: typeof EmploymentRoute
+  FaviconDoticoRoute: typeof FaviconDoticoRoute
+  FaviconDotsvgRoute: typeof FaviconDotsvgRoute
   LinksRoute: typeof LinksRoute
   LoginRoute: typeof LoginRoute
   ResumeDotmdRoute: typeof ResumeDotmdRoute
@@ -537,6 +588,7 @@ export interface RootRouteChildren {
   UsesRoute: typeof UsesRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiLinkClickRoute: typeof ApiLinkClickRoute
+  OgSplatRoute: typeof OgSplatRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -563,6 +615,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/apple-touch-icon.png': {
+      id: '/apple-touch-icon.png'
+      path: '/apple-touch-icon.png'
+      fullPath: '/apple-touch-icon.png'
+      preLoaderRoute: typeof AppleTouchIconDotpngRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -575,6 +634,20 @@ declare module '@tanstack/react-router' {
       path: '/employment'
       fullPath: '/employment'
       preLoaderRoute: typeof EmploymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favicon.ico': {
+      id: '/favicon.ico'
+      path: '/favicon.ico'
+      fullPath: '/favicon.ico'
+      preLoaderRoute: typeof FaviconDoticoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favicon.svg': {
+      id: '/favicon.svg'
+      path: '/favicon.svg'
+      fullPath: '/favicon.svg'
+      preLoaderRoute: typeof FaviconDotsvgRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/links': {
@@ -652,6 +725,13 @@ declare module '@tanstack/react-router' {
       path: '/api/link-click'
       fullPath: '/api/link-click'
       preLoaderRoute: typeof ApiLinkClickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/og/$': {
+      id: '/og/$'
+      path: '/og/$'
+      fullPath: '/og/$'
+      preLoaderRoute: typeof OgSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/photography/': {
@@ -944,8 +1024,11 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRouteRoute: ProjectsRouteRouteWithChildren,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AiRoute: AiRoute,
+  AppleTouchIconDotpngRoute: AppleTouchIconDotpngRoute,
   ContactRoute: ContactRoute,
   EmploymentRoute: EmploymentRoute,
+  FaviconDoticoRoute: FaviconDoticoRoute,
+  FaviconDotsvgRoute: FaviconDotsvgRoute,
   LinksRoute: LinksRoute,
   LoginRoute: LoginRoute,
   ResumeDotmdRoute: ResumeDotmdRoute,
@@ -954,6 +1037,7 @@ const rootRouteChildren: RootRouteChildren = {
   UsesRoute: UsesRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiLinkClickRoute: ApiLinkClickRoute,
+  OgSplatRoute: OgSplatRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

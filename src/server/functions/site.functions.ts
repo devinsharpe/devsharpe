@@ -1,6 +1,8 @@
 import { createServerFn } from '@tanstack/react-start'
+import { getRequest } from '@tanstack/react-start/server'
 import { siteSubtitleSchema } from '~/lib/site'
 import { getServerEnv } from '~/server/env.server'
+import { resolveSiteOrigin } from '~/server/feed.server'
 import { ensure_auth_middleware } from '~/server/middleware/auth.middleware'
 import { site_middleware } from '~/server/middleware/site.middleware'
 import type { SiteRepository } from '~/server/repositories/site.repository.server'
@@ -18,7 +20,9 @@ async function readSavedSubtitle(site: SiteRepository) {
 }
 
 // The site name comes from server env; the subtitle is edited in the admin
-// portal and falls back to SITE_SUBTITLE until it's been saved once.
+// portal and falls back to SITE_SUBTITLE until it's been saved once. The
+// origin is for the absolute URLs link previews need (SITE_URL, or else the
+// request's).
 export const getSiteTitle = createServerFn({ method: 'GET' })
   .middleware([site_middleware])
   .handler(async ({ context }) => {
@@ -26,6 +30,7 @@ export const getSiteTitle = createServerFn({ method: 'GET' })
     return {
       title: env.siteTitle,
       subtitle: (await readSavedSubtitle(context.site)) ?? env.siteSubtitle,
+      origin: resolveSiteOrigin(getRequest().url),
     }
   })
 
