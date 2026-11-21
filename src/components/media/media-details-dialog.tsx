@@ -41,7 +41,9 @@ function UseLink({ use }: { use: MediaUse }) {
   const className = "underline underline-offset-2 hover:opacity-80";
   if (use.kind === "post") {
     return (
-      <span>Post “{use.title}”</span>
+      <Link to="/dashboard/posts/$postId" params={{ postId: use.id }} className={className}>
+        Post “{use.title}”
+      </Link>
     );
   }
   if (use.kind === "collection") {

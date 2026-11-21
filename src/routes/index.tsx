@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
   loader: async () => {
     return {
       positions: await listPositions(),
-      posts: await listPosts({ data: { sort: "newest", page: 1 } }),
+      posts: await listPosts({ data: { page: 1 } }),
     };
   },
   component: Home,

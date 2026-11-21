@@ -1,56 +1,154 @@
-// Server-function boundary. Static imports of this file are safe from anywhere:
-// in the client bundle each `createServerFn` becomes an RPC stub and the
-// `.server` imports below are stripped out.
-import { createServerFn } from '@tanstack/react-start'
-import { notFound, redirect } from '@tanstack/react-router'
-import { z } from 'zod'
+import { notFound } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { setResponseStatus } from "@tanstack/react-start/server";
 import {
-  commentInputSchema,
+  postContentSchema,
   postIdSchema,
   postInputSchema,
+  postListLimitSchema,
+  postSlugSchema,
   postsSearchSchema,
-} from '~/lib/posts'
-import {
-  computeInsights,
-  findComments,
-  findPost,
-  findPosts,
-  insertComment,
-  insertPost,
-} from '~/server/posts.server'
+  postUpdateSchema,
+} from "~/lib/posts";
+import { hasRichTextContent } from "~/lib/rich-text";
+import { resolveRichTextMedia } from "~/server/media/rich-text-media.server";
+import { ensure_auth_middleware } from "~/server/middleware/auth.middleware";
+import { media_middleware } from "~/server/middleware/media.middleware";
+import { posts_middleware } from "~/server/middleware/posts.middleware";
 
-export const listPosts = createServerFn({ method: 'GET' })
+// <-- Public: published posts only -->
+
+/** /posts: one page of published posts, plus every tag for the filter. */
+export const listPosts = createServerFn({ method: "GET" })
   .validator(postsSearchSchema)
-  .handler(({ data }) => findPosts(data))
+  .middleware([posts_middleware])
+  .handler(async ({ context, data }) => {
+    const [posts, tags] = await Promise.all([
+      context.posts.listPublishedPosts(data),
+      context.posts.listPublishedTags(),
+    ]);
+    return { ...posts, tags };
+  });
 
-export const getPost = createServerFn({ method: 'GET' })
+/** The newest published posts, e.g. for the homepage. */
+export const listRecentPosts = createServerFn({ method: "GET" })
+  .validator(postListLimitSchema)
+  .middleware([posts_middleware])
+  .handler(({ context, data }) =>
+    context.posts.listRecentPublishedPosts(data.limit),
+  );
+
+/**
+ * /posts/{slug}: the post, its published content, and the images that shows.
+ * Drafts are never sent.
+ */
+export const getPublishedPost = createServerFn({ method: "GET" })
+  .validator(postSlugSchema)
+  .middleware([posts_middleware, media_middleware])
+  .handler(async ({ context, data }) => {
+    const row = await context.posts.getPublishedPost(data.slug);
+    if (!row) throw notFound();
+    const { content, publishedAt, ...post } = row;
+    if (!content || !publishedAt) throw notFound();
+    const media = await resolveRichTextMedia(context.media, [content]);
+    return { post: { ...post, publishedAt }, content, media };
+  });
+
+// <-- Admin -->
+
+export const listAllPosts = createServerFn({ method: "GET" })
+  .middleware([ensure_auth_middleware, posts_middleware])
+  .handler(({ context }) => context.posts.listAllPosts());
+
+export const listRecentlyEditedPosts = createServerFn({ method: "GET" })
+  .middleware([ensure_auth_middleware, posts_middleware])
+  .validator(postListLimitSchema)
+  .handler(({ context, data }) =>
+    context.posts.listRecentlyEditedPosts(data.limit),
+  );
+
+/** Editor: the post's details, its saved draft, and publish status. */
+export const getPostEditor = createServerFn({ method: "GET" })
+  .middleware([ensure_auth_middleware, posts_middleware])
   .validator(postIdSchema)
-  .handler(({ data }) => {
-    const post = findPost(data.id)
-    if (!post) throw notFound()
-    return post
-  })
+  .handler(async ({ context, data }) => {
+    const row = await context.posts.getPostForEditor(data.id);
+    if (!row) throw notFound();
+    const { draftContent, ...post } = row;
+    return {
+      post,
+      content: draftContent,
+      status: {
+        draftUpdatedAt: post.draftUpdatedAt,
+        publishedAt: post.publishedAt,
+        isPublished: post.isPublished,
+        hasUnpublishedChanges: post.hasUnpublishedChanges,
+      },
+    };
+  });
 
-export const getComments = createServerFn({ method: 'GET' })
-  .validator(z.object({ postId: z.string().min(1).max(120) }))
-  .handler(({ data }) => findComments(data.postId))
+function slugTaken(slug: string): never {
+  setResponseStatus(409);
+  throw new Error(
+    `Another post already uses the slug "${slug}". Pick a different one.`,
+  );
+}
 
-export const addComment = createServerFn({ method: 'POST' })
-  .validator(commentInputSchema)
-  .handler(({ data }) => {
-    const comment = insertComment(data)
-    if (!comment) throw notFound()
-    return comment
-  })
-
-export const createPost = createServerFn({ method: 'POST' })
+export const createPost = createServerFn({ method: "POST" })
+  .middleware([ensure_auth_middleware, posts_middleware])
   .validator(postInputSchema)
-  .handler(({ data }) => {
-    const post = insertPost(data)
-    // Callers must use `useServerFn` so the router performs this redirect.
-    throw redirect({ to: '/posts/$postId', params: { postId: post.id } })
-  })
+  .handler(async ({ context, data }) => {
+    if (await context.posts.findPostIdBySlug(data.slug)) slugTaken(data.slug);
+    return await context.posts.createPost(data);
+  });
 
-export const getInsights = createServerFn({ method: 'GET' }).handler(() =>
-  computeInsights(),
-)
+export const updatePost = createServerFn({ method: "POST" })
+  .middleware([ensure_auth_middleware, posts_middleware])
+  .validator(postUpdateSchema)
+  .handler(async ({ context, data: { id, ...details } }) => {
+    const slug_owner = await context.posts.findPostIdBySlug(details.slug);
+    if (slug_owner && slug_owner !== id) slugTaken(details.slug);
+    const post = await context.posts.updatePost(id, details);
+    if (!post) throw notFound();
+    return post;
+  });
+
+export const deletePost = createServerFn({ method: "POST" })
+  .middleware([ensure_auth_middleware, posts_middleware])
+  .validator(postIdSchema)
+  .handler(async ({ context, data }) => {
+    const post = await context.posts.deletePost(data.id);
+    if (!post) throw notFound();
+    return post;
+  });
+
+export const savePostDraft = createServerFn({ method: "POST" })
+  .middleware([ensure_auth_middleware, posts_middleware])
+  .validator(postContentSchema)
+  .handler(async ({ context, data }) => {
+    const status = await context.posts.savePostDraft(data.id, data.content);
+    if (!status) throw notFound();
+    return status;
+  });
+
+export const publishPost = createServerFn({ method: "POST" })
+  .middleware([ensure_auth_middleware, posts_middleware])
+  .validator(postContentSchema)
+  .handler(async ({ context, data }) => {
+    if (!hasRichTextContent(data.content)) {
+      setResponseStatus(400);
+      throw new Error("Write something before publishing.");
+    }
+    const status = await context.posts.publishPost(data.id, data.content);
+    if (!status) throw notFound();
+    return status;
+  });
+
+export const unpublishPost = createServerFn({ method: "POST" })
+  .middleware([ensure_auth_middleware, posts_middleware])
+  .validator(postIdSchema)
+  .handler(async ({ context, data }) => {
+    const status = await context.posts.unpublishPost(data.id);
+    if (!status) throw notFound();
+    return status;
+  });

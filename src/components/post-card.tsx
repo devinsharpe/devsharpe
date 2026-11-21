@@ -1,21 +1,37 @@
-import { Link } from '@tanstack/react-router'
-import type { Post } from '~/lib/posts'
+import { Link } from "@tanstack/react-router";
+import type { ComponentProps } from "react";
+import { cn } from "~/lib/utils";
+import type { listRecentPosts } from "~/server/functions/posts.functions";
+import { PublishedDate } from "./_ui/published-date";
+import { PostTags } from "./post-tags";
 
-export function PostCard({ post }: { post: Omit<Post, 'body'> }) {
+export type PostSummary = Awaited<ReturnType<typeof listRecentPosts>>[number];
+
+interface PostCardProps extends ComponentProps<"li"> {
+  post: PostSummary;
+}
+
+/** A published post in a list (homepage, /posts); render inside a <ul>. */
+export function PostCard({ post, className, ...props }: PostCardProps) {
+  const summary = post.description ?? post.excerpt;
   return (
-    <article className="card">
-      <p className="meta">
-        <span className="tag">{post.tag}</span>
-        <time dateTime={post.publishedAt}>
-          {new Date(post.publishedAt).toISOString().slice(0, 10)}
-        </time>
-      </p>
-      <h2>
-        <Link to="/posts/$postId" params={{ postId: post.id }}>
+    <li {...props} className={cn("flex flex-col gap-2", className)}>
+      {post.publishedAt && (
+        <p className="text-sm opacity-80">
+          <PublishedDate date={post.publishedAt} />
+        </p>
+      )}
+      <h3 className="text-lg">
+        <Link
+          to="/posts/$slug"
+          params={{ slug: post.slug }}
+          className="hover:underline"
+        >
           {post.title}
         </Link>
-      </h2>
-      <p className="muted">{post.excerpt}</p>
-    </article>
-  )
+      </h3>
+      {summary && <p className="max-w-3xl">{summary}</p>}
+      <PostTags tags={post.tags} />
+    </li>
+  );
 }

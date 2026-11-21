@@ -12,6 +12,9 @@ export function getServerEnv() {
   return {
     siteTitle: process.env.SITE_TITLE ?? 'Devin Sharpe',
     siteSubtitle: process.env.SITE_SUBTITLE ?? "",
+    // Public origin for absolute links (e.g. the RSS feed). Optional: falls
+    // back to BETTER_AUTH_URL, then to the request's own origin.
+    siteUrl: process.env.SITE_URL || process.env.BETTER_AUTH_URL || '',
     // Where uploaded media is stored. Any S3-compatible service works; set
     // S3_ENDPOINT for one that isn't AWS (R2, MinIO, B2, ...). Without
     // S3_ACCESS_KEY_ID, the AWS SDK's usual credential chain is used (AWS_*

@@ -13,6 +13,7 @@ import { ToastProvider } from "~/components/_ui/toast";
 import Footer from "~/components/_ui/footer";
 import { getSiteTitle } from "~/server/functions/site.functions";
 import { getThemePreference } from "~/server/functions/preferences.functions";
+import { POSTS_FEED_PATH, postsFeedTitle } from "~/lib/posts";
 
 // Dev only. `import.meta.env.DEV` is false in production builds, so this
 // import (and the devtools packages) are dropped from them entirely.
@@ -31,7 +32,16 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: loaderData?.title.title ?? "Dispatch" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      // Lets browsers and feed readers find the RSS feed from any page.
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: postsFeedTitle(loaderData?.title.title ?? "Dispatch"),
+        href: POSTS_FEED_PATH,
+      },
+    ],
     scripts: [
       {
         defer: true,
