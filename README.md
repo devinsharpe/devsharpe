@@ -533,8 +533,9 @@ When a page is shared in Slack, iMessage, Bluesky and the like, the preview come
 - The description is the subtitle.
 - `og:url` and the image are absolute URLs on `SITE_URL` (see [Environment](#environment) for its fallbacks).
 - `og:image` is the page's generated share card.
+- The title, description, URL and image also go out as X's `twitter:` tags, and `twitter:card` is `summary_large_image`. X reads the `og:` tags when its own are missing, but other readers and SEO checkers look for both.
 
-A page's own `head` wins, tag by tag. Pages set theirs with `pageMeta({ title, description, image })` from [`src/lib/share.ts`](src/lib/share.ts), which also sets the `<title>` and the description. Leave out `image` to keep the card. Collections, photos and `/links` pass a 1200 × 630 crop of their photo from imgproxy instead (a collection's is its cover), and fall back to the card when there's no photo or imgproxy isn't configured.
+A page's own `head` wins, tag by tag. Pages set theirs with `pageMeta({ title, description, image })` from [`src/lib/share.ts`](src/lib/share.ts), which sets the `og:` and `twitter:` tags together, plus the `<title>` and the description. Leave out `image` to keep the card. Collections, photos and `/links` pass a 1200 × 630 crop of their photo from imgproxy instead (a collection's is its cover), and fall back to the card when there's no photo or imgproxy isn't configured.
 
 **Share cards** are 1200 × 630 PNGs at `/og` plus the page's path: `/og/posts/my-post` is the card for `/posts/my-post`. Open one in the browser to see it. The card shows the site title and host along the top, and the page's breadcrumbs: the last crumb as the title, the ones before it above that, and the subtitle on the home page.
 

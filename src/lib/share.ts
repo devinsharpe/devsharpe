@@ -1,5 +1,6 @@
 // Link previews: the meta tags that sites like Slack, iMessage and Bluesky
-// read (Open Graph). The root route sets the defaults for every page,
+// read (Open Graph), and X's `twitter:` versions of the main ones. The root
+// route sets the defaults for every page,
 // including a generated card as the image (see server/og/cards.server.tsx);
 // a page's own tags win over them, tag by tag.
 
@@ -19,14 +20,30 @@ export function shareCardPath(path: string) {
 }
 
 /**
- * og:image and its size, in that order: the size tags describe the image
- * before them. Both kinds of share image are 1200 × 630.
+ * A link-preview tag as both `og:<key>` and `twitter:<key>`. X falls back to
+ * the og: tag, but other readers and SEO checkers look for both.
+ */
+export function previewMeta(
+  key: "title" | "description" | "url",
+  content: string,
+) {
+  return [
+    { property: `og:${key}`, content },
+    { name: `twitter:${key}`, content },
+  ];
+}
+
+/**
+ * The share image: og:image and its size, in that order (the size tags
+ * describe the image before them), then twitter:image. Both kinds of share
+ * image are 1200 × 630.
  */
 export function shareImageMeta(url: string) {
   return [
     { property: "og:image", content: url },
     { property: "og:image:width", content: `${SHARE_IMAGE_WIDTH}` },
     { property: "og:image:height", content: `${SHARE_IMAGE_HEIGHT}` },
+    { name: "twitter:image", content: url },
   ];
 }
 
@@ -44,11 +61,11 @@ export function pageMeta({
   image?: string | null;
 }) {
   return [
-    ...(title ? [{ title }, { property: "og:title", content: title }] : []),
+    ...(title ? [{ title }, ...previewMeta("title", title)] : []),
     ...(description
       ? [
           { name: "description", content: description },
-          { property: "og:description", content: description },
+          ...previewMeta("description", description),
         ]
       : []),
     ...(image ? shareImageMeta(image) : []),

@@ -16,6 +16,7 @@ import { getSiteTitle } from "~/server/functions/site.functions";
 import { getThemePreference } from "~/server/functions/preferences.functions";
 import { POSTS_FEED_PATH, postsFeedTitle } from "~/lib/posts";
 import {
+  previewMeta,
   shareCardPath,
   shareImageMeta,
   withoutTrailingSlash,
@@ -41,7 +42,7 @@ export const Route = createRootRoute({
     const path = withoutTrailingSlash(matches.at(-1)?.pathname ?? "/");
     // A page whose own crumb is fixed (e.g. /uses, "Gear") previews as that.
     // A crumb from the page's data (a post's title) can't be read here, so
-    // those pages set og:title themselves.
+    // those pages set their preview title themselves (pageMeta).
     const crumb = matches
       .slice(1)
       .findLast((match) => match.staticData?.breadcrumb)?.staticData.breadcrumb;
@@ -51,14 +52,11 @@ export const Route = createRootRoute({
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { title: site_title },
-        {
-          property: "og:title",
-          content: typeof crumb === "string" ? crumb : site_title,
-        },
+        ...previewMeta("title", typeof crumb === "string" ? crumb : site_title),
         ...(subtitle
           ? [
               { name: "description", content: subtitle },
-              { property: "og:description", content: subtitle },
+              ...previewMeta("description", subtitle),
             ]
           : []),
         { property: "og:site_name", content: site_title },
@@ -68,7 +66,7 @@ export const Route = createRootRoute({
         // generated card (routes/og/$.ts) unless the page sets its own.
         ...(origin
           ? [
-              { property: "og:url", content: origin + path },
+              ...previewMeta("url", origin + path),
               ...shareImageMeta(origin + shareCardPath(path)),
             ]
           : []),
