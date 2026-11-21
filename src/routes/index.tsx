@@ -1,9 +1,22 @@
 import { createFileRoute, Link as TanstackLink } from "@tanstack/react-router";
-import { listPosts } from "~/server/functions/posts.functions";
+import { listRecentPosts } from "~/server/functions/posts.functions";
 import { PostCard } from "~/components/post-card";
 import Main from "~/components/_ui/main";
-import { listPositions } from "~/server/functions/about.functions";
+import {
+  getBiography,
+  listPositions,
+} from "~/server/functions/about.functions";
+import { listActiveProjects } from "~/server/functions/projects.functions";
+import { listLatestCollections } from "~/server/functions/photography.functions";
+import {
+  COLLECTION_GRID,
+  CollectionCard,
+} from "~/components/photography/collection-card";
 import PositionListItem from "~/components/position-list-item";
+import ProjectCard from "~/components/project-card";
+import { RICH_TEXT_PROSE } from "~/components/rich-text/rich-text-classes";
+import { RichTextRenderer } from "~/components/rich-text/rich-text-renderer";
+import { hasRichTextContent } from "~/lib/rich-text";
 import { useMemo } from "react";
 import Link from "~/components/_ui/link";
 import { ArrowRightIcon } from "lucide-react";
@@ -12,16 +25,23 @@ import { ArrowRightIcon } from "lucide-react";
 // first response is a complete HTML document.
 export const Route = createFileRoute("/")({
   loader: async () => {
-    return {
-      positions: await listPositions(),
-      posts: await listPosts({ data: { page: 1 } }),
-    };
+    const [biography, positions, posts, projects, collections] =
+      await Promise.all([
+      getBiography(),
+      listPositions(),
+      listRecentPosts({ data: { limit: 3 } }),
+      // The first three, in the order set on the admin Projects page.
+      listActiveProjects({ data: { limit: 3 } }),
+      listLatestCollections({ data: { limit: 3 } }),
+    ]);
+    return { biography, positions, posts, projects, collections };
   },
   component: Home,
 });
 
 function Home() {
-  const { positions, posts } = Route.useLoaderData();
+  const { biography, positions, posts, projects, collections } =
+    Route.useLoaderData();
 
   const {
     employmentPositions,
@@ -46,19 +66,58 @@ function Home() {
   return (
     <Main>
       <section className="flex flex-col gap-4">
-        <p className="italic">hey...</p>
+        {/* Written on the admin Biography page. */}
+        {biography && hasRichTextContent(biography.content) ? (
+          <RichTextRenderer
+            document={biography.content}
+            media={biography.media}
+            className={RICH_TEXT_PROSE}
+          />
+        ) : (
+          <p className="italic">hey...</p>
+        )}
+        <Link to="/contact">
+          <span>Send me a message</span>
+          <ArrowRightIcon strokeWidth={1.5} size={16} />
+        </Link>
       </section>
       <hr className="-mx-2" />
       <section className="flex flex-col gap-4">
         <h2 className="opacity-80 text-2xl font-semibold hover:underline">
           <TanstackLink to="/posts">Latest Musings</TanstackLink>
         </h2>
-        <ul className="flex flex-col gap-2">
-          {posts.items.slice(0, 3).map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </ul>
-        <Link to="/posts">All posts →</Link>
+        {posts.length > 0 ? (
+          <ul className="flex flex-col gap-6">
+            {posts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </ul>
+        ) : (
+          <p className="italic opacity-80">No musings yet</p>
+        )}
+        <Link to="/posts">
+          <span>Read all of my musings</span>
+          <ArrowRightIcon strokeWidth={1.5} size={16} />
+        </Link>
+      </section>
+      <hr className="-mx-2" />
+      <section className="flex flex-col gap-4">
+        <h2 className="opacity-80 text-2xl font-semibold hover:underline">
+          <TanstackLink to="/projects">Active Projects</TanstackLink>
+        </h2>
+        {projects.length > 0 ? (
+          <ul className="flex flex-col gap-4">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} {...project} />
+            ))}
+          </ul>
+        ) : (
+          <p className="italic opacity-80">No active projects right now</p>
+        )}
+        <Link to="/projects">
+          <span>See all of my projects</span>
+          <ArrowRightIcon strokeWidth={1.5} size={16} />
+        </Link>
       </section>
       <hr className="-mx-2" />
       <section className="flex flex-col gap-4">
@@ -71,7 +130,7 @@ function Home() {
           ))}
         </ul>
         <Link to="/employment">
-          <span>See my full history here</span>
+          <span>See my full history</span>
           <ArrowRightIcon strokeWidth={1.5} size={16} />
         </Link>
       </section>
@@ -82,17 +141,36 @@ function Home() {
             Latest Photo Collections
           </TanstackLink>
         </h2>
+        {collections.length > 0 ? (
+          <ul className={COLLECTION_GRID}>
+            {collections.map((item) => (
+              <CollectionCard key={item.id} item={item} />
+            ))}
+          </ul>
+        ) : (
+          <p className="italic opacity-80">No photo collections yet</p>
+        )}
+        <Link to="/photography">
+          <span>See all of my photography</span>
+          <ArrowRightIcon strokeWidth={1.5} size={16} />
+        </Link>
       </section>
       <hr className="-mx-2" />
       <section className="flex flex-col gap-4">
         <h2 className="opacity-80 text-2xl font-semibold hover:underline">
-          <TanstackLink to="/employment">Volunteer History</TanstackLink>
+          <TanstackLink to="/employment" hash="volunteer-history">
+            Volunteer History
+          </TanstackLink>
         </h2>
         <ul className="flex flex-col gap-8">
           {volunteerPositions.map((position) => (
             <PositionListItem key={position.id} {...position} />
           ))}
         </ul>
+        <Link to="/employment" hash="volunteer-history">
+          <span>See my full history</span>
+          <ArrowRightIcon strokeWidth={1.5} size={16} />
+        </Link>
       </section>
     </Main>
   );

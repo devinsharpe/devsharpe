@@ -66,7 +66,8 @@ function RouteComponent() {
         </ul>
       </section>
       <hr className="-mx-2" />
-      <section className="flex flex-col gap-4">
+      {/* Linked from the homepage; scroll-mt clears the sticky header. */}
+      <section id="volunteer-history" className="flex flex-col gap-4 scroll-mt-20">
         <h2 className="text-2xl font-semibold">Volunteer History</h2>
         <ul className="flex flex-col gap-8">
           {volunteerPositions.map((position) => (
