@@ -30,6 +30,7 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AuthenticatedDashboardCollectionsIndexRouteImport } from './routes/_authenticated/dashboard/collections/index'
 import { Route as AuthenticatedDashboardCollectionsPhotosRouteImport } from './routes/_authenticated/dashboard/collections/photos'
 import { Route as AuthenticatedDashboardCollectionsZinesRouteImport } from './routes/_authenticated/dashboard/collections/zines'
+import { Route as AuthenticatedDashboardMediaIndexRouteImport } from './routes/_authenticated/dashboard/media/index'
 import { Route as AuthenticatedDashboardPostsIndexRouteImport } from './routes/_authenticated/dashboard/posts/index'
 import { Route as AuthenticatedDashboardPostsCommentsRouteImport } from './routes/_authenticated/dashboard/posts/comments'
 import { Route as AuthenticatedDashboardProjectsIndexRouteImport } from './routes/_authenticated/dashboard/projects/index'
@@ -144,6 +145,12 @@ const AuthenticatedDashboardCollectionsZinesRoute =
     path: '/dashboard/collections/zines',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedDashboardMediaIndexRoute =
+  AuthenticatedDashboardMediaIndexRouteImport.update({
+    id: '/dashboard/media/',
+    path: '/dashboard/media/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedDashboardPostsIndexRoute =
   AuthenticatedDashboardPostsIndexRouteImport.update({
     id: '/dashboard/posts/',
@@ -191,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
   '/dashboard/collections/': typeof AuthenticatedDashboardCollectionsIndexRoute
+  '/dashboard/media/': typeof AuthenticatedDashboardMediaIndexRoute
   '/dashboard/posts/': typeof AuthenticatedDashboardPostsIndexRoute
   '/dashboard/projects/': typeof AuthenticatedDashboardProjectsIndexRoute
   '/dashboard/requests/': typeof AuthenticatedDashboardRequestsIndexRoute
@@ -217,6 +225,7 @@ export interface FileRoutesByTo {
   '/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
   '/dashboard/collections': typeof AuthenticatedDashboardCollectionsIndexRoute
+  '/dashboard/media': typeof AuthenticatedDashboardMediaIndexRoute
   '/dashboard/posts': typeof AuthenticatedDashboardPostsIndexRoute
   '/dashboard/projects': typeof AuthenticatedDashboardProjectsIndexRoute
   '/dashboard/requests': typeof AuthenticatedDashboardRequestsIndexRoute
@@ -245,6 +254,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/_authenticated/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
   '/_authenticated/dashboard/collections/': typeof AuthenticatedDashboardCollectionsIndexRoute
+  '/_authenticated/dashboard/media/': typeof AuthenticatedDashboardMediaIndexRoute
   '/_authenticated/dashboard/posts/': typeof AuthenticatedDashboardPostsIndexRoute
   '/_authenticated/dashboard/projects/': typeof AuthenticatedDashboardProjectsIndexRoute
   '/_authenticated/dashboard/requests/': typeof AuthenticatedDashboardRequestsIndexRoute
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/dashboard/collections/zines'
     | '/dashboard/posts/comments'
     | '/dashboard/collections/'
+    | '/dashboard/media/'
     | '/dashboard/posts/'
     | '/dashboard/projects/'
     | '/dashboard/requests/'
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/dashboard/collections/zines'
     | '/dashboard/posts/comments'
     | '/dashboard/collections'
+    | '/dashboard/media'
     | '/dashboard/posts'
     | '/dashboard/projects'
     | '/dashboard/requests'
@@ -326,6 +338,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/collections/zines'
     | '/_authenticated/dashboard/posts/comments'
     | '/_authenticated/dashboard/collections/'
+    | '/_authenticated/dashboard/media/'
     | '/_authenticated/dashboard/posts/'
     | '/_authenticated/dashboard/projects/'
     | '/_authenticated/dashboard/requests/'
@@ -498,6 +511,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardCollectionsZinesRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/dashboard/media/': {
+      id: '/_authenticated/dashboard/media/'
+      path: '/dashboard/media'
+      fullPath: '/dashboard/media/'
+      preLoaderRoute: typeof AuthenticatedDashboardMediaIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard/posts/': {
       id: '/_authenticated/dashboard/posts/'
       path: '/dashboard/posts'
@@ -537,6 +557,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedDashboardCollectionsZinesRoute: typeof AuthenticatedDashboardCollectionsZinesRoute
   AuthenticatedDashboardPostsCommentsRoute: typeof AuthenticatedDashboardPostsCommentsRoute
   AuthenticatedDashboardCollectionsIndexRoute: typeof AuthenticatedDashboardCollectionsIndexRoute
+  AuthenticatedDashboardMediaIndexRoute: typeof AuthenticatedDashboardMediaIndexRoute
   AuthenticatedDashboardPostsIndexRoute: typeof AuthenticatedDashboardPostsIndexRoute
   AuthenticatedDashboardProjectsIndexRoute: typeof AuthenticatedDashboardProjectsIndexRoute
   AuthenticatedDashboardRequestsIndexRoute: typeof AuthenticatedDashboardRequestsIndexRoute
@@ -554,6 +575,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedDashboardPostsCommentsRoute,
   AuthenticatedDashboardCollectionsIndexRoute:
     AuthenticatedDashboardCollectionsIndexRoute,
+  AuthenticatedDashboardMediaIndexRoute: AuthenticatedDashboardMediaIndexRoute,
   AuthenticatedDashboardPostsIndexRoute: AuthenticatedDashboardPostsIndexRoute,
   AuthenticatedDashboardProjectsIndexRoute:
     AuthenticatedDashboardProjectsIndexRoute,
