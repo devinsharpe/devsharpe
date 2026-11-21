@@ -1,0 +1,5 @@
+Hey, I'm Devin, a senior frontend engineer and (amateur) photographer based in Philadelphia. I've spent the last eight years building customer-facing products, from new-product launches to analytics and LLM features. These days I'm on the New Product Engineering team at [Strata](https://gostrata.com), where I led the frontend of [MailTech](https://app.mailtech.io/), a new online mail marketing platform, from initial architecture through launch.
+
+I'm drawn to the hidden relationships between people and technology. Outside of work, I co-founded the [Digital Queer Collective](https://dqc.dev), a community of 2SLGBTQIA+ technologists and policy strategists building digital infrastructure for queer communities, and I volunteer as a developer for [HHH Radio](https://hhhradio.com). Before that, I volunteered with the [Trans Formations Project](https://transformationsproject.org).
+
+This site is where I keep it all in one place: [musings](/posts) on whatever's on my mind, the [projects](/projects) I'm building, my [photography](/photography), and the [gear and software](/uses) I use every day.

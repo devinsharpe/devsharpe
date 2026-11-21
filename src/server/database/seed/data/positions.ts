@@ -1,0 +1,177 @@
+import type { PositionSeed } from "../types";
+
+/** Work and volunteer history (/employment), each list in display order. */
+export const positions: PositionSeed[] = [
+  // <-- Employment -->
+  {
+    id: "strata-company-2024",
+    type: "employment",
+    title: "Senior Frontend Software Engineer",
+    name: "Strata Company",
+    link: "https://gostrata.com",
+    team: "New Product Engineering",
+    location: "Philadelphia, PA",
+    officeType: "remote",
+    startDate: "2024",
+    description:
+      "Frontend engineering for new products on the Application Development / New Product Engineering team, from architecture and testing through launch and instrumentation.",
+    highlights: [
+      "Led frontend development of MailTech, a new online mail marketing platform, from initial architecture through launch, setting the team's testing approach (Vitest, Playwright) and mentoring engineers through code review and pairing.",
+      "Implemented Storybook and a shared UI component registry, and connected them to AI coding agents through a Storybook MCP server, giving agents direct access to component docs and stories.",
+      "Ran UX flow reviews that cut reported bugs in the import and reporting flows by roughly 60% over three quarters, using Datadog and session data to prioritize.",
+      "Shipped the frontend implementation of Datadog instrumentation across a microservice architecture, and drove the migration of the company's analytics tracking pixel off a legacy service.",
+      "Designed and shipped features for data-intensive workflows: mass data import, performance report review, and ML-driven audience targeting and personalization.",
+      "Contributed application-wide AI assistance features and prototyped agent-platform integrations via WebMCP.",
+    ],
+    technologies: [
+      "TypeScript",
+      "React",
+      "Next.js",
+      "TanStack Start",
+      "Go",
+      "Temporal",
+      "Fastify",
+      "Datadog",
+    ],
+  },
+  {
+    id: "telrite-holdings-inc-2023",
+    type: "employment",
+    title: "Frontend Software Engineer",
+    name: "Telrite Holdings, Inc.",
+    link: "https://telrite.com",
+    team: "Frontend Technologies & Foundational Research",
+    location: "Atlanta, GA",
+    officeType: "hybrid",
+    startDate: "2023",
+    endDate: "2024",
+    description:
+      "Frontend work across several brands' web applications: a shared component library, experience analytics, and modernized signup and ecommerce flows.",
+    highlights: [
+      "Led implementation of the FullStory experience-analytics platform across multiple brand applications, and ran review sessions that turned session data into a prioritized queue of UX fixes.",
+      "Built and maintained a shared, themeable component library used by 4 distinct brands and web applications, with design tokens for per-brand theming and components documented in Storybook.",
+      "Rebuilt customer signup and ecommerce flows alongside UX designers, standardizing the funnel across brands.",
+      "Partnered with backend developers and systems administrators to replace legacy systems with modern frameworks, libraries, and pipelines.",
+    ],
+    technologies: [
+      "TypeScript",
+      "Vue",
+      "React",
+      "React Native",
+      "Inertia",
+      "Laravel",
+      "PHP",
+      "FullStory",
+    ],
+  },
+  {
+    id: "the-washington-post-2022",
+    type: "employment",
+    title: "Frontend Software Engineer",
+    name: "The Washington Post",
+    link: "https://www.washingtonpost.com",
+    team: "Research & Experimental Design",
+    location: "Washington, DC",
+    officeType: "remote",
+    startDate: "2022",
+    endDate: "2023",
+    description:
+      "Built and tested experimental ad formats in the Research and Experimental Design group, part of Commercial Engineering.",
+    highlights: [
+      "Built and evaluated new ad formats and templates inside an experimental research group, instrumenting them extensively with Google Tag Manager to measure performance against engagement and revenue.",
+      "Developed and maintained internal tooling for advertising operations.",
+      "Built automated generation of advertisement copy variants using GPT-3, expanding the pool of creative available for performance testing.",
+    ],
+    technologies: [
+      "TypeScript",
+      "React",
+      "Sass",
+      "Babel",
+      "AWS CDK",
+      "Google Tag Manager",
+    ],
+  },
+  {
+    id: "priority1-pos-llc-2018",
+    type: "employment",
+    title: "Full Stack Software Engineer",
+    name: "Priority1 POS, LLC.",
+    link: "https://priority1-pos.com",
+    location: "Atlanta, GA",
+    officeType: "office",
+    startDate: "2018",
+    endDate: "2022",
+    description:
+      "Full stack development of web and desktop applications for internal teams and clients, alongside FuturePOS.",
+    highlights: [
+      "Designed and developed 10+ web applications in React and TypeScript for internal and client use alongside FuturePOS.",
+      "Built 4 desktop applications using Electron.",
+      "Deployed projects to AWS with CI/CD pipelines.",
+    ],
+    technologies: ["React", "TypeScript", "Electron", "Python", "Node", "AWS"],
+  },
+
+  // <-- Volunteer -->
+  {
+    // The id predates the 2025 start date; ids are fixed once created.
+    id: "digital-queer-collective-2023",
+    type: "volunteer",
+    title: "Cofounder",
+    name: "Digital Queer Collective",
+    link: "https://dqc.dev",
+    officeType: "remote",
+    startDate: "2025",
+    description:
+      "A community of 2SLGBTQIA+ technologists and policy strategists building inclusive software and digital infrastructure for queer communities, started after the Trans Formations Project closed in 2025. Leading development of the collective's projects and initiatives.",
+    highlights: [
+      "Built the collective's site, dqc.dev, with TanStack Start, React, and TypeScript, including its mission and values, team bios, project pages, and a markdown publishing system for posts and the collective's AI, ethics, and positionality statements.",
+      "Built a contact and newsletter sign-up flow with Cloudflare Turnstile bot protection, requests stored in Postgres through Drizzle ORM, and opt-in subscribers added to a Resend audience.",
+      "Set up the collective's self-hosted delivery pipeline: a Gitea Actions runner that builds multi-architecture Docker images and pushes them to Gitea's package registry, deployed with Dokploy behind container health checks, with self-hosted Plausible analytics.",
+      "Leading the archive of the Trans Formations Project's work after the organization closed: its database of anti-trans and trans-affirming legislation across all 50 states, elected officials' voting records, and its newsletters.",
+    ],
+  },
+  {
+    id: "hhh-radio-2026",
+    type: "volunteer",
+    title: "Software Developer",
+    name: "HHH Radio",
+    location: "Philadelphia, PA",
+    officeType: "remote",
+    startDate: "2026",
+    description:
+      "Volunteer developer on the station's website, which covers its artists, episodes, and blog posts.",
+    highlights: [
+      "Set up the project's shared foundations for other volunteer contributors: a UI component library, a form system on TanStack Form, Biome formatting and linting, and written setup docs.",
+      "Built the data layer for the station's site of artists, episodes and blog posts: a typed Postgres schema on Neon with Drizzle ORM, versioned migrations, and Zod validation generated from the schema.",
+      "Shipped passwordless magic-link sign-in with Better Auth and Resend, with branded React Email templates, an account page, and access checks on both routes and server functions.",
+      "Built an admin portal for managing users: search, role changes, bans, signing users out everywhere, and email invites that undo themselves if the email fails to send.",
+    ],
+    technologies: [
+      "TypeScript",
+      "React",
+      "TanStack Form",
+      "Biome",
+      "Postgres",
+      "Drizzle ORM",
+      "Better Auth",
+      "React Email",
+    ],
+  },
+  {
+    id: "trans-formations-project-2023",
+    type: "volunteer",
+    title: "Software Developer",
+    name: "Trans Formations Project",
+    link: "https://www.transformationsproject.org",
+    team: "Widget Development",
+    officeType: "remote",
+    startDate: "2023",
+    endDate: "2025",
+    description:
+      "Built web applications on the Widget Development team that turned the organization's US legislative bill data into tools for tracking anti-trans legislation and how representatives voted.",
+    highlights: [
+      "Built web application features for the organization's 'widgets' initiative.",
+      "Presented record-keeping data in accessible, digestible formats for a general audience.",
+    ],
+  },
+];

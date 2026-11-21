@@ -8,6 +8,7 @@
     "start": "node .output/server/index.mjs",
     "gen-migration": "npx drizzle-kit generate",
     "migrate": "npx drizzle-kit migrate",
+    "seed": "tsx src/server/database/seed/index.server.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
