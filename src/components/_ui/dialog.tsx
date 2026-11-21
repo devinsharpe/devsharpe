@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import Button, { ButtonProps } from "~/components/_ui/button";
+import Button from "~/components/_ui/button";
 import { ClientOnly, useLayoutEffect } from "@tanstack/react-router";
 import { XIcon } from "lucide-react";
 import { cn } from "~/lib/utils";
@@ -116,19 +116,6 @@ function Root({ children, idSetter, open, onOpenChange }: DialogRootProps) {
   );
 }
 
-interface DialogActionProps extends ButtonProps {
-  command: "show-modal" | "close";
-}
-
-function Action({ children, command, ...props }: DialogActionProps) {
-  const context = useDialogContext();
-  return (
-    <Button {...props} command={command} commandfor={context.id}>
-      {children}
-    </Button>
-  );
-}
-
 interface ContentProps extends Omit<
   ComponentProps<"dialog">,
   "open" | "onClose"
@@ -143,7 +130,11 @@ function Content({ children, className, ...props }: ContentProps) {
     if (context.open) {
       content_ref.current.showModal();
     } else {
-      content_ref.current.requestClose();
+      const dialog = content_ref.current;
+      // requestClose (which also fires `cancel`) is new; older browsers
+      // only have close().
+      if (typeof dialog.requestClose === "function") dialog.requestClose();
+      else dialog.close();
     }
   }, [context.open]);
 
@@ -169,10 +160,10 @@ function Content({ children, className, ...props }: ContentProps) {
             variant="default"
             size="icon"
             className="absolute top-2 right-2"
-            command="close"
-            commandfor={context.id}
+            aria-label="Close"
+            onClick={() => context.onOpenChange(false)}
           >
-            <XIcon className="size-4" />
+            <XIcon className="size-4" aria-hidden />
           </Button>
         </dialog>,
         document.body,
@@ -183,7 +174,6 @@ function Content({ children, className, ...props }: ContentProps) {
 }
 
 export default {
-  Action,
   Root,
   Content,
 };

@@ -1,16 +1,21 @@
-import { GripIcon, GripVerticalIcon, PencilLineIcon } from "lucide-react";
+import { GripIcon, PencilLineIcon } from "lucide-react";
 import { ComponentProps } from "react";
 import { cn } from "~/lib/utils";
 import type { HardwareItem } from "~/server/database/schema.server";
 import Button from "../_ui/button";
+import type { SortableHandleProps } from "../_ui/sortable-list";
 
 interface HardwareFormItemProps extends ComponentProps<"div"> {
   item: HardwareItem;
   on_edit_click: (item: HardwareItem) => void;
+  /** Wires the grip button up as this row's drag handle. */
+  drag_handle: SortableHandleProps;
 }
 
 function HardwareFormItem({
   item,
+  on_edit_click,
+  drag_handle,
   className,
   ...props
 }: HardwareFormItemProps) {
@@ -22,14 +27,18 @@ function HardwareFormItem({
       )}
       {...props}
     >
-      <Button size="icon">
+      <Button size="icon" {...drag_handle}>
         <GripIcon strokeWidth={1.5} size={16} />
       </Button>
       <div className="flex flex-col flex-1">
         <p className="opacity-80 text-sm">{item.purpose}</p>
         <p className="font-medium">{item.name}</p>
       </div>
-      <Button size="icon">
+      <Button
+        size="icon"
+        aria-label={`Edit ${item.name}`}
+        onClick={() => on_edit_click(item)}
+      >
         <PencilLineIcon strokeWidth={1.5} size={16} />
       </Button>
     </div>

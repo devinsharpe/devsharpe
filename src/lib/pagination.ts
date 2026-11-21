@@ -38,6 +38,6 @@ export function buildPaginationQueryAugments(p: PaginationArg) {
 export const paginationSchema = z
   .object({
     page: z.number().positive().default(DEFAULT_PAGINATION.page),
-    limit: z.number().positive().default(DEFAULT_PAGINATION.size),
+    size: z.number().positive().default(DEFAULT_PAGINATION.size),
   })
   .optional();
