@@ -10,6 +10,7 @@ import HardwareListItem from "~/components/hardware-list-item";
 import SoftwareListItem from "~/components/software-list-item";
 
 export const Route = createFileRoute("/uses")({
+  staticData: { breadcrumb: "Gear" },
   component: RouteComponent,
   loader: async () => {
     return {

@@ -81,10 +81,6 @@ function RouteComponent() {
     const { camera, photos, total, page, page_count } = data;
     return (
       <Main>
-        <Link to="/photography" size="sm" className="-ml-2 self-start">
-          <ArrowLeftIcon strokeWidth={1.5} size={16} aria-hidden />
-          All collections
-        </Link>
         <section className="flex flex-col gap-4">
           {camera ? (
             <>

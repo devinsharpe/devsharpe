@@ -20,6 +20,7 @@ import { isUuid } from "~/lib/photography";
 import { getPublishedPhoto } from "~/server/functions/photography.functions";
 
 export const Route = createFileRoute("/photography/$slug/$photoId")({
+  staticData: { breadcrumb: Breadcrumb },
   component: RouteComponent,
   loader: ({ params }) => {
     if (!isUuid(params.photoId)) throw notFound();
@@ -46,6 +47,12 @@ export const Route = createFileRoute("/photography/$slug/$photoId")({
     };
   },
 });
+
+// Annotated: its type can't be inferred from Route, whose options include it.
+function Breadcrumb(): string {
+  const { index, total } = Route.useLoaderData();
+  return `Photo ${index + 1} of ${total}`;
+}
 
 /** Whether a key press belongs to something being typed in. */
 function isTyping(target: EventTarget | null) {
@@ -97,15 +104,6 @@ function RouteComponent() {
 
   return (
     <Main>
-      <Link
-        to="/photography/$slug"
-        params={{ slug: collection.slug }}
-        size="sm"
-        className="-ml-2 self-start"
-      >
-        <ArrowLeftIcon strokeWidth={1.5} size={16} aria-hidden />
-        {collection.title}
-      </Link>
       <figure className="flex flex-col gap-4">
         {photo.image ? (
           <MediaImage

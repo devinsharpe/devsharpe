@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowLeftIcon } from "lucide-react";
 import Divider from "~/components/_ui/divider";
-import Link from "~/components/_ui/link";
 import Main from "~/components/_ui/main";
 import { PublishedDate } from "~/components/_ui/published-date";
 import { PostTags } from "~/components/post-tags";
@@ -10,6 +8,7 @@ import { RichTextRenderer } from "~/components/rich-text/rich-text-renderer";
 import { getPublishedPost } from "~/server/functions/posts.functions";
 
 export const Route = createFileRoute("/posts/$slug")({
+  staticData: { breadcrumb: Breadcrumb },
   component: RouteComponent,
   loader: ({ params }) => getPublishedPost({ data: { slug: params.slug } }),
   head: ({ loaderData }) => {
@@ -25,6 +24,11 @@ export const Route = createFileRoute("/posts/$slug")({
   },
 });
 
+// Annotated: its type can't be inferred from Route, whose options include it.
+function Breadcrumb(): string {
+  return Route.useLoaderData().post.title;
+}
+
 /** Same calendar day as PublishedDate shows it (UTC). */
 const isSameDay = (a: Date, b: Date) =>
   a.toISOString().slice(0, 10) === b.toISOString().slice(0, 10);
@@ -38,10 +42,6 @@ function RouteComponent() {
 
   return (
     <Main>
-      <Link to="/posts" size="sm" className="-ml-2 self-start">
-        <ArrowLeftIcon strokeWidth={1.5} size={16} aria-hidden />
-        All musings
-      </Link>
       <header className="flex flex-col gap-3">
         <p className="text-sm opacity-80">
           <PublishedDate date={post.publishedAt} />

@@ -1,9 +1,8 @@
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowLeftIcon, LinkIcon } from "lucide-react";
+import { LinkIcon } from "lucide-react";
 import Divider from "~/components/_ui/divider";
 import { ExternalLink } from "~/components/_ui/external-link";
-import Link from "~/components/_ui/link";
 import Main from "~/components/_ui/main";
 import { PublishedDate } from "~/components/_ui/published-date";
 import { RICH_TEXT_PROSE } from "~/components/rich-text/rich-text-classes";
@@ -12,10 +11,16 @@ import { hasRichTextContent } from "~/lib/rich-text";
 import { getPublishedProjectPage } from "~/server/functions/projects.functions";
 
 export const Route = createFileRoute("/projects/$slug")({
+  staticData: { breadcrumb: Breadcrumb },
   component: RouteComponent,
   loader: ({ params }) =>
     getPublishedProjectPage({ data: { slug: params.slug } }),
 });
+
+// Annotated: its type can't be inferred from Route, whose options include it.
+function Breadcrumb(): string {
+  return Route.useLoaderData().project.name;
+}
 
 function RouteComponent() {
   const { project, content, media, publishedAt } = Route.useLoaderData();
@@ -23,10 +28,6 @@ function RouteComponent() {
 
   return (
     <Main>
-      <Link to="/projects" size="sm" className="-ml-2">
-        <ArrowLeftIcon strokeWidth={1.5} size={16} aria-hidden />
-        All projects
-      </Link>
       <header className="flex flex-col gap-3">
         <p className="text-sm opacity-80">
           {project.startDate} – {end_date}

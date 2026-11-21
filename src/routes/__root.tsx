@@ -23,6 +23,8 @@ const Devtools = import.meta.env.DEV
   : null;
 
 export const Route = createRootRoute({
+  // The first crumb on every page (see components/_ui/breadcrumbs.tsx).
+  staticData: { breadcrumb: "Home" },
   // The site name comes from server env, so it goes through a server function.
   loader: async () => ({
     title: await getSiteTitle(),

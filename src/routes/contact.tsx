@@ -4,6 +4,7 @@ import { ContactForm } from "~/components/forms/contact-form";
 import { getContactForm } from "~/server/functions/contact.functions";
 
 export const Route = createFileRoute("/contact")({
+  staticData: { breadcrumb: "Contact" },
   component: RouteComponent,
   loader: () => getContactForm(),
 });

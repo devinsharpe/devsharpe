@@ -9,6 +9,7 @@ import { listPositions } from "~/server/functions/about.functions";
 import { getResumeAvailability } from "~/server/functions/resume.functions";
 
 export const Route = createFileRoute("/employment")({
+  staticData: { breadcrumb: "Employment" },
   component: RouteComponent,
   loader: async () => {
     const [positions, resume] = await Promise.all([
