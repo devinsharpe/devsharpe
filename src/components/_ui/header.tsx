@@ -65,7 +65,7 @@ export default function Header({
         </Dropdown.Root>
 
         <div>
-          <h1 className="font-bold lg:text-lg" title="Digital Queer Collective">
+          <h1 className="font-bold lg:text-lg">
             <TanstackLink
               to="/"
               className="focus-visible:outline-1 focus-visible:outline-white focus-visible:outline-offset-2"
