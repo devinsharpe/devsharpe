@@ -10,9 +10,10 @@
 #
 # The registry is behind Cloudflare, which rejects any request over 100 MB. A
 # push uploads each layer in its own request, so each layer must fit: the
-# largest here is Node itself, about 50 MB compressed. That's also why there's
-# no `--cache-to type=registry,mode=max`: it would push the build stage's
-# layers too, and its dependency install is about 225 MB.
+# largest here is the base image's Node and npm, about 56 MB compressed (the
+# image has no node_modules; see the Dockerfile). That's also why there's no
+# `--cache-to type=registry,mode=max`: it would push the build stage's layers
+# too, and its dependency install is about 225 MB.
 
 name: Build image
 

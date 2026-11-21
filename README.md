@@ -78,7 +78,7 @@ To run without Docker, you need your own Postgres, bucket and imgproxy configure
 | Script                  | What it does                                                                                                                      |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | `npm run dev`           | Vite dev server on port 3000                                                                                                      |
-| `npm run build`         | Production build to `.output/`: the server, plus the self-contained start-up scripts in `.output/tools`                           |
+| `npm run build`         | Production build to `.output/`: the server, plus self-contained builds of the start-up scripts and the seed in `.output/tools`    |
 | `npm start`             | Runs the production build (`node .output/server/index.mjs`). The Docker image runs migrations first; see [Deploying](#deploying). |
 | `npm run typecheck`     | `tsc --noEmit`. There's no test suite yet, so this is the check to run.                                                           |
 | `npm run gen-migration` | Generates a migration in `drizzle/` from changes to the schema                                                                    |
@@ -111,7 +111,7 @@ See [`.env.example`](.env.example) for every variable, with comments. Server cod
 ├── .gitea/workflows/         Builds the production image and pushes it to the registry
 ├── Dockerfile                Production image (see Deploying)
 ├── compose.yaml              Local stack: app, postgres, rustfs, imgproxy
-├── docker/                   Dev entrypoint, production start script and its build config, bucket setup
+├── docker/                   Dev entrypoint, bucket setup, production start script, its build config and package.json
 ├── drizzle/                  Generated SQL migrations (one folder each)
 ├── drizzle.config.ts         drizzle-kit: schema path, output folder
 ├── vite.config.ts            TanStack Start + Nitro + Tailwind + React
@@ -584,12 +584,12 @@ Production runs the image built from the [`Dockerfile`](Dockerfile). A Gitea Act
 **The image.** The build stage runs `npm ci` and `npm run build` on `node:26-trixie-slim`. The runtime image takes only three things from it:
 
 - the built server (`.output/server`), with its dependencies bundled in
-- the start-up scripts (`.output/tools`), bundled the same way by [`docker/vite.tools.config.mjs`](docker/vite.tools.config.mjs)
+- the start-up scripts and the seed (`.output/tools`), bundled the same way by [`docker/vite.tools.config.mjs`](docker/vite.tools.config.mjs), with the seed's Markdown next to it
 - the migrations' SQL (`drizzle/`)
 
-The runtime base is distroless (`gcr.io/distroless/nodejs26-debian13:nonroot`): Node and the libraries it links, with no shell or package manager. With no `node_modules`, the whole image is about 63 MB to download, and 50 MB of that is Node itself. It runs as the base image's non-root user (65532). Node is PID 1 and handles stop signals itself, through the server's graceful shutdown, which usually finishes in about a second.
+The runtime base is `node:26-trixie-slim` too, so the container has `bash` and `npm` for debugging, for example in Dokploy's terminal. It has no `node_modules`, so its `package.json` is [`docker/runtime.package.json`](docker/runtime.package.json), whose scripts run the bundled files: `npm run seed` and `npm run migrate`. The whole image is about 89 MB to download, and 56 MB of that is Node and npm. It runs as the base image's non-root `node` user (uid 1000), and the app's files stay owned by root. Node is PID 1 and handles stop signals itself, through the server's graceful shutdown, which usually finishes in about a second.
 
-**Each time the container starts**, [`docker/start.mjs`](docker/start.mjs) does the following, all in the one Node process, since there's no shell:
+**Each time the container starts**, [`docker/start.mjs`](docker/start.mjs) does the following, all in the one Node process:
 
 1. Applies pending migrations with [`migrate.server.ts`](src/server/database/migrate.server.ts). It uses drizzle-orm's migrator, which reads the same `drizzle/` folders as `npm run migrate` and records them in the same table, so the two can be used interchangeably. If it fails, for example because the database is unreachable, the container exits with an error instead of serving on an old schema.
 2. If `S3_CORS_ORIGINS` is set, runs [`docker/setup-bucket.mjs`](docker/setup-bucket.mjs). It creates the bucket if it's missing and **replaces** its CORS rules with one that lets those origins upload. Leave `S3_CORS_ORIGINS` unset to manage the bucket's CORS yourself.
@@ -609,7 +609,7 @@ It needs these repository secrets (Settings → Actions → Secrets):
 | `REGISTRY_PASSWORD`   | An access token for that user, with package read and write              |
 | `DOKPLOY_WEBHOOK_URL` | Optional: the application's deploy webhook URL from Dokploy (see below) |
 
-**Cloudflare's upload limit.** The registry is behind Cloudflare, which rejects any request over 100 MB. A push uploads each layer in its own request, so the limit applies to each layer, not to the whole image. This image's largest layer is Node itself, at about 50 MB compressed, and the app's own layer is about 2 MB. Two things would break that:
+**Cloudflare's upload limit.** The registry is behind Cloudflare, which rejects any request over 100 MB. A push uploads each layer in its own request, so the limit applies to each layer, not to the whole image. This image's largest layer is Node and npm, at about 56 MB compressed, then Debian, at about 30 MB. The app's own layers are about 2.5 MB. Two things would break that:
 
 - **Copying `node_modules` into the runtime image.** The build stage's `npm ci` layer is about 225 MB compressed.
 - **Exporting the build cache to the registry with `--cache-to type=registry,mode=max`.** That pushes the build stage's layers too, `npm ci` included. The workflow keeps no cache between runs, so each run installs the dependencies again.
@@ -621,14 +621,14 @@ Pulls aren't affected, since the limit is on what's uploaded.
 **From the registry**, with the workflow above:
 
 1. Add the Gitea registry under Dokploy's registry settings: URL `https://gitea.dqc.dev`, and a user and token that can read the package. Or give the credentials in the application's Docker settings.
-2. Create an application with **Docker** as its source, and the image `gitea.dqc.dev/<owner>/<repository>:latest`.
+2. Create an application with **Docker** as its source, and the image `gitea.dqc.dev/<owner>/<repository>:latest`. Include the registry host: without it, Docker looks for the image on Docker Hub.
 3. Turn on Auto Deploy, then copy the application's webhook URL into the repository secret `DOKPLOY_WEBHOOK_URL`. Dokploy deploys on any request to that URL. It only compares image tags for Docker Hub's and GitHub's payloads, and the workflow sends neither. Check the first deploy's log to confirm that Dokploy pulls `latest` again.
 4. Add the environment variables below.
 5. Point the site's domain at container port **3000**, with HTTPS.
 
 **Or from the repository**: create the application from the Gitea repository instead, with **Dockerfile** as the build type, and turn on Auto Deploy. Dokploy then builds the image itself on each push to the branch it follows. Use one or the other, not both, or each push deploys twice.
 
-Either way, the workflow and Dokploy follow `main`, and the repository only has `ui-refresh` so far. Create `main`, or change the branch in both places.
+Either way, the workflow and Dokploy follow `main`.
 
 ### Services it needs
 
@@ -655,9 +655,7 @@ Never reuse the fixed development values from `compose.yaml` (bucket keys, imgpr
 
 ### After the first deploy
 
-1. Load the site's content with `npm run seed`. The runtime image has no tools, so run it in one of two ways:
-   - **From your machine**, if the production database is reachable from it, for example through Dokploy's external port for the database or an SSH tunnel: `DATABASE_URL=<production url> npm run seed -- --dry-run`, then the same without `--dry-run`.
-   - **From the build stage**, which has the full install. On a machine that can reach the database, build it from the repository with `docker build --target build -t devsharpe-tools .`, then run `docker run --rm --network <a network that reaches the database> -e DATABASE_URL=<production url> devsharpe-tools npm run seed`.
+1. Load the site's content. Open the application's terminal in Dokploy (`bash`) and run `npm run seed -- --dry-run`, then `npm run seed`. It uses the container's own `DATABASE_URL`, and the content built into the image. Over SSH, `docker exec -it <container> npm run seed` does the same. Or run it from your machine, if the production database is reachable from it: `DATABASE_URL=<production url> npm run seed`.
 2. Sign in at `/login`, then upload the résumé and images from the admin.
 
 ### Trying the image locally
