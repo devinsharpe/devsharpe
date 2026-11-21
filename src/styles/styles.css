@@ -33,3 +33,11 @@ h6 {
   --font-mono:
     "Nudica Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+/* Project pages (RichTextEditor / RichTextRenderer): inline code is shown as a
+   chip, so drop the typography plugin's decorative backticks. Unlayered, so it
+   wins over the plugin's rules regardless of order. */
+.rich-text :where(code)::before,
+.rich-text :where(code)::after {
+  content: none;
+}
