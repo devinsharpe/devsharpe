@@ -169,12 +169,15 @@ function Content({ children, className, ...props }: ContentProps) {
   const id = useId();
   if (context.open)
     return (
+      // z-20 (as in Popover) keeps the menu above what comes after it. Without
+      // it, a later element that makes its own layer, such as the header's
+      // subtitle with its opacity, is drawn over the menu.
       <FloatingFocusManager context={context.floatingContext} modal={false}>
         <div
           {...props}
           id={id}
           className={cn(
-            "flex max-w-[clamp(0rem,calc(100dvw-(--spacing(8))),var(--container-lg))] flex-wrap gap-2 border bg-neutral-100 dark:bg-neutral-900 p-2 focus:outline-none md:gap-1",
+            "z-20 flex max-w-[clamp(0rem,calc(100dvw-(--spacing(8))),var(--container-lg))] flex-wrap gap-2 border bg-neutral-100 dark:bg-neutral-900 p-2 focus:outline-none md:gap-1",
             {
               "flex-row items-stretch": context.direction === "horizontal",
               "flex-col items-start": context.direction === "vertical",
