@@ -51,7 +51,13 @@ function UseLink({ use }: { use: MediaUse }) {
   }
   if (use.kind === "project") {
     return (
-      <span>Project page “{use.title}”</span>
+      <Link
+        to="/dashboard/projects/$projectId"
+        params={{ projectId: use.id }}
+        className={className}
+      >
+        Project page “{use.title}”
+      </Link>
     );
   }
   if (use.kind === "links") {

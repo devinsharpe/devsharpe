@@ -33,6 +33,7 @@ import { Route as AuthenticatedDashboardMediaIndexRouteImport } from './routes/_
 import { Route as AuthenticatedDashboardPostsIndexRouteImport } from './routes/_authenticated/dashboard/posts/index'
 import { Route as AuthenticatedDashboardPostsCommentsRouteImport } from './routes/_authenticated/dashboard/posts/comments'
 import { Route as AuthenticatedDashboardProjectsIndexRouteImport } from './routes/_authenticated/dashboard/projects/index'
+import { Route as AuthenticatedDashboardProjectsProjectIdRouteImport } from './routes/_authenticated/dashboard/projects/$projectId'
 import { Route as AuthenticatedDashboardRequestsIndexRouteImport } from './routes/_authenticated/dashboard/requests/index'
 import { Route as AuthenticatedEditBiographyIndexRouteImport } from './routes/_authenticated/edit/biography/index'
 import { Route as AuthenticatedEditBiographyWriteRouteImport } from './routes/_authenticated/edit/biography/write'
@@ -164,6 +165,12 @@ const AuthenticatedDashboardProjectsIndexRoute =
     path: '/dashboard/projects/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedDashboardProjectsProjectIdRoute =
+  AuthenticatedDashboardProjectsProjectIdRouteImport.update({
+    id: '/dashboard/projects/$projectId',
+    path: '/dashboard/projects/$projectId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedDashboardRequestsIndexRoute =
   AuthenticatedDashboardRequestsIndexRouteImport.update({
     id: '/dashboard/requests/',
@@ -203,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
+  '/dashboard/projects/$projectId': typeof AuthenticatedDashboardProjectsProjectIdRoute
   '/edit/biography/write': typeof AuthenticatedEditBiographyWriteRoute
   '/dashboard/collections/': typeof AuthenticatedDashboardCollectionsIndexRoute
   '/dashboard/media/': typeof AuthenticatedDashboardMediaIndexRoute
@@ -231,6 +239,7 @@ export interface FileRoutesByTo {
   '/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
+  '/dashboard/projects/$projectId': typeof AuthenticatedDashboardProjectsProjectIdRoute
   '/edit/biography/write': typeof AuthenticatedEditBiographyWriteRoute
   '/dashboard/collections': typeof AuthenticatedDashboardCollectionsIndexRoute
   '/dashboard/media': typeof AuthenticatedDashboardMediaIndexRoute
@@ -261,6 +270,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/_authenticated/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/_authenticated/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
+  '/_authenticated/dashboard/projects/$projectId': typeof AuthenticatedDashboardProjectsProjectIdRoute
   '/_authenticated/edit/biography/write': typeof AuthenticatedEditBiographyWriteRoute
   '/_authenticated/dashboard/collections/': typeof AuthenticatedDashboardCollectionsIndexRoute
   '/_authenticated/dashboard/media/': typeof AuthenticatedDashboardMediaIndexRoute
@@ -291,6 +301,7 @@ export interface FileRouteTypes {
     | '/dashboard/collections/photos'
     | '/dashboard/collections/zines'
     | '/dashboard/posts/comments'
+    | '/dashboard/projects/$projectId'
     | '/edit/biography/write'
     | '/dashboard/collections/'
     | '/dashboard/media/'
@@ -319,6 +330,7 @@ export interface FileRouteTypes {
     | '/dashboard/collections/photos'
     | '/dashboard/collections/zines'
     | '/dashboard/posts/comments'
+    | '/dashboard/projects/$projectId'
     | '/edit/biography/write'
     | '/dashboard/collections'
     | '/dashboard/media'
@@ -348,6 +360,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/collections/photos'
     | '/_authenticated/dashboard/collections/zines'
     | '/_authenticated/dashboard/posts/comments'
+    | '/_authenticated/dashboard/projects/$projectId'
     | '/_authenticated/edit/biography/write'
     | '/_authenticated/dashboard/collections/'
     | '/_authenticated/dashboard/media/'
@@ -545,6 +558,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardProjectsIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/dashboard/projects/$projectId': {
+      id: '/_authenticated/dashboard/projects/$projectId'
+      path: '/dashboard/projects/$projectId'
+      fullPath: '/dashboard/projects/$projectId'
+      preLoaderRoute: typeof AuthenticatedDashboardProjectsProjectIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard/requests/': {
       id: '/_authenticated/dashboard/requests/'
       path: '/dashboard/requests'
@@ -575,6 +595,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedDashboardCollectionsPhotosRoute: typeof AuthenticatedDashboardCollectionsPhotosRoute
   AuthenticatedDashboardCollectionsZinesRoute: typeof AuthenticatedDashboardCollectionsZinesRoute
   AuthenticatedDashboardPostsCommentsRoute: typeof AuthenticatedDashboardPostsCommentsRoute
+  AuthenticatedDashboardProjectsProjectIdRoute: typeof AuthenticatedDashboardProjectsProjectIdRoute
   AuthenticatedEditBiographyWriteRoute: typeof AuthenticatedEditBiographyWriteRoute
   AuthenticatedDashboardCollectionsIndexRoute: typeof AuthenticatedDashboardCollectionsIndexRoute
   AuthenticatedDashboardMediaIndexRoute: typeof AuthenticatedDashboardMediaIndexRoute
@@ -593,6 +614,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedDashboardCollectionsZinesRoute,
   AuthenticatedDashboardPostsCommentsRoute:
     AuthenticatedDashboardPostsCommentsRoute,
+  AuthenticatedDashboardProjectsProjectIdRoute:
+    AuthenticatedDashboardProjectsProjectIdRoute,
   AuthenticatedEditBiographyWriteRoute: AuthenticatedEditBiographyWriteRoute,
   AuthenticatedDashboardCollectionsIndexRoute:
     AuthenticatedDashboardCollectionsIndexRoute,

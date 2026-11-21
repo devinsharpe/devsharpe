@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Main from "~/components/_ui/main";
 import ProjectCard from "~/components/project-card";
-import { listProjects } from "~/server/functions/projects.functions";
+import { listPublicProjects } from "~/server/functions/projects.functions";
 
 export const Route = createFileRoute("/projects/")({
   component: RouteComponent,
-  loader: () => listProjects(),
+  loader: () => listPublicProjects(),
 });
 
 function RouteComponent() {
@@ -16,9 +16,9 @@ function RouteComponent() {
         <h2 className="text-2xl font-semibold">Active Projects</h2>
         <ul className="mt-4 flex flex-col gap-4">
           {data
-            .filter((project) => project.is_active)
+            .filter((project) => project.isActive)
             .map((project) => (
-              <ProjectCard {...project} />
+              <ProjectCard key={project.id} {...project} />
             ))}
         </ul>
       </section>
@@ -27,9 +27,9 @@ function RouteComponent() {
         <h2 className="text-2xl font-semibold">Retired Projects</h2>
         <ul className="mt-4 flex flex-col gap-4">
           {data
-            .filter((project) => !project.is_active)
+            .filter((project) => !project.isActive)
             .map((project) => (
-              <ProjectCard {...project} />
+              <ProjectCard key={project.id} {...project} />
             ))}
         </ul>
       </section>
