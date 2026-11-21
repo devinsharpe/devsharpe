@@ -24,7 +24,6 @@ import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
-import { Route as AuthenticatedEditBiographyRouteImport } from './routes/_authenticated/edit/biography'
 import { Route as AuthenticatedEditGearRouteImport } from './routes/_authenticated/edit/gear'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AuthenticatedDashboardCollectionsIndexRouteImport } from './routes/_authenticated/dashboard/collections/index'
@@ -35,6 +34,8 @@ import { Route as AuthenticatedDashboardPostsIndexRouteImport } from './routes/_
 import { Route as AuthenticatedDashboardPostsCommentsRouteImport } from './routes/_authenticated/dashboard/posts/comments'
 import { Route as AuthenticatedDashboardProjectsIndexRouteImport } from './routes/_authenticated/dashboard/projects/index'
 import { Route as AuthenticatedDashboardRequestsIndexRouteImport } from './routes/_authenticated/dashboard/requests/index'
+import { Route as AuthenticatedEditBiographyIndexRouteImport } from './routes/_authenticated/edit/biography/index'
+import { Route as AuthenticatedEditBiographyWriteRouteImport } from './routes/_authenticated/edit/biography/write'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -111,12 +112,6 @@ const AuthenticatedDashboardIndexRoute =
     path: '/dashboard/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
-const AuthenticatedEditBiographyRoute =
-  AuthenticatedEditBiographyRouteImport.update({
-    id: '/edit/biography',
-    path: '/edit/biography',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const AuthenticatedEditGearRoute = AuthenticatedEditGearRouteImport.update({
   id: '/edit/gear',
   path: '/edit/gear',
@@ -175,6 +170,18 @@ const AuthenticatedDashboardRequestsIndexRoute =
     path: '/dashboard/requests/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedEditBiographyIndexRoute =
+  AuthenticatedEditBiographyIndexRouteImport.update({
+    id: '/edit/biography/',
+    path: '/edit/biography/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedEditBiographyWriteRoute =
+  AuthenticatedEditBiographyWriteRouteImport.update({
+    id: '/edit/biography/write',
+    path: '/edit/biography/write',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -190,18 +197,19 @@ export interface FileRoutesByFullPath {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/posts/': typeof PostsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
-  '/edit/biography': typeof AuthenticatedEditBiographyRoute
   '/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
+  '/edit/biography/write': typeof AuthenticatedEditBiographyWriteRoute
   '/dashboard/collections/': typeof AuthenticatedDashboardCollectionsIndexRoute
   '/dashboard/media/': typeof AuthenticatedDashboardMediaIndexRoute
   '/dashboard/posts/': typeof AuthenticatedDashboardPostsIndexRoute
   '/dashboard/projects/': typeof AuthenticatedDashboardProjectsIndexRoute
   '/dashboard/requests/': typeof AuthenticatedDashboardRequestsIndexRoute
+  '/edit/biography/': typeof AuthenticatedEditBiographyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -217,18 +225,19 @@ export interface FileRoutesByTo {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/posts': typeof PostsIndexRoute
   '/projects': typeof ProjectsIndexRoute
-  '/edit/biography': typeof AuthenticatedEditBiographyRoute
   '/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
+  '/edit/biography/write': typeof AuthenticatedEditBiographyWriteRoute
   '/dashboard/collections': typeof AuthenticatedDashboardCollectionsIndexRoute
   '/dashboard/media': typeof AuthenticatedDashboardMediaIndexRoute
   '/dashboard/posts': typeof AuthenticatedDashboardPostsIndexRoute
   '/dashboard/projects': typeof AuthenticatedDashboardProjectsIndexRoute
   '/dashboard/requests': typeof AuthenticatedDashboardRequestsIndexRoute
+  '/edit/biography': typeof AuthenticatedEditBiographyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -246,18 +255,19 @@ export interface FileRoutesById {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/posts/': typeof PostsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
-  '/_authenticated/edit/biography': typeof AuthenticatedEditBiographyRoute
   '/_authenticated/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/_authenticated/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/_authenticated/dashboard/posts/comments': typeof AuthenticatedDashboardPostsCommentsRoute
+  '/_authenticated/edit/biography/write': typeof AuthenticatedEditBiographyWriteRoute
   '/_authenticated/dashboard/collections/': typeof AuthenticatedDashboardCollectionsIndexRoute
   '/_authenticated/dashboard/media/': typeof AuthenticatedDashboardMediaIndexRoute
   '/_authenticated/dashboard/posts/': typeof AuthenticatedDashboardPostsIndexRoute
   '/_authenticated/dashboard/projects/': typeof AuthenticatedDashboardProjectsIndexRoute
   '/_authenticated/dashboard/requests/': typeof AuthenticatedDashboardRequestsIndexRoute
+  '/_authenticated/edit/biography/': typeof AuthenticatedEditBiographyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -275,18 +285,19 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/posts/'
     | '/projects/'
-    | '/edit/biography'
     | '/edit/gear'
     | '/api/auth/$'
     | '/dashboard/'
     | '/dashboard/collections/photos'
     | '/dashboard/collections/zines'
     | '/dashboard/posts/comments'
+    | '/edit/biography/write'
     | '/dashboard/collections/'
     | '/dashboard/media/'
     | '/dashboard/posts/'
     | '/dashboard/projects/'
     | '/dashboard/requests/'
+    | '/edit/biography/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -302,18 +313,19 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/posts'
     | '/projects'
-    | '/edit/biography'
     | '/edit/gear'
     | '/api/auth/$'
     | '/dashboard'
     | '/dashboard/collections/photos'
     | '/dashboard/collections/zines'
     | '/dashboard/posts/comments'
+    | '/edit/biography/write'
     | '/dashboard/collections'
     | '/dashboard/media'
     | '/dashboard/posts'
     | '/dashboard/projects'
     | '/dashboard/requests'
+    | '/edit/biography'
   id:
     | '__root__'
     | '/'
@@ -330,18 +342,19 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/posts/'
     | '/projects/'
-    | '/_authenticated/edit/biography'
     | '/_authenticated/edit/gear'
     | '/api/auth/$'
     | '/_authenticated/dashboard/'
     | '/_authenticated/dashboard/collections/photos'
     | '/_authenticated/dashboard/collections/zines'
     | '/_authenticated/dashboard/posts/comments'
+    | '/_authenticated/edit/biography/write'
     | '/_authenticated/dashboard/collections/'
     | '/_authenticated/dashboard/media/'
     | '/_authenticated/dashboard/posts/'
     | '/_authenticated/dashboard/projects/'
     | '/_authenticated/dashboard/requests/'
+    | '/_authenticated/edit/biography/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -469,13 +482,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/edit/biography': {
-      id: '/_authenticated/edit/biography'
-      path: '/edit/biography'
-      fullPath: '/edit/biography'
-      preLoaderRoute: typeof AuthenticatedEditBiographyRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/edit/gear': {
       id: '/_authenticated/edit/gear'
       path: '/edit/gear'
@@ -546,25 +552,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRequestsIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/edit/biography/': {
+      id: '/_authenticated/edit/biography/'
+      path: '/edit/biography'
+      fullPath: '/edit/biography/'
+      preLoaderRoute: typeof AuthenticatedEditBiographyIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/edit/biography/write': {
+      id: '/_authenticated/edit/biography/write'
+      path: '/edit/biography/write'
+      fullPath: '/edit/biography/write'
+      preLoaderRoute: typeof AuthenticatedEditBiographyWriteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedEditBiographyRoute: typeof AuthenticatedEditBiographyRoute
   AuthenticatedEditGearRoute: typeof AuthenticatedEditGearRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedDashboardCollectionsPhotosRoute: typeof AuthenticatedDashboardCollectionsPhotosRoute
   AuthenticatedDashboardCollectionsZinesRoute: typeof AuthenticatedDashboardCollectionsZinesRoute
   AuthenticatedDashboardPostsCommentsRoute: typeof AuthenticatedDashboardPostsCommentsRoute
+  AuthenticatedEditBiographyWriteRoute: typeof AuthenticatedEditBiographyWriteRoute
   AuthenticatedDashboardCollectionsIndexRoute: typeof AuthenticatedDashboardCollectionsIndexRoute
   AuthenticatedDashboardMediaIndexRoute: typeof AuthenticatedDashboardMediaIndexRoute
   AuthenticatedDashboardPostsIndexRoute: typeof AuthenticatedDashboardPostsIndexRoute
   AuthenticatedDashboardProjectsIndexRoute: typeof AuthenticatedDashboardProjectsIndexRoute
   AuthenticatedDashboardRequestsIndexRoute: typeof AuthenticatedDashboardRequestsIndexRoute
+  AuthenticatedEditBiographyIndexRoute: typeof AuthenticatedEditBiographyIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedEditBiographyRoute: AuthenticatedEditBiographyRoute,
   AuthenticatedEditGearRoute: AuthenticatedEditGearRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
   AuthenticatedDashboardCollectionsPhotosRoute:
@@ -573,6 +593,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedDashboardCollectionsZinesRoute,
   AuthenticatedDashboardPostsCommentsRoute:
     AuthenticatedDashboardPostsCommentsRoute,
+  AuthenticatedEditBiographyWriteRoute: AuthenticatedEditBiographyWriteRoute,
   AuthenticatedDashboardCollectionsIndexRoute:
     AuthenticatedDashboardCollectionsIndexRoute,
   AuthenticatedDashboardMediaIndexRoute: AuthenticatedDashboardMediaIndexRoute,
@@ -581,6 +602,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
     AuthenticatedDashboardProjectsIndexRoute,
   AuthenticatedDashboardRequestsIndexRoute:
     AuthenticatedDashboardRequestsIndexRoute,
+  AuthenticatedEditBiographyIndexRoute: AuthenticatedEditBiographyIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

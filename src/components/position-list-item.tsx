@@ -1,23 +1,20 @@
 import { useMemo } from "react";
-import { EmploymentPosition } from "~/types/about.types";
+import type { PositionItem } from "~/server/database/schema.server";
 
 export default function PositionListItem({
-  id,
   name,
   title,
   link,
-  team,
   location,
-  office_type,
+  officeType,
   description,
   highlights,
-  technologies,
-  dates,
-  type,
-}: EmploymentPosition) {
+  startDate,
+  endDate,
+}: PositionItem) {
   const location_label = useMemo(() => {
     if (location) {
-      switch (office_type) {
+      switch (officeType) {
         case "hybrid":
           return ` • ${location} (Hybrid)`;
         case "remote":
@@ -27,34 +24,40 @@ export default function PositionListItem({
       }
     }
     return null;
-  }, [location]);
+  }, [location, officeType]);
 
   return (
     <li className="flex flex-col gap-2">
       <h4 className="font-semibold text-xl flex items-baseline flex-wrap">
         <span>{title}&nbsp;</span>
         <span className="text-base opacity-80 font-normal">@&nbsp;</span>
-        <a
-          href={link}
-          target="_blank"
-          rel="noreferrer"
-          className="text-base opacity-80 font-normal underline"
-        >
-          {name}
-        </a>
+        {link ? (
+          <a
+            href={link}
+            target="_blank"
+            rel="noreferrer"
+            className="text-base opacity-80 font-normal underline"
+          >
+            {name}
+          </a>
+        ) : (
+          <span className="text-base opacity-80 font-normal">{name}</span>
+        )}
       </h4>
       <p className="opacity-80">
         <span>
-          {dates.start} - {dates.end ? dates.end : "Current"}
+          {startDate} - {endDate ? endDate : "Current"}
         </span>
         {location_label && <span>{location_label}</span>}
       </p>
-      <p>{description} </p>
-      <ul className="list-disc list-inside">
-        {highlights.map((highlight) => (
-          <li>{highlight}</li>
-        ))}
-      </ul>
+      {description && <p>{description}</p>}
+      {highlights.length > 0 && (
+        <ul className="list-disc list-inside">
+          {highlights.map((highlight, index) => (
+            <li key={index}>{highlight}</li>
+          ))}
+        </ul>
+      )}
     </li>
   );
 }
