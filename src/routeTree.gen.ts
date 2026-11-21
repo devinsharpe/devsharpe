@@ -17,6 +17,8 @@ import { Route as EmploymentRouteImport } from './routes/employment'
 import { Route as LinksRouteImport } from './routes/links'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PhotographyRouteImport } from './routes/photography'
+import { Route as ResumeDotmdRouteImport } from './routes/resume[.]md'
+import { Route as ResumeDotpdfRouteImport } from './routes/resume[.]pdf'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as UsesRouteImport } from './routes/uses'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
@@ -77,6 +79,16 @@ const LoginRoute = LoginRouteImport.update({
 const PhotographyRoute = PhotographyRouteImport.update({
   id: '/photography',
   path: '/photography',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResumeDotmdRoute = ResumeDotmdRouteImport.update({
+  id: '/resume.md',
+  path: '/resume.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResumeDotpdfRoute = ResumeDotpdfRouteImport.update({
+  id: '/resume.pdf',
+  path: '/resume.pdf',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RssDotxmlRoute = RssDotxmlRouteImport.update({
@@ -211,6 +223,8 @@ export interface FileRoutesByFullPath {
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/photography': typeof PhotographyRoute
+  '/resume.md': typeof ResumeDotmdRoute
+  '/resume.pdf': typeof ResumeDotpdfRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/uses': typeof UsesRoute
   '/api/health': typeof ApiHealthRoute
@@ -242,6 +256,8 @@ export interface FileRoutesByTo {
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/photography': typeof PhotographyRoute
+  '/resume.md': typeof ResumeDotmdRoute
+  '/resume.pdf': typeof ResumeDotpdfRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/uses': typeof UsesRoute
   '/api/health': typeof ApiHealthRoute
@@ -275,6 +291,8 @@ export interface FileRoutesById {
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
   '/photography': typeof PhotographyRoute
+  '/resume.md': typeof ResumeDotmdRoute
+  '/resume.pdf': typeof ResumeDotpdfRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/uses': typeof UsesRoute
   '/api/health': typeof ApiHealthRoute
@@ -308,6 +326,8 @@ export interface FileRouteTypes {
     | '/links'
     | '/login'
     | '/photography'
+    | '/resume.md'
+    | '/resume.pdf'
     | '/rss.xml'
     | '/uses'
     | '/api/health'
@@ -339,6 +359,8 @@ export interface FileRouteTypes {
     | '/links'
     | '/login'
     | '/photography'
+    | '/resume.md'
+    | '/resume.pdf'
     | '/rss.xml'
     | '/uses'
     | '/api/health'
@@ -371,6 +393,8 @@ export interface FileRouteTypes {
     | '/links'
     | '/login'
     | '/photography'
+    | '/resume.md'
+    | '/resume.pdf'
     | '/rss.xml'
     | '/uses'
     | '/api/health'
@@ -404,6 +428,8 @@ export interface RootRouteChildren {
   LinksRoute: typeof LinksRoute
   LoginRoute: typeof LoginRoute
   PhotographyRoute: typeof PhotographyRoute
+  ResumeDotmdRoute: typeof ResumeDotmdRoute
+  ResumeDotpdfRoute: typeof ResumeDotpdfRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
   UsesRoute: typeof UsesRoute
   ApiHealthRoute: typeof ApiHealthRoute
@@ -470,6 +496,20 @@ declare module '@tanstack/react-router' {
       path: '/photography'
       fullPath: '/photography'
       preLoaderRoute: typeof PhotographyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resume.md': {
+      id: '/resume.md'
+      path: '/resume.md'
+      fullPath: '/resume.md'
+      preLoaderRoute: typeof ResumeDotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resume.pdf': {
+      id: '/resume.pdf'
+      path: '/resume.pdf'
+      fullPath: '/resume.pdf'
+      preLoaderRoute: typeof ResumeDotpdfRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rss.xml': {
@@ -684,6 +724,8 @@ const rootRouteChildren: RootRouteChildren = {
   LinksRoute: LinksRoute,
   LoginRoute: LoginRoute,
   PhotographyRoute: PhotographyRoute,
+  ResumeDotmdRoute: ResumeDotmdRoute,
+  ResumeDotpdfRoute: ResumeDotpdfRoute,
   RssDotxmlRoute: RssDotxmlRoute,
   UsesRoute: UsesRoute,
   ApiHealthRoute: ApiHealthRoute,

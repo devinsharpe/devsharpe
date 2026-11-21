@@ -17,6 +17,7 @@ import { useToast } from "~/components/_ui/toast";
 import { BiographyPreview } from "~/components/biography-preview";
 import { PositionFormItem } from "~/components/form-items/position-form-item";
 import { PositionForm } from "~/components/forms/position-form";
+import { ResumeManager } from "~/components/resume-manager";
 import { POSITION_TYPE_LABELS, type PositionType } from "~/lib/about";
 import type { PositionItem } from "~/server/database/schema.server";
 import {
@@ -24,17 +25,19 @@ import {
   listPositions,
   reorderPositions,
 } from "~/server/functions/about.functions";
+import { getResumeLibrary } from "~/server/functions/resume.functions";
 import { getSubtitleSetting } from "~/server/functions/site.functions";
 
 export const Route = createFileRoute("/_authenticated/edit/biography/")({
   component: RouteComponent,
   loader: async () => {
-    const [positions, biography, header] = await Promise.all([
+    const [positions, biography, header, resumes] = await Promise.all([
       listPositions(),
       getBiography(),
       getSubtitleSetting(),
+      getResumeLibrary(),
     ]);
-    return { positions, biography, header };
+    return { positions, biography, header, resumes };
   },
 });
 
@@ -44,7 +47,7 @@ interface DialogState {
 }
 
 function RouteComponent() {
-  const { positions, biography, header } = Route.useLoaderData();
+  const { positions, biography, header, resumes } = Route.useLoaderData();
   const router = useRouter();
   const reorder = useServerFn(reorderPositions);
   const toast = useToast();
@@ -130,6 +133,8 @@ function RouteComponent() {
         </div>
         <BiographyPreview header={header} biography={biography} />
       </section>
+      <Divider />
+      <ResumeManager library={resumes} />
       <Divider />
       {render_section(
         "employment",

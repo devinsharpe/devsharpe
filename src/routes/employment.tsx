@@ -6,16 +6,21 @@ import Dropdown from "~/components/_ui/dropdown";
 import Main from "~/components/_ui/main";
 import PositionListItem from "~/components/position-list-item";
 import { listPositions } from "~/server/functions/about.functions";
+import { getResumeAvailability } from "~/server/functions/resume.functions";
 
 export const Route = createFileRoute("/employment")({
   component: RouteComponent,
-  loader: async () => ({
-    positions: await listPositions(),
-  }),
+  loader: async () => {
+    const [positions, resume] = await Promise.all([
+      listPositions(),
+      getResumeAvailability(),
+    ]);
+    return { positions, resume };
+  },
 });
 
 function RouteComponent() {
-  const { positions } = Route.useLoaderData();
+  const { positions, resume } = Route.useLoaderData();
 
   const { employmentPositions, volunteerPositions } = useMemo(
     () => ({
@@ -37,11 +42,15 @@ function RouteComponent() {
             <ChevronDownIcon strokeWidth={1.5} size={16} />
           </Dropdown.Trigger>
           <Dropdown.Content className="p-3 gap-2! mt-2">
-            <Dropdown.Item as="button">
-              <FileTextIcon strokeWidth={1.5} size={16} />
-              <span>Download PDF</span>
-            </Dropdown.Item>
-            <Dropdown.Item as="button">
+            {/* Plain links: both are files served by the server, not pages. */}
+            {resume.has_pdf && (
+              <Dropdown.Item as="link" href="/resume.pdf" download>
+                <FileTextIcon strokeWidth={1.5} size={16} />
+                <span>Download PDF</span>
+              </Dropdown.Item>
+            )}
+            {/* Always there: it's written from the history on this page. */}
+            <Dropdown.Item as="link" href="/resume.md" download>
               <SiMarkdown strokeWidth={1.5} size={16} />
               <span>Download Markdown</span>
             </Dropdown.Item>
