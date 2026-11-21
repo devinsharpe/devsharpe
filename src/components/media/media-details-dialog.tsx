@@ -48,7 +48,13 @@ function UseLink({ use }: { use: MediaUse }) {
   }
   if (use.kind === "collection") {
     return (
-      <span>Photo collection “{use.title}”</span>
+      <Link
+        to="/dashboard/collections/$collectionId"
+        params={{ collectionId: use.id }}
+        className={className}
+      >
+        Photo collection “{use.title}”
+      </Link>
     );
   }
   if (use.kind === "project") {

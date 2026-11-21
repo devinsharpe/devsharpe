@@ -16,12 +16,12 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EmploymentRouteImport } from './routes/employment'
 import { Route as LinksRouteImport } from './routes/links'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as PhotographyRouteImport } from './routes/photography'
 import { Route as ResumeDotmdRouteImport } from './routes/resume[.]md'
 import { Route as ResumeDotpdfRouteImport } from './routes/resume[.]pdf'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as UsesRouteImport } from './routes/uses'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
+import { Route as PhotographyIndexRouteImport } from './routes/photography/index'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
@@ -29,7 +29,10 @@ import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedEditGearRouteImport } from './routes/_authenticated/edit/gear'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as PhotographySlugIndexRouteImport } from './routes/photography/$slug/index'
+import { Route as PhotographySlugPhotoIdRouteImport } from './routes/photography/$slug/$photoId'
 import { Route as AuthenticatedDashboardCollectionsIndexRouteImport } from './routes/_authenticated/dashboard/collections/index'
+import { Route as AuthenticatedDashboardCollectionsCollectionIdRouteImport } from './routes/_authenticated/dashboard/collections/$collectionId'
 import { Route as AuthenticatedDashboardCollectionsPhotosRouteImport } from './routes/_authenticated/dashboard/collections/photos'
 import { Route as AuthenticatedDashboardCollectionsZinesRouteImport } from './routes/_authenticated/dashboard/collections/zines'
 import { Route as AuthenticatedDashboardMediaIndexRouteImport } from './routes/_authenticated/dashboard/media/index'
@@ -76,11 +79,6 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PhotographyRoute = PhotographyRouteImport.update({
-  id: '/photography',
-  path: '/photography',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResumeDotmdRoute = ResumeDotmdRouteImport.update({
   id: '/resume.md',
   path: '/resume.md',
@@ -104,6 +102,11 @@ const UsesRoute = UsesRouteImport.update({
 const ApiHealthRoute = ApiHealthRouteImport.update({
   id: '/api/health',
   path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotographyIndexRoute = PhotographyIndexRouteImport.update({
+  id: '/photography/',
+  path: '/photography/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PostsIndexRoute = PostsIndexRouteImport.update({
@@ -142,10 +145,26 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PhotographySlugIndexRoute = PhotographySlugIndexRouteImport.update({
+  id: '/photography/$slug/',
+  path: '/photography/$slug/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotographySlugPhotoIdRoute = PhotographySlugPhotoIdRouteImport.update({
+  id: '/photography/$slug/$photoId',
+  path: '/photography/$slug/$photoId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedDashboardCollectionsIndexRoute =
   AuthenticatedDashboardCollectionsIndexRouteImport.update({
     id: '/dashboard/collections/',
     path: '/dashboard/collections/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedDashboardCollectionsCollectionIdRoute =
+  AuthenticatedDashboardCollectionsCollectionIdRouteImport.update({
+    id: '/dashboard/collections/$collectionId',
+    path: '/dashboard/collections/$collectionId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 const AuthenticatedDashboardCollectionsPhotosRoute =
@@ -222,7 +241,6 @@ export interface FileRoutesByFullPath {
   '/employment': typeof EmploymentRoute
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
-  '/photography': typeof PhotographyRoute
   '/resume.md': typeof ResumeDotmdRoute
   '/resume.pdf': typeof ResumeDotpdfRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -230,11 +248,15 @@ export interface FileRoutesByFullPath {
   '/api/health': typeof ApiHealthRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/photography/': typeof PhotographyIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/photography/$slug/$photoId': typeof PhotographySlugPhotoIdRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/photography/$slug/': typeof PhotographySlugIndexRoute
+  '/dashboard/collections/$collectionId': typeof AuthenticatedDashboardCollectionsCollectionIdRoute
   '/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/dashboard/posts/$postId': typeof AuthenticatedDashboardPostsPostIdRoute
@@ -255,7 +277,6 @@ export interface FileRoutesByTo {
   '/employment': typeof EmploymentRoute
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
-  '/photography': typeof PhotographyRoute
   '/resume.md': typeof ResumeDotmdRoute
   '/resume.pdf': typeof ResumeDotpdfRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -263,11 +284,15 @@ export interface FileRoutesByTo {
   '/api/health': typeof ApiHealthRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/photography': typeof PhotographyIndexRoute
   '/posts': typeof PostsIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/photography/$slug/$photoId': typeof PhotographySlugPhotoIdRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/photography/$slug': typeof PhotographySlugIndexRoute
+  '/dashboard/collections/$collectionId': typeof AuthenticatedDashboardCollectionsCollectionIdRoute
   '/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/dashboard/posts/$postId': typeof AuthenticatedDashboardPostsPostIdRoute
@@ -290,7 +315,6 @@ export interface FileRoutesById {
   '/employment': typeof EmploymentRoute
   '/links': typeof LinksRoute
   '/login': typeof LoginRoute
-  '/photography': typeof PhotographyRoute
   '/resume.md': typeof ResumeDotmdRoute
   '/resume.pdf': typeof ResumeDotpdfRoute
   '/rss.xml': typeof RssDotxmlRoute
@@ -298,11 +322,15 @@ export interface FileRoutesById {
   '/api/health': typeof ApiHealthRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/photography/': typeof PhotographyIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/_authenticated/edit/gear': typeof AuthenticatedEditGearRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/photography/$slug/$photoId': typeof PhotographySlugPhotoIdRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/photography/$slug/': typeof PhotographySlugIndexRoute
+  '/_authenticated/dashboard/collections/$collectionId': typeof AuthenticatedDashboardCollectionsCollectionIdRoute
   '/_authenticated/dashboard/collections/photos': typeof AuthenticatedDashboardCollectionsPhotosRoute
   '/_authenticated/dashboard/collections/zines': typeof AuthenticatedDashboardCollectionsZinesRoute
   '/_authenticated/dashboard/posts/$postId': typeof AuthenticatedDashboardPostsPostIdRoute
@@ -325,7 +353,6 @@ export interface FileRouteTypes {
     | '/employment'
     | '/links'
     | '/login'
-    | '/photography'
     | '/resume.md'
     | '/resume.pdf'
     | '/rss.xml'
@@ -333,11 +360,15 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/posts/$slug'
     | '/projects/$slug'
+    | '/photography/'
     | '/posts/'
     | '/projects/'
     | '/edit/gear'
     | '/api/auth/$'
+    | '/photography/$slug/$photoId'
     | '/dashboard/'
+    | '/photography/$slug/'
+    | '/dashboard/collections/$collectionId'
     | '/dashboard/collections/photos'
     | '/dashboard/collections/zines'
     | '/dashboard/posts/$postId'
@@ -358,7 +389,6 @@ export interface FileRouteTypes {
     | '/employment'
     | '/links'
     | '/login'
-    | '/photography'
     | '/resume.md'
     | '/resume.pdf'
     | '/rss.xml'
@@ -366,11 +396,15 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/posts/$slug'
     | '/projects/$slug'
+    | '/photography'
     | '/posts'
     | '/projects'
     | '/edit/gear'
     | '/api/auth/$'
+    | '/photography/$slug/$photoId'
     | '/dashboard'
+    | '/photography/$slug'
+    | '/dashboard/collections/$collectionId'
     | '/dashboard/collections/photos'
     | '/dashboard/collections/zines'
     | '/dashboard/posts/$postId'
@@ -392,7 +426,6 @@ export interface FileRouteTypes {
     | '/employment'
     | '/links'
     | '/login'
-    | '/photography'
     | '/resume.md'
     | '/resume.pdf'
     | '/rss.xml'
@@ -400,11 +433,15 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/posts/$slug'
     | '/projects/$slug'
+    | '/photography/'
     | '/posts/'
     | '/projects/'
     | '/_authenticated/edit/gear'
     | '/api/auth/$'
+    | '/photography/$slug/$photoId'
     | '/_authenticated/dashboard/'
+    | '/photography/$slug/'
+    | '/_authenticated/dashboard/collections/$collectionId'
     | '/_authenticated/dashboard/collections/photos'
     | '/_authenticated/dashboard/collections/zines'
     | '/_authenticated/dashboard/posts/$postId'
@@ -427,7 +464,6 @@ export interface RootRouteChildren {
   EmploymentRoute: typeof EmploymentRoute
   LinksRoute: typeof LinksRoute
   LoginRoute: typeof LoginRoute
-  PhotographyRoute: typeof PhotographyRoute
   ResumeDotmdRoute: typeof ResumeDotmdRoute
   ResumeDotpdfRoute: typeof ResumeDotpdfRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
@@ -435,9 +471,12 @@ export interface RootRouteChildren {
   ApiHealthRoute: typeof ApiHealthRoute
   PostsSlugRoute: typeof PostsSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
+  PhotographyIndexRoute: typeof PhotographyIndexRoute
   PostsIndexRoute: typeof PostsIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  PhotographySlugPhotoIdRoute: typeof PhotographySlugPhotoIdRoute
+  PhotographySlugIndexRoute: typeof PhotographySlugIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -491,13 +530,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/photography': {
-      id: '/photography'
-      path: '/photography'
-      fullPath: '/photography'
-      preLoaderRoute: typeof PhotographyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/resume.md': {
       id: '/resume.md'
       path: '/resume.md'
@@ -531,6 +563,13 @@ declare module '@tanstack/react-router' {
       path: '/api/health'
       fullPath: '/api/health'
       preLoaderRoute: typeof ApiHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photography/': {
+      id: '/photography/'
+      path: '/photography'
+      fullPath: '/photography/'
+      preLoaderRoute: typeof PhotographyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/posts/': {
@@ -582,11 +621,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/photography/$slug/': {
+      id: '/photography/$slug/'
+      path: '/photography/$slug'
+      fullPath: '/photography/$slug/'
+      preLoaderRoute: typeof PhotographySlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photography/$slug/$photoId': {
+      id: '/photography/$slug/$photoId'
+      path: '/photography/$slug/$photoId'
+      fullPath: '/photography/$slug/$photoId'
+      preLoaderRoute: typeof PhotographySlugPhotoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/dashboard/collections/': {
       id: '/_authenticated/dashboard/collections/'
       path: '/dashboard/collections'
       fullPath: '/dashboard/collections/'
       preLoaderRoute: typeof AuthenticatedDashboardCollectionsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dashboard/collections/$collectionId': {
+      id: '/_authenticated/dashboard/collections/$collectionId'
+      path: '/dashboard/collections/$collectionId'
+      fullPath: '/dashboard/collections/$collectionId'
+      preLoaderRoute: typeof AuthenticatedDashboardCollectionsCollectionIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/dashboard/collections/photos': {
@@ -672,6 +732,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedEditGearRoute: typeof AuthenticatedEditGearRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardCollectionsCollectionIdRoute: typeof AuthenticatedDashboardCollectionsCollectionIdRoute
   AuthenticatedDashboardCollectionsPhotosRoute: typeof AuthenticatedDashboardCollectionsPhotosRoute
   AuthenticatedDashboardCollectionsZinesRoute: typeof AuthenticatedDashboardCollectionsZinesRoute
   AuthenticatedDashboardPostsPostIdRoute: typeof AuthenticatedDashboardPostsPostIdRoute
@@ -689,6 +750,8 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedEditGearRoute: AuthenticatedEditGearRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+  AuthenticatedDashboardCollectionsCollectionIdRoute:
+    AuthenticatedDashboardCollectionsCollectionIdRoute,
   AuthenticatedDashboardCollectionsPhotosRoute:
     AuthenticatedDashboardCollectionsPhotosRoute,
   AuthenticatedDashboardCollectionsZinesRoute:
@@ -723,7 +786,6 @@ const rootRouteChildren: RootRouteChildren = {
   EmploymentRoute: EmploymentRoute,
   LinksRoute: LinksRoute,
   LoginRoute: LoginRoute,
-  PhotographyRoute: PhotographyRoute,
   ResumeDotmdRoute: ResumeDotmdRoute,
   ResumeDotpdfRoute: ResumeDotpdfRoute,
   RssDotxmlRoute: RssDotxmlRoute,
@@ -731,9 +793,12 @@ const rootRouteChildren: RootRouteChildren = {
   ApiHealthRoute: ApiHealthRoute,
   PostsSlugRoute: PostsSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
+  PhotographyIndexRoute: PhotographyIndexRoute,
   PostsIndexRoute: PostsIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  PhotographySlugPhotoIdRoute: PhotographySlugPhotoIdRoute,
+  PhotographySlugIndexRoute: PhotographySlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
