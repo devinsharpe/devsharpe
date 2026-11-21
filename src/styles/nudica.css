@@ -1,0 +1,50 @@
+@font-face {
+  font-family: "Nudica";
+  src: url("/fonts/nudica-regular-webfont.eot");
+  src:
+    url("/fonts/nudica-regular-webfont.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/nudica-regular-webfont.woff2") format("woff2"),
+    url("/fonts/nudica-regular-webfont.woff") format("woff"),
+    url("/fonts/nudica-regular-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nudica";
+  src: url("/fonts/nudica-regularitalic-webfont.eot");
+  src:
+    url("/fonts/nudica-regularitalic-webfont.eot?#iefix")
+    format("embedded-opentype"),
+    url("/fonts/nudica-regularitalic-webfont.woff2") format("woff2"),
+    url("/fonts/nudica-regularitalic-webfont.woff") format("woff"),
+    url("/fonts/nudica-regularitalic-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Nudica Mono";
+  src: url("/fonts/nudicamono-regular-webfont.eot");
+  src:
+    url("/fonts/nudicamono-regular-webfont.eot?#iefix")
+    format("embedded-opentype"),
+    url("/fonts/nudicamono-regular-webfont.woff2") format("woff2"),
+    url("/fonts/nudicamono-regular-webfont.woff") format("woff"),
+    url("/fonts/nudicamono-regular-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nudica Mono";
+  src: url("/fonts/nudicamono-regularitalic-webfont.eot");
+  src:
+    url("/fonts/nudicamono-regularitalic-webfont.eot?#iefix")
+    format("embedded-opentype"),
+    url("/fonts/nudicamono-regularitalic-webfont.woff2") format("woff2"),
+    url("/fonts/nudicamono-regularitalic-webfont.woff") format("woff"),
+    url("/fonts/nudicamono-regularitalic-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}

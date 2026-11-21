@@ -1,0 +1,1 @@
+ALTER TABLE "camera" ADD COLUMN "purpose" text;

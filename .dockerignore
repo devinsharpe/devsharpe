@@ -1,0 +1,18 @@
+# What `docker build` leaves out of the build context. Dokploy builds from a
+# fresh clone, but a local build would otherwise send these too, and .env must
+# never end up in an image.
+.git
+.delta
+node_modules
+.output
+.nitro
+.tanstack
+dist
+.wrangler
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+Dockerfile
+.dockerignore
+compose.yaml

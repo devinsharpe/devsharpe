@@ -1,0 +1,72 @@
+# Builds the production image on a runner, pushes it to the Gitea container
+# registry, then (optionally) tells Dokploy to deploy it. Dokploy pulls the
+# image instead of building it, so builds don't take resources from the site.
+#
+# Secrets (the repository's Settings → Actions → Secrets):
+#   REGISTRY_USERNAME    a Gitea user that can write this repository's packages
+#   REGISTRY_PASSWORD    an access token for that user (package read/write)
+#   DOKPLOY_WEBHOOK_URL  optional: the app's deploy webhook URL, from Dokploy
+#                        (Auto Deploy must be on); without it, deploy by hand
+#
+# The registry is behind Cloudflare, which rejects any request over 100 MB. A
+# push uploads each layer in its own request, so each layer must fit: the
+# largest here is Node itself, about 50 MB compressed. That's also why there's
+# no `--cache-to type=registry,mode=max`: it would push the build stage's
+# layers too, and its dependency install is about 225 MB.
+
+name: Build image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: gitea.dqc.dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Define image
+        id: image
+        run: |
+          # Registry names must be lowercase.
+          echo "IMAGE=$REGISTRY/$(echo '${{ gitea.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+          echo "TAG=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the registry
+        env:
+          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+        run: |
+          printf '%s' "$REGISTRY_PASSWORD" | docker login "$REGISTRY" \
+            -u "$REGISTRY_USERNAME" --password-stdin
+
+      # The two platforms share one build stage, which runs on the runner's own
+      # platform (see the Dockerfile), so this needs no emulation.
+      - name: Build and push
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --tag "${{ steps.image.outputs.IMAGE }}:${{ steps.image.outputs.TAG }}" \
+            --tag "${{ steps.image.outputs.IMAGE }}:latest" \
+            --push \
+            .
+
+      - name: Deploy
+        env:
+          DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
+        run: |
+          if [ -z "$DOKPLOY_WEBHOOK_URL" ]; then
+            echo "DOKPLOY_WEBHOOK_URL isn't set, so Dokploy wasn't told to deploy."
+            exit 0
+          fi
+          curl -fsS --max-time 30 -X POST "$DOKPLOY_WEBHOOK_URL"
