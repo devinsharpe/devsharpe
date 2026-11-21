@@ -1,6 +1,6 @@
 // Creates the media bucket if it's missing and lets the site's pages upload to
-// it (CORS, from S3_CORS_ORIGINS). Run by dev-entrypoint.sh; safe to run
-// repeatedly.
+// it (CORS, from S3_CORS_ORIGINS). Run by dev-entrypoint.sh, and by start.mjs in
+// production when S3_CORS_ORIGINS is set; safe to run repeatedly.
 import {
   CreateBucketCommand,
   HeadBucketCommand,
@@ -52,3 +52,7 @@ if (origins.length > 0) {
   );
   console.log(`Bucket ${bucket} accepts uploads from ${origins.join(", ")}.`);
 }
+
+// Closes its connections, so they don't hold the process open (in production
+// the server keeps running in this same process).
+client.destroy();

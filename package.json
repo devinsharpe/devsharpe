@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "vite build && vite build --config docker/vite.tools.config.mjs",
     "start": "node .output/server/index.mjs",
     "gen-migration": "npx drizzle-kit generate",
     "migrate": "npx drizzle-kit migrate",
