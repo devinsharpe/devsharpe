@@ -50,21 +50,26 @@ function Toast({ onDismiss, toast }: ToastProps) {
   return (
     <output
       role="status"
-      className="block pointer-events-none border bg-neutral-950 p-2 w-full"
+      // The same surface as Dialog: the border follows the text color, so
+      // it's dark on light pages and light on dark ones.
+      className="block pointer-events-none border p-2 w-full bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100"
     >
       <div className="flex items-center gap-2">
-        {Icon && <Icon className="size-4 shrink-0" />}
+        {Icon && <Icon className="size-4 shrink-0" aria-hidden />}
         <span className="grow">{toast.title}</span>
         <Button
           size="icon"
           className="pointer-events-auto"
+          aria-label="Dismiss"
           onClick={() => onDismiss()}
         >
-          <XIcon strokeWidth={1.5} size={16} />
+          <XIcon strokeWidth={1.5} size={16} aria-hidden />
         </Button>
       </div>
       {toast.description && (
-        <p className="text-sm text-neutral-300 mt-2">{toast.description}</p>
+        <p className="text-sm text-neutral-700 dark:text-neutral-300 mt-2">
+          {toast.description}
+        </p>
       )}
     </output>
   );

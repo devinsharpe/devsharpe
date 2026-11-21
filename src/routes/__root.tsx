@@ -1,13 +1,11 @@
-import type { ReactNode } from "react";
+import { lazy, type ReactNode, Suspense } from "react";
 import {
+  ClientOnly,
   createRootRoute,
   HeadContent,
   Outlet,
   Scripts,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { TanStackDevtools } from "@tanstack/react-devtools";
-import { formDevtoolsPlugin } from "@tanstack/react-form-devtools";
 
 import appCss from "~/styles/styles.css?url";
 import Header from "~/components/_ui/header";
@@ -15,6 +13,12 @@ import { ToastProvider } from "~/components/_ui/toast";
 import Footer from "~/components/_ui/footer";
 import { getSiteTitle } from "~/server/functions/site.functions";
 import { getThemePreference } from "~/server/functions/preferences.functions";
+
+// Dev only. `import.meta.env.DEV` is false in production builds, so this
+// import (and the devtools packages) are dropped from them entirely.
+const Devtools = import.meta.env.DEV
+  ? lazy(() => import("~/components/_ui/devtools"))
+  : null;
 
 export const Route = createRootRoute({
   // The site name comes from server env, so it goes through a server function.
@@ -55,8 +59,14 @@ function RootDocument({ children }: { children: ReactNode }) {
         <Header title={title} subtitle={subtitle} />
         <ToastProvider placement="top">{children}</ToastProvider>
         <Footer />
-        <TanStackRouterDevtools />
-        <TanStackDevtools plugins={[formDevtoolsPlugin()]} />
+        {Devtools && (
+          // Browser only: the devtools throw if they're loaded on the server.
+          <ClientOnly>
+            <Suspense>
+              <Devtools />
+            </Suspense>
+          </ClientOnly>
+        )}
         <Scripts />
       </body>
     </html>

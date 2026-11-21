@@ -1,4 +1,5 @@
 import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
+import { AlertDialogProvider } from "~/components/_ui/alert-dialog";
 import { getSession } from "~/server/functions/auth.functions";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -14,5 +15,10 @@ export const Route = createFileRoute("/_authenticated")({
 
     return { user: session.user };
   },
-  component: () => <Outlet />,
+  // Lets admin pages ask before deleting or leaving (see useConfirm).
+  component: () => (
+    <AlertDialogProvider>
+      <Outlet />
+    </AlertDialogProvider>
+  ),
 });
