@@ -70,7 +70,9 @@ function UseLink({ use }: { use: MediaUse }) {
   }
   if (use.kind === "links") {
     return (
-      <span>Links page photo</span>
+      <Link to="/edit/links" className={className}>
+        Links page photo
+      </Link>
     );
   }
   return (

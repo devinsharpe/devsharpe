@@ -5,6 +5,7 @@ import {
   HeadContent,
   Outlet,
   Scripts,
+  useMatches,
 } from "@tanstack/react-router";
 
 import appCss from "~/styles/styles.css?url";
@@ -59,6 +60,11 @@ function RootDocument({ children }: { children: ReactNode }) {
   const {
     title: { title, subtitle },
   } = Route.useLoaderData();
+  // A page like /links stands on its own, without the site's header and footer.
+  const is_standalone = useMatches({
+    select: (matches) =>
+      matches.some((match) => match.staticData?.is_standalone === true),
+  });
 
   return (
     <html lang="en" className="overscroll-none">
@@ -66,9 +72,9 @@ function RootDocument({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="root flex min-h-dvh flex-col bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
-        <Header title={title} subtitle={subtitle} />
+        {!is_standalone && <Header title={title} subtitle={subtitle} />}
         <ToastProvider placement="top">{children}</ToastProvider>
-        <Footer />
+        {!is_standalone && <Footer />}
         {Devtools && (
           // Browser only: the devtools throw if they're loaded on the server.
           <ClientOnly>

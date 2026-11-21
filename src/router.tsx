@@ -18,4 +18,8 @@ declare module '@tanstack/react-router' {
   interface Register {
     router: ReturnType<typeof getRouter>
   }
+  interface StaticDataRouteOption {
+    /** Renders the page without the site header and footer (e.g. /links). */
+    is_standalone?: boolean
+  }
 }

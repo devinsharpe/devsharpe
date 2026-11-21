@@ -21,6 +21,7 @@ import { Route as ResumeDotpdfRouteImport } from './routes/resume[.]pdf'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as UsesRouteImport } from './routes/uses'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
+import { Route as ApiLinkClickRouteImport } from './routes/api/link-click'
 import { Route as PhotographyIndexRouteImport } from './routes/photography/index'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
@@ -28,6 +29,7 @@ import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedEditGearRouteImport } from './routes/_authenticated/edit/gear'
+import { Route as AuthenticatedEditLinksRouteImport } from './routes/_authenticated/edit/links'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as PhotographySlugIndexRouteImport } from './routes/photography/$slug/index'
 import { Route as PhotographySlugPhotoIdRouteImport } from './routes/photography/$slug/$photoId'
@@ -104,6 +106,11 @@ const ApiHealthRoute = ApiHealthRouteImport.update({
   path: '/api/health',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiLinkClickRoute = ApiLinkClickRouteImport.update({
+  id: '/api/link-click',
+  path: '/api/link-click',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PhotographyIndexRoute = PhotographyIndexRouteImport.update({
   id: '/photography/',
   path: '/photography/',
@@ -138,6 +145,11 @@ const AuthenticatedDashboardIndexRoute =
 const AuthenticatedEditGearRoute = AuthenticatedEditGearRouteImport.update({
   id: '/edit/gear',
   path: '/edit/gear',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedEditLinksRoute = AuthenticatedEditLinksRouteImport.update({
+  id: '/edit/links',
+  path: '/edit/links',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -246,12 +258,14 @@ export interface FileRoutesByFullPath {
   '/rss.xml': typeof RssDotxmlRoute
   '/uses': typeof UsesRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/link-click': typeof ApiLinkClickRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/photography/': typeof PhotographyIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/edit/gear': typeof AuthenticatedEditGearRoute
+  '/edit/links': typeof AuthenticatedEditLinksRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/photography/$slug/$photoId': typeof PhotographySlugPhotoIdRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
@@ -282,12 +296,14 @@ export interface FileRoutesByTo {
   '/rss.xml': typeof RssDotxmlRoute
   '/uses': typeof UsesRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/link-click': typeof ApiLinkClickRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/photography': typeof PhotographyIndexRoute
   '/posts': typeof PostsIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/edit/gear': typeof AuthenticatedEditGearRoute
+  '/edit/links': typeof AuthenticatedEditLinksRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/photography/$slug/$photoId': typeof PhotographySlugPhotoIdRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
@@ -320,12 +336,14 @@ export interface FileRoutesById {
   '/rss.xml': typeof RssDotxmlRoute
   '/uses': typeof UsesRoute
   '/api/health': typeof ApiHealthRoute
+  '/api/link-click': typeof ApiLinkClickRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/photography/': typeof PhotographyIndexRoute
   '/posts/': typeof PostsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/_authenticated/edit/gear': typeof AuthenticatedEditGearRoute
+  '/_authenticated/edit/links': typeof AuthenticatedEditLinksRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/photography/$slug/$photoId': typeof PhotographySlugPhotoIdRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
@@ -358,12 +376,14 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/uses'
     | '/api/health'
+    | '/api/link-click'
     | '/posts/$slug'
     | '/projects/$slug'
     | '/photography/'
     | '/posts/'
     | '/projects/'
     | '/edit/gear'
+    | '/edit/links'
     | '/api/auth/$'
     | '/photography/$slug/$photoId'
     | '/dashboard/'
@@ -394,12 +414,14 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/uses'
     | '/api/health'
+    | '/api/link-click'
     | '/posts/$slug'
     | '/projects/$slug'
     | '/photography'
     | '/posts'
     | '/projects'
     | '/edit/gear'
+    | '/edit/links'
     | '/api/auth/$'
     | '/photography/$slug/$photoId'
     | '/dashboard'
@@ -431,12 +453,14 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/uses'
     | '/api/health'
+    | '/api/link-click'
     | '/posts/$slug'
     | '/projects/$slug'
     | '/photography/'
     | '/posts/'
     | '/projects/'
     | '/_authenticated/edit/gear'
+    | '/_authenticated/edit/links'
     | '/api/auth/$'
     | '/photography/$slug/$photoId'
     | '/_authenticated/dashboard/'
@@ -469,6 +493,7 @@ export interface RootRouteChildren {
   RssDotxmlRoute: typeof RssDotxmlRoute
   UsesRoute: typeof UsesRoute
   ApiHealthRoute: typeof ApiHealthRoute
+  ApiLinkClickRoute: typeof ApiLinkClickRoute
   PostsSlugRoute: typeof PostsSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   PhotographyIndexRoute: typeof PhotographyIndexRoute
@@ -565,6 +590,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/link-click': {
+      id: '/api/link-click'
+      path: '/api/link-click'
+      fullPath: '/api/link-click'
+      preLoaderRoute: typeof ApiLinkClickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/photography/': {
       id: '/photography/'
       path: '/photography'
@@ -612,6 +644,13 @@ declare module '@tanstack/react-router' {
       path: '/edit/gear'
       fullPath: '/edit/gear'
       preLoaderRoute: typeof AuthenticatedEditGearRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/edit/links': {
+      id: '/_authenticated/edit/links'
+      path: '/edit/links'
+      fullPath: '/edit/links'
+      preLoaderRoute: typeof AuthenticatedEditLinksRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/api/auth/$': {
@@ -731,6 +770,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedEditGearRoute: typeof AuthenticatedEditGearRoute
+  AuthenticatedEditLinksRoute: typeof AuthenticatedEditLinksRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedDashboardCollectionsCollectionIdRoute: typeof AuthenticatedDashboardCollectionsCollectionIdRoute
   AuthenticatedDashboardCollectionsPhotosRoute: typeof AuthenticatedDashboardCollectionsPhotosRoute
@@ -749,6 +789,7 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedEditGearRoute: AuthenticatedEditGearRoute,
+  AuthenticatedEditLinksRoute: AuthenticatedEditLinksRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
   AuthenticatedDashboardCollectionsCollectionIdRoute:
     AuthenticatedDashboardCollectionsCollectionIdRoute,
@@ -791,6 +832,7 @@ const rootRouteChildren: RootRouteChildren = {
   RssDotxmlRoute: RssDotxmlRoute,
   UsesRoute: UsesRoute,
   ApiHealthRoute: ApiHealthRoute,
+  ApiLinkClickRoute: ApiLinkClickRoute,
   PostsSlugRoute: PostsSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   PhotographyIndexRoute: PhotographyIndexRoute,
