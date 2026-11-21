@@ -8,14 +8,11 @@ import { ChevronRightIcon } from "lucide-react";
 import type { ComponentType } from "react";
 import { buttonVariants } from "./button";
 import Link, { type LinkProps } from "./link";
+import { withoutTrailingSlash } from "~/lib/share";
 import { cn } from "~/lib/utils";
 
 /** Lets a long crumb (e.g. a post title) shorten instead of widening the page. */
 const CRUMB = "min-w-0 max-w-full shrink";
-
-/** Trailing slashes aside, so /posts and /posts/ are the same page. */
-const withoutTrailingSlash = (path: string) =>
-  path.length > 1 ? path.replace(/\/+$/, "") : path;
 
 function Label({ label: CustomLabel }: { label: string | ComponentType }) {
   return (

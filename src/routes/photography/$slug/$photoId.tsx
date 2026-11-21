@@ -17,6 +17,7 @@ import { MediaImage } from "~/components/media/media-image";
 import { useRecordView } from "~/components/photography/use-record-view";
 import { RICH_TEXT_IMAGE_SIZES } from "~/components/rich-text/rich-text-classes";
 import { isUuid } from "~/lib/photography";
+import { pageMeta } from "~/lib/share";
 import { getPublishedPhoto } from "~/server/functions/photography.functions";
 
 export const Route = createFileRoute("/photography/$slug/$photoId")({
@@ -33,17 +34,7 @@ export const Route = createFileRoute("/photography/$slug/$photoId")({
     const { collection, photo, index, total, share_image } = loaderData;
     const title = `${collection.title}: photo ${index + 1} of ${total}`;
     return {
-      meta: [
-        { title },
-        { property: "og:title", content: title },
-        ...(photo.caption
-          ? [
-              { name: "description", content: photo.caption },
-              { property: "og:description", content: photo.caption },
-            ]
-          : []),
-        ...(share_image ? [{ property: "og:image", content: share_image }] : []),
-      ],
+      meta: pageMeta({ title, description: photo.caption, image: share_image }),
     };
   },
 });

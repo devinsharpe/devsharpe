@@ -12,6 +12,7 @@ import {
 } from "~/components/photography/collection-card";
 import { PhotoGrid } from "~/components/photography/photo-grid";
 import { type PhotographySearch, photographySearchSchema } from "~/lib/photography";
+import { pageMeta } from "~/lib/share";
 import { listPhotography } from "~/server/functions/photography.functions";
 
 export const Route = createFileRoute("/photography/")({
@@ -22,14 +23,12 @@ export const Route = createFileRoute("/photography/")({
   loaderDeps: ({ search }) => search,
   loader: ({ deps }) => listPhotography({ data: deps }),
   head: ({ loaderData }) => ({
-    meta: [
-      {
-        title:
-          loaderData?.kind === "camera" && loaderData.camera
-            ? `Photos taken with ${loaderData.camera.name}`
-            : "Photography",
-      },
-    ],
+    meta: pageMeta({
+      title:
+        loaderData?.kind === "camera" && loaderData.camera
+          ? `Photos taken with ${loaderData.camera.name}`
+          : "Photography",
+    }),
   }),
   component: RouteComponent,
 });

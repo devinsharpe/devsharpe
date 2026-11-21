@@ -8,6 +8,7 @@ import { RICH_TEXT_PROSE } from "~/components/rich-text/rich-text-classes";
 import { RichTextRenderer } from "~/components/rich-text/rich-text-renderer";
 import { photoCount } from "~/lib/photography";
 import { hasRichTextContent } from "~/lib/rich-text";
+import { pageMeta } from "~/lib/share";
 import { getPublishedCollection } from "~/server/functions/photography.functions";
 
 export const Route = createFileRoute("/photography/$slug/")({
@@ -18,17 +19,12 @@ export const Route = createFileRoute("/photography/$slug/")({
     if (!loaderData) return {};
     const { collection, share_image } = loaderData;
     return {
-      meta: [
-        { title: collection.title },
-        { property: "og:title", content: collection.title },
-        ...(collection.description
-          ? [
-              { name: "description", content: collection.description },
-              { property: "og:description", content: collection.description },
-            ]
-          : []),
-        ...(share_image ? [{ property: "og:image", content: share_image }] : []),
-      ],
+      meta: pageMeta({
+        title: collection.title,
+        description: collection.description,
+        // Without photos, the generated card.
+        image: share_image,
+      }),
     };
   },
 });

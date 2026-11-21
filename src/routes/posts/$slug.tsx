@@ -5,6 +5,7 @@ import { PublishedDate } from "~/components/_ui/published-date";
 import { PostTags } from "~/components/post-tags";
 import { RICH_TEXT_PROSE } from "~/components/rich-text/rich-text-classes";
 import { RichTextRenderer } from "~/components/rich-text/rich-text-renderer";
+import { pageMeta } from "~/lib/share";
 import { getPublishedPost } from "~/server/functions/posts.functions";
 
 export const Route = createFileRoute("/posts/$slug")({
@@ -14,11 +15,10 @@ export const Route = createFileRoute("/posts/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) return {};
     const { title, description, excerpt } = loaderData.post;
-    const summary = description ?? excerpt;
     return {
       meta: [
-        { title },
-        ...(summary ? [{ name: "description", content: summary }] : []),
+        ...pageMeta({ title, description: description ?? excerpt }),
+        { property: "og:type", content: "article" },
       ],
     };
   },
